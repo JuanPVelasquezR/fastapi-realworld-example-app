@@ -3,7 +3,7 @@
 | **Proyecto** | FastAPI RealWorld Example App — Conduit (Backend API) |
 |---|---|
 | **Total de casos** | 41 (15 manuales + 26 automatizados) |
-| **Plantilla** | §7.1 del Plan de Pruebas |
+| **Plantilla** | 7.1 del Plan de Pruebas |
 | **Responsable** | Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas |
 
 ---
@@ -320,7 +320,7 @@
 | **Responsable** | Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas |
 | **Fecha de ejecución** | 09/11/2026
 | **Defectos asociados** | BUG-03
-| **Observaciones** | Screenshot obligatorio: evidencia para el reporte de MantisBT si el sistema permite la edición indebida. |
+| **Observaciones** | Screenshot obligatorio: evidencia para el reporte de GitHub Issues si el sistema permite la edición indebida. |
 
 ---
 
@@ -1044,9 +1044,4 @@
 | **Responsable** | Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas |
 | **Fecha de ejecución** | 09/11/2026
 | **Defectos asociados** | Ninguno
-| **Observaciones** | Este caso valida la integración entre dos módulos: que crear un artículo con tags actualiza correctamente el catálogo de tags. |
-
----
-
-_Documento generado como parte del taller universitario de Pruebas de Software._
-_41 casos de prueba: 15 manuales + 26 automatizados._
+| **Observaciones** | Este caso valida la integración entre dos módulos: que crear un artículo con tags actualiza correctamente el catálogo de tags. |

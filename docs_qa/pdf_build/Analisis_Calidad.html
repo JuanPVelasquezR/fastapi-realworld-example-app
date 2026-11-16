@@ -1,0 +1,234 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Plan de Pruebas</title><style>@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: Inter, "Segoe UI", Roboto, sans-serif; font-size: 9.6pt; line-height: 1.6; color: #1E293B; }
+.eyebrow { display:inline-block; background:#4338CA; color:#fff; font-weight:700; font-size:8pt; letter-spacing:.18em; padding:3px 12px; border-radius:99px; margin-top: 6mm; }
+h1 { font-size: 34pt; line-height:1.1; margin: 4mm 0 2mm; color:#312E81; letter-spacing:-.02em; }
+h1 + p { font-size: 12pt; color:#4338CA; margin: 0 0 6mm; }
+h1 + p em { font-style: normal; }
+h2 { font-size: 15pt; color:#fff; background: linear-gradient(90deg,#4338CA,#6366F1); padding: 6px 14px; border-radius: 8px; margin: 9mm 0 4mm; break-after: avoid; }
+h2 strong { font-weight: 700; }
+h3 { font-size: 11.5pt; color:#4338CA; border-left: 4px solid #4338CA; padding-left: 9px; margin: 6mm 0 2.5mm; break-after: avoid; }
+h3 strong { font-weight:700; }
+p, li { orphans: 3; widows: 3; }
+hr { border: 0; height: 1px; background: #E2E8F0; margin: 5mm 0; }
+a { color:#4338CA; }
+code { font-family: "JetBrains Mono","Fira Code",Consolas,monospace; font-size: 8.3pt; background:#EEF2FF; color:#3730A3; padding: 1px 5px; border-radius: 4px; overflow-wrap:anywhere; }
+code.cp { background:#E0E7FF; font-weight:700; white-space:nowrap; font-size:7.6pt; }
+pre.diagram { background:#F8FAFC; border:1px solid #C7D2FE; border-left:5px solid #4338CA; border-radius:8px; padding:10px 12px; break-inside: avoid; overflow:hidden; }
+pre.diagram code { background:none; color:#1E293B; font-size: 6.1pt; line-height:1.35; padding:0; white-space: pre; }
+table { width:100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 8.4pt; }
+thead { display: table-header-group; }
+th { background:#E0E7FF; color:#312E81; text-align:left; padding: 6px 8px; border-bottom: 2px solid #4338CA; }
+td { padding: 5px 8px; border-bottom: 1px solid #E2E8F0; vertical-align: top; overflow-wrap:break-word; }
+tr { break-inside: avoid; }
+tbody tr:nth-child(even) td { background:#F8FAFC; }
+/* tabla de metadatos de portada */
+table.cover { border: 1px solid #C7D2FE; border-radius: 8px; }
+table.cover thead th { background:#EEF2FF; border-bottom:1px solid #E2E8F0; font-weight:400; color:#1E293B; }
+table.cover thead th:first-child { width:28%; font-weight:700; color:#312E81; }
+table.cover td:first-child { width: 28%; background:#EEF2FF; color:#312E81; }
+.badge { display:inline-block; padding: 1px 8px; border-radius: 99px; font-weight:700; font-size: 7.4pt; white-space: nowrap; line-height:1.5; }
+.badge.pass { background:#DCFCE7; color:#166534; }
+.badge.fail { background:#FEE2E2; color:#991B1B; }
+.badge.block { background:#FEF3C7; color:#92400E; }
+.badge.prog { background:#DBEAFE; color:#1E40AF; }
+.bug { display:inline-block; background:#FEE2E2; color:#991B1B; font-weight:700; font-size:7.4pt; padding:0 6px; border-radius:5px; white-space:nowrap; }
+blockquote { background:#FEF2F2; border-left: 6px solid #DC2626; border-radius: 8px; margin: 4mm 0; padding: 4mm 5mm; break-inside: avoid; }
+blockquote h3 { border:0; padding:0; color:#991B1B; font-size: 13pt; margin: 0 0 2mm; }
+blockquote p:last-child, blockquote ol:last-child { margin-bottom:0; }
+ol, ul { padding-left: 6mm; }
+em { color:#475569; }
+.pyr,.stlc{break-inside:avoid;margin:4mm 0 6mm;border:1px solid #C7D2FE;border-radius:12px;padding:4mm;background:#F8FAFF}
+.pyr-title,.stlc-title{background:#312E81;color:#fff;font-weight:800;letter-spacing:.08em;font-size:9pt;text-align:center;padding:7px;border-radius:8px;margin-bottom:3.5mm}
+.tier{display:flex;gap:3mm;background:#fff;border:1px solid #E2E8F0;border-left:6px solid var(--c);border-radius:8px;margin-bottom:2.5mm;padding:2.5mm 3mm;break-inside:avoid}
+.tier-n{flex:none;width:8mm;height:8mm;border-radius:50%;background:var(--c);color:#fff;font-weight:800;text-align:center;line-height:8mm;font-size:11pt}
+.tier-h{font-weight:800;color:var(--c);font-size:9.2pt;letter-spacing:.02em}
+.tier-b{flex:1}.pyr ul,.stlc ul{margin:1mm 0 0;padding-left:4.5mm}.pyr li,.stlc li{margin-bottom:.8mm;font-size:8.6pt}
+.ph{display:flex;background:#fff;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:2mm;overflow:hidden;break-inside:avoid}
+.ph-l{flex:none;width:44mm;background:#E0E7FF;padding:2.5mm 3mm;display:flex;flex-direction:column;gap:.5mm}
+.ph-l b{color:#312E81;font-size:9pt}.ph-l i{font-style:normal;color:#4338CA;font-size:7.6pt}
+.ph-n{display:inline-block;width:6.5mm;height:6.5mm;line-height:6.5mm;text-align:center;border-radius:50%;background:#4338CA;color:#fff;font-weight:800;font-size:8.5pt;margin-bottom:1mm;align-self:flex-start}
+.ph.tr .ph-l{background:#CCFBF1}.ph.tr .ph-n{background:#0F766E}.ph.tr .ph-l b{color:#115E59}
+.ph-r{flex:1;padding:1.5mm 3mm}
+
+.badge.chip{background:#E0E7FF;color:#3730A3}
+h3 + table{break-inside:avoid}
+
+.pyrm{display:flex;gap:6mm;align-items:center;margin:4mm 0 6mm;padding:5mm;border:1px solid #C7D2FE;border-radius:12px;background:#F8FAFF;break-inside:avoid}
+.pyrm-shape{flex:none;width:62mm;height:50mm;display:flex;flex-direction:column}
+.pyrm-shape div{color:#fff;font-weight:800;text-align:center;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2mm;font-size:10pt}
+.l1{height:42%;background:#6366F1;clip-path:polygon(50% 0,75% 100%,25% 100%)}
+.l2{height:58%;background:#312E81;clip-path:polygon(25% 0,75% 0,100% 100%,0 100%);align-items:center!important;padding-bottom:0!important}
+.pyrm-desc{flex:1}.pyrm-desc .d{background:#fff;border:1px solid #E2E8F0;border-radius:8px;padding:2.5mm 3.5mm;margin:2mm 0;font-size:8.6pt}
+.pyrm-desc .d1{border-left:6px solid #6366F1}.pyrm-desc .d2{border-left:6px solid #312E81}
+.pyrm-desc b{display:block;color:#312E81;font-size:9.4pt}.pyrm-desc span{display:inline-block;color:#4338CA;font-weight:700;font-size:8pt;margin-bottom:1mm}
+td ul{margin:0;padding-left:4mm}td ul li{margin:0}
+.pyrm-desc span{display:block!important}
+</style></head><body><div class="eyebrow">QA · STLC · ISTQB</div><h1>Análisis de Calidad del Software — Conduit API (FastAPI RealWorld)</h1>
+<h2>Informe Ejecutivo de QA y Evaluación de Madurez de Software</h2>
+<h2>1. Resumen Ejecutivo</h2>
+<p>El presente informe documenta los resultados del proceso formal de aseguramiento de calidad de software (QA) aplicado a la API REST <strong>FastAPI RealWorld Example App (Conduit)</strong>. Se ejecutó una estrategia mixta orientada por las directrices del <strong>ISTQB (International Software Testing Qualifications Board)</strong>, combinando <strong>26 pruebas automatizadas de integración</strong> con <strong>pytest</strong> y <strong>15 pruebas manuales exploratorias y de caja negra</strong> mediante <strong>Swagger UI</strong> y <strong>Postman</strong>, totalizando <strong>41 casos de prueba</strong>.</p>
+<h3>Resultados Globales Clave:</h3>
+<ul>
+<li><strong>Tasa de Ejecución:</strong> <strong>100%</strong> (41 de 41 casos ejecutados).</li>
+<li><strong>Eficacia de Detección:</strong> <strong>100%</strong> (9 de 9 defectos inyectados fueron cazados con éxito tanto por la suite automatizada como por las pruebas manuales).</li>
+<li><strong>Cobertura de Código en Backend:</strong> <strong>82.78%</strong> de líneas ejecutadas (superando ampliamente la meta del 70%).</li>
+<li><strong>Cobertura Funcional de Endpoints:</strong> <strong>100%</strong> (19 de 19 endpoints de la API evaluados).</li>
+<li><strong>Defectos Críticos:</strong> 1 vulnerabilidad crítica de autorización (<span class="bug">BUG-04</span>: eliminación no autorizada de artículos ajenos).</li>
+</ul>
+<hr />
+<h2>2. Alineación con Principios y Metodología ISTQB</h2>
+<h3>2.1 La Pirámide de Pruebas (Mike Cohn)</h3>
+<p>La estrategia implementada se fundamenta en la <strong>Pirámide de Automatización de Pruebas de Mike Cohn</strong>:</p>
+<ol>
+<li><strong>Base sólida (Nivel de Integración / Componente - 63.4% del esfuerzo total):</strong> 26 scripts automatizados con pytest que interactúan con una base de datos real PostgreSQL en Docker. Esto garantiza retroalimentación ultra-rápida (28.95 segundos para toda la suite), repetibilidad y bajo costo de mantenimiento.</li>
+<li><strong>Capa Superior (Nivel Exploratorio / Manual de Sistema - 36.6% del esfuerzo total):</strong> 15 pruebas manuales dirigidas a través de Swagger UI y Postman para evaluar flujos narrativos de usuario, límites de borde visuales, calidad heurística de mensajes de error, persistencia de autorización Bearer y casos de seguridad interactivos.</li>
+</ol>
+<div class="pyrm"><div class="pyrm-shape"><div class="l1">36.6%</div><div class="l2">63.4%</div></div><div class="pyrm-desc"><div class="d d1"><b>Capa superior · Manuales / Exploratorias</b><span>36.6% · 15 casos</span>Swagger UI, Postman, UX, mensajes y estados</div><div class="d d2"><b>Base · Automatizadas de Integración</b><span>63.4% · 26 casos</span>pytest, PostgreSQL en Docker, pytest-cov (82.78% de cobertura)</div></div></div>
+
+<h3>2.2 Técnicas de Diseño de Pruebas Aplicadas</h3>
+<p>Durante la concepción y ejecución de los casos se aplicaron las técnicas estándar de caja negra de ISTQB:</p>
+<ul>
+<li><strong>Partición de Equivalencia (EP):</strong> Se aplicó en la verificación de tokens JWT (clases válidas vs. firmas manipuladas, tokens vacíos o strings arbitrarios en CP-EXP-M-003), y en formatos de email/contraseñas en CP-QUAL-M-001.</li>
+<li><strong>Análisis de Valores Límite (BVA):</strong> Se aplicó en la paginación (limit=19, limit=20, limit=21, limit=100 en CP-EXP-M-004 y CP-ART-A-009), detectando la falla en el cap máximo de artículos.</li>
+<li><strong>Tablas de Decisión (Decision Tables):</strong> Utilizadas para modelar las reglas de control de acceso por autoría (Usuario Autenticado × Es Autor del Recurso × Acción [GET, PUT, DELETE] en CP-QUAL-M-003, CP-QUAL-M-004, CP-ART-A-005 y CP-ART-A-006).</li>
+<li><strong>Transición de Estados (State Transition Testing):</strong> Diseñada para validar el ciclo de vida de entidades:<ul>
+<li>Perfil: <em>No seguido</em> → <em>Seguido</em> → <em>No seguido</em> (CP-EST-M-001).</li>
+<li>Artículo: <em>No favorito</em> → <em>Favorito</em> → <em>No favorito</em> (CP-EST-M-002).</li>
+<li>Recurso: <em>Creado</em> → <em>Consultable (200)</em> → <em>Eliminado</em> → <em>No Encontrado (404)</em> (CP-EST-M-003).</li>
+</ul>
+</li>
+</ul>
+<h3>2.3 Severidad vs. Prioridad en la Gestión de Defectos</h3>
+<p>Para el reporte formal en GitHub Issues se distinguió rigurosamente entre:</p>
+<ul>
+<li><strong>Severidad (Impacto técnico en el sistema):</strong> Grado en que el fallo interrumpe la operación o seguridad del software (Crítica, Alta, Media, Baja).</li>
+<li><strong>Prioridad (Urgencia de negocio para su corrección):</strong> Importancia temporal y de negocio asignada para resolver el ticket (Alta, Media, Baja).</li>
+</ul>
+<p>Ejemplo clave:</p>
+<ul>
+<li><strong><span class="bug">BUG-04</span> (Eliminación de artículo ajeno):</strong> <strong>Severidad Crítica</strong> (vulnera la integridad de la base de datos permitiendo borrado masivo de información ajena sin autorización) y <strong>Prioridad Alta</strong> (bloqueante para pase a producción).</li>
+<li><strong><span class="bug">BUG-01</span> (Código 200 en vez de 201 en registro):</strong> <strong>Severidad Baja</strong> (la funcionalidad de registro se ejecuta correctamente y el usuario es persistido) y <strong>Prioridad Baja</strong> (es una desviación de estándar REST sin impacto operativo inmediato).</li>
+</ul>
+<hr />
+<h2>3. Análisis de Calidad por Módulos del Sistema</h2>
+<table>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Casos</th>
+<th>Bugs</th>
+<th>Estado de madurez</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Autenticación</strong></td>
+<td>7 casos</td>
+<td><span class="bug">BUG-01</span></td>
+<td><span class="badge pass">Alta madurez</span> JWT robusto</td>
+</tr>
+<tr>
+<td><strong>Artículos</strong></td>
+<td>17 casos</td>
+<td><span class="bug">BUG-02</span>, <span class="bug">BUG-03</span>, <span class="bug">BUG-04</span>, <span class="bug">BUG-07</span>, <span class="bug">BUG-08</span>, <span class="bug">BUG-09</span></td>
+<td><span class="badge fail">Crítico</span> Vulnerabilidades BOLA y control de acceso pendientes</td>
+</tr>
+<tr>
+<td><strong>Comentarios</strong></td>
+<td>4 casos</td>
+<td>—</td>
+<td><span class="badge pass">100% Estable</span></td>
+</tr>
+<tr>
+<td><strong>Perfiles</strong></td>
+<td>6 casos</td>
+<td><span class="bug">BUG-06</span></td>
+<td><span class="badge prog">Medio</span> Desincronización de flag UI</td>
+</tr>
+<tr>
+<td><strong>Favoritos</strong></td>
+<td>4 casos</td>
+<td><span class="bug">BUG-05</span></td>
+<td><span class="badge fail">Deficiente</span> Falla no controlada 500</td>
+</tr>
+<tr>
+<td><strong>Tags</strong></td>
+<td>3 casos</td>
+<td>—</td>
+<td><span class="badge pass">100% Estable</span></td>
+</tr>
+</tbody>
+</table>
+<h3>3.1 Módulo Articles (Gestión de Artículos) — Máximo Foco de Riesgo</h3>
+<p>Este módulo concentra <strong>6 de los 9 defectos detectados (66.7%)</strong>, incluyendo el único defecto de severidad crítica (<span class="bug">BUG-04</span>):</p>
+<ul>
+<li><strong>Vulnerabilidad BOLA / IDOR:</strong> Falta de verificación de la identidad del usuario contra el autor del registro tanto en PUT /api/articles/{slug} como en DELETE /api/articles/{slug}. Esto permite a cualquier atacante autenticado alterar o destruir contenido de terceros.</li>
+<li><strong>Riesgo de Seguridad en Feed (<span class="bug">BUG-07</span>):</strong> El endpoint /api/articles/feed omite la exigencia de token de autenticación en la versión con defectos, retornando respuestas inconsistentes.</li>
+<li><strong>Validación de Límite BVA (<span class="bug">BUG-09</span>):</strong> El parámetro limit no aplica un tope duro (min(limit, 20)), lo que expone a la base de datos a ataques de denegación de servicio (DoS) por sobrecarga de memoria al solicitar volúmenes masivos (limit=10000).</li>
+</ul>
+<h3>3.2 Módulo Favorites (Favoritos) — Defecto de Robustez</h3>
+<p>El endpoint POST /api/articles/{slug}/favorite genera una excepción no controlada (HTTP 500 Internal Server Error). En Python/SQLAlchemy, el código intentó realizar operaciones de lista sobre una relación desvinculada o un índice inexistente, violando el principio de diseño defensivo.</p>
+<h3>3.3 Módulo Profiles (Perfiles) — Consistencia de Estados</h3>
+<p>El endpoint de seguimiento (/ollow) persiste la relación en la base de datos pero la capa de serialización mapea erróneamente el atributo boolean /ollowing como False de forma estática, provocando una desincronización funcional inmediata con el cliente frontend.</p>
+<h3>3.4 Módulos Comentarios y Tags — Alta Estabilidad</h3>
+<p>Tanto la creación/borrado de comentarios como la extracción y ordenamiento de tags mostraron una tasa de aprobación del <strong>100%</strong>, respetando las autorizaciones, respuestas 404 ante artículos inexistentes y orden alfabético estricto.</p>
+<hr />
+<h2>4. Eficacia del Proceso de QA y Conclusiones</h2>
+<ol>
+<li><strong>Capacidad Detectora Comprobada:</strong> La suite de pruebas demostró una sensibilidad del <strong>100%</strong>, identificando cada uno de los 9 defectos sin generar falsos positivos ni falsos negativos.</li>
+<li><strong>Validación Cruzada (Test Automation + Exploratory Testing):</strong> Los defectos más complejos de seguridad y paginación (<span class="bug">BUG-03</span>, <span class="bug">BUG-04</span>, <span class="bug">BUG-09</span>) fueron confirmados en dos dimensiones independientes: mediante aserciones programáticas de pytest y mediante interacción humana en Swagger UI con evidencias visuales fotográficas.</li>
+<li><strong>Recomendación para Pase a Producción (Go / No-Go):</strong><ul>
+<li><strong>DICTAMEN: NO-GO (Rechazado para Producción en versión actual).</strong></li>
+<li><strong>Justificación:</strong> La presencia de <span class="bug">BUG-04</span> (Borrado no autorizado de artículos) y <span class="bug">BUG-03</span> (Modificación de contenido ajeno) representan una violación directa al principio de Confidencialidad e Integridad de la información (OWASP API Security Top 10 - API1:2023 Broken Object Level Authorization).</li>
+<li><strong>Plan de Remediación Requerido:</strong> Se deben corregir las dependencias de verificación de autoría en app/api/routes/articles.py, corregir el gestor de favoritos en app/services/articles.py, y re-ejecutar la suite completa de 41 pruebas para verificar la no-regresión (Regression Testing).</li>
+</ul>
+</li>
+</ol>
+<h2>5. Evaluación del Riesgo de Negocio en la Plataforma Conduit</h2>
+<p>Desde la perspectiva estratégica de negocio, Conduit opera como una plataforma de publicación editorial donde el activo más valioso es el <strong>contenido generado por los usuarios (UGC - User Generated Content)</strong> y la <strong>confianza de los autores</strong>. Los defectos identificados impactan directamente en las tres dimensiones fundamentales del negocio digital:</p>
+<div class="stlc-title" style="margin-top:6mm">MATRIZ DE RIESGO E IMPACTO EN EL NEGOCIO</div>
+
+<table>
+<thead>
+<tr>
+<th>Dimensión de negocio</th>
+<th>Defecto asociado</th>
+<th>Nivel de riesgo</th>
+<th>Impacto operativo / legal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Confidencialidad e Integridad Editorial</strong></td>
+<td><span class="bug">BUG-03</span> (Edición ajena)<br><span class="bug">BUG-04</span> (Borrado ajeno)</td>
+<td><span class="badge fail">CRÍTICO / ALTO</span></td>
+<td><ul><li>Corrupción de autoría</li><li>Riesgo de demandas por pérdida de datos.</li><li>Fuga masiva de autores</li></ul></td>
+</tr>
+<tr>
+<td><strong>Disponibilidad y Resiliencia de Servidor</strong></td>
+<td><span class="bug">BUG-09</span> (BVA limit=100)<br><span class="bug">BUG-07</span> (Feed sin auth)</td>
+<td><span class="badge block">MEDIO / ALTO</span></td>
+<td><ul><li>Sobrecarga de memoria y ataques DoS.</li><li>Exposición de datos.</li></ul></td>
+</tr>
+<tr>
+<td><strong>Engagement y Retención de Audiencia</strong></td>
+<td><span class="bug">BUG-05</span> (Crash favor.)<br><span class="bug">BUG-06</span> (Follow false)</td>
+<td><span class="badge prog">MEDIO</span></td>
+<td><ul><li>Frustración de usuario</li><li>Pérdida de tracción algorítmica social.</li></ul></td>
+</tr>
+<tr>
+<td><strong>Estandarización y API Contract</strong></td>
+<td><span class="bug">BUG-01</span> (HTTP 200/201)</td>
+<td><span class="badge pass">BAJO</span></td>
+<td><ul><li>Inconsistencia menor en clientes frontend.</li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3>5.1 Caso de Negocio: Impacto Catastrófico de <span class="bug">BUG-04</span></h3>
+<p>El defecto <strong><span class="bug">BUG-04</span></strong> permite que cualquier usuario registrado ejecute una petición DELETE /api/articles/{slug} y elimine permanentemente artículos pertenecientes a otros creadores de contenido. En un entorno productivo real:</p>
+<ol>
+<li>Un atacante malintencionado podría crear una cuenta gratuita y ejecutar un script automatizado para barrer todos los slugs públicos de la plataforma, borrando el 100% de los artículos de la base de datos en cuestión de minutos.</li>
+<li>Esto representaría una pérdida irrecuperable de propiedad intelectual para los autores, acarreando la destrucción del valor de mercado de la plataforma y contingencias legales graves bajo normativas de protección de datos.</li>
+</ol></body></html>

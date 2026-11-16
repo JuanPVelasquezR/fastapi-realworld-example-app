@@ -1,14 +1,11 @@
 # Análisis de Calidad del Software — Conduit API (FastAPI RealWorld)
 ## Informe Ejecutivo de QA y Evaluación de Madurez de Software
-### Taller de Pruebas de Software — Universidad
 
----
 
 ## 1. Resumen Ejecutivo
 
 El presente informe documenta los resultados del proceso formal de aseguramiento de calidad de software (QA) aplicado a la API REST **FastAPI RealWorld Example App (Conduit)**. Se ejecutó una estrategia mixta orientada por las directrices del **ISTQB (International Software Testing Qualifications Board)**, combinando **26 pruebas automatizadas de integración** con **pytest** y **15 pruebas manuales exploratorias y de caja negra** mediante **Swagger UI** y **Postman**, totalizando **41 casos de prueba**.
 
-El ciclo de pruebas se ejecutó sobre la rama de evaluación uggy-version, la cual incorpora 9 defectos representativos de fallas reales de desarrollo (vulnerabilidades de control de acceso BOLA/IDOR, regresiones de integridad de datos, fallos de contrato HTTP y errores no controlados).
 
 ### Resultados Globales Clave:
 - **Tasa de Ejecución:** **100%** (41 de 41 casos ejecutados).
@@ -52,7 +49,7 @@ ightarrow$ *Eliminado* $
 ightarrow$ *No Encontrado (404)* (CP-EST-M-003).
 
 ### 2.3 Severidad vs. Prioridad en la Gestión de Defectos
-Para el reporte formal en MantisBT se distinguió rigurosamente entre:
+Para el reporte formal en GitHub Issues se distinguió rigurosamente entre:
 - **Severidad (Impacto técnico en el sistema):** Grado en que el fallo interrumpe la operación o seguridad del software (Crítica, Alta, Media, Baja).
 - **Prioridad (Urgencia de negocio para su corrección):** Importancia temporal y de negocio asignada para resolver el ticket (Alta, Media, Baja).
 

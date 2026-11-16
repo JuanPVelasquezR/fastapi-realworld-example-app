@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Manual Maestro de Estudio y Defensa Técnica — Conduit QA</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 15mm 16mm 15mm;
+      @bottom-right {
+        content: "Página " counter(page);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8pt;
+        color: #64748B;
+      }
+      @bottom-left {
+        content: "Conduit API QA — Manual Maestro de Estudio y Defensa";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8pt;
+        color: #94A3B8;
+      }
+    }
+
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9pt;
+      line-height: 1.48;
+      color: #1E293B; /* Dark slate text */
+      background: #FFFFFF;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2, h3, h4 {
+      color: #1E1B4B;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-top: 1.1em;
+      margin-bottom: 0.35em;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    h1 {
+      font-size: 16.5pt;
+      border-bottom: 2.5px solid #4338CA;
+      padding-bottom: 4px;
+      margin-top: 0;
+      color: #312E81;
+    }
+
+    h2 {
+      font-size: 12.5pt;
+      border-bottom: 1px solid #E2E8F0;
+      padding-bottom: 3px;
+      color: #3730A3;
+      margin-top: 1.3em;
+    }
+
+    h3 {
+      font-size: 10pt;
+      color: #4338CA;
+    }
+
+    h4 {
+      font-size: 9.2pt;
+      color: #0F172A;
+    }
+
+    p, ul, ol {
+      margin-top: 0;
+      margin-bottom: 0.65em;
+    }
+
+    li {
+      margin-bottom: 0.2em;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #E2E8F0;
+      margin: 1.1em 0;
+    }
+
+    blockquote {
+      background: #EEF2FF;
+      border-left: 4px solid #4F46E5;
+      padding: 8px 12px;
+      margin: 0.8em 0;
+      border-radius: 0 6px 6px 0;
+      color: #1E1B4B;
+      font-size: 8.8pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    blockquote > p:last-child {
+      margin-bottom: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.8em 0;
+      font-size: 7.8pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    tr {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #312E81;
+      color: #FFFFFF;
+      font-weight: 600;
+      text-align: left;
+      padding: 5px 7px;
+      border: none;
+    }
+
+    td {
+      padding: 4px 7px;
+      border-bottom: 1px solid #E2E8F0;
+      vertical-align: top;
+      border-left: none;
+      border-right: none;
+    }
+
+    tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+
+    code {
+      font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+      font-size: 8pt;
+      background: #F1F5F9;
+      color: #0F172A;
+      padding: 1px 3px;
+      border-radius: 3px;
+      border: 1px solid #E2E8F0;
+    }
+
+    pre {
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+      font-size: 7.5pt;
+      line-height: 1.35;
+      overflow-x: auto;
+      margin: 0.7em 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      border: none;
+      padding: 0;
+    }
+
+    /* Formula Cards */
+    .formula-box {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-left: 3.5px solid #3B82F6;
+      border-radius: 5px;
+      padding: 6px 10px;
+      margin: 6px 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .formula-title {
+      font-weight: 700;
+      color: #1E293B;
+      font-size: 9pt;
+      margin-bottom: 2px;
+    }
+
+    .formula-math {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 8pt;
+      color: #0369A1;
+      background: #F0F9FF;
+      padding: 2px 5px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .formula-calc {
+      font-size: 8pt;
+      color: #334155;
+    }
+
+    /* QA Cards for Questions */
+    .qa-item {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-left: 3.5px solid #6366F1;
+      border-radius: 6px;
+      padding: 8px 11px;
+      margin-bottom: 8px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .qa-q {
+      font-weight: 700;
+      color: #1E1B4B;
+      font-size: 9pt;
+      margin-bottom: 4px;
+    }
+
+    .qa-a {
+      font-size: 8.5pt;
+      color: #334155;
+      line-height: 1.45;
+    }
+
+    .badge-pass {
+      display: inline-block;
+      background: #DCFCE7;
+      color: #166534;
+      font-weight: 700;
+      font-size: 7pt;
+      padding: 1px 5px;
+      border-radius: 9999px;
+      border: 1px solid #86EFAC;
+    }
+
+    .badge-fail {
+      display: inline-block;
+      background: #FEE2E2;
+      color: #991B1B;
+      font-weight: 700;
+      font-size: 7pt;
+      padding: 1px 5px;
+      border-radius: 9999px;
+      border: 1px solid #FCA5A5;
+    }
+
+    .badge-nogo {
+      display: inline-block;
+      background: #FEF3C7;
+      color: #92400E;
+      font-weight: 800;
+      font-size: 7.5pt;
+      padding: 1px 6px;
+      border-radius: 9999px;
+      border: 1px solid #FCD34D;
+    }
+    </style>
+</head>
+<body>
+  <h1>MANUAL MAESTRO DE ESTUDIO Y DEFENSA TÉCNICA</h1>
+<h2>Taller de Pruebas de Software — FastAPI RealWorld Example App (Conduit API)</h2>
+<hr />
+<blockquote>
+<h3>📌 FICHA TÉCNICA Y METADATOS DEL PROYECTO</h3>
+<ul>
+<li><strong>Sistema Bajo Prueba (SUT):</strong> Conduit REST API (FastAPI + PostgreSQL + Docker).</li>
+<li><strong>Especificación Funcional:</strong> <em>RealWorld Backend API Spec</em> (Contrato estándar de facto de la industria).</li>
+<li><strong>Equipo de Calidad (QA Engineers):</strong> </li>
+<li><strong>Juan Pablo Velásquez Ramírez</strong> — QA Lead, Automatizador de Pruebas &amp; Analista Técnico.</li>
+<li><strong>Niurka Liseth Mejía Vargas</strong> — QA Analyst, Bug Manager &amp; Gestora de Documentación / Métricas.</li>
+<li><strong>Supervisora y Docente:</strong> Yury Montoya Pérez.</li>
+<li><strong>Rama Base Limpia:</strong> <code>main</code> (100% de pruebas aprobadas, sin defectos).</li>
+<li><strong>Rama de Evaluación / Detección:</strong> <code>buggy-version</code> (9 defectos reales inyectados).</li>
+<li><strong>Resultado del Ciclo STLC:</strong> <strong>41 Casos de Prueba Ejecutados (100%)</strong>, <strong>9 Defectos Detectados (100% DRE)</strong>, <strong>Dictamen Formal: <span class='badge-nogo'>NO-GO</span> (Bloqueo de Pase a Producción)</strong>.</li>
+</ul>
+</blockquote>
+<hr />
+<h2>ÍNDICE GENERAL DEL MANUAL</h2>
+<ol>
+<li><strong>Módulo 1:</strong> Radiografía del Sistema Bajo Prueba (SUT) y Arquitectura FastAPI.</li>
+<li><strong>Módulo 2:</strong> El Modelo de Negocio (Plataforma Editorial Medium) y su Impacto en Calidad.</li>
+<li><strong>Módulo 3:</strong> Compendio Teórico Formal de Pruebas de Software (Normativa ISTQB).</li>
+<li><strong>Módulo 4:</strong> Estrategia STLC y Catálogo de 41 Casos de Prueba (26 Automatizados + 15 Manuales).</li>
+<li><strong>Módulo 5:</strong> Radiografía Profunda de los 9 Defectos Detectados (Bugs 01 al 09).</li>
+<li><strong>Módulo 6:</strong> Gestión de Defectos en GitHub Issues y Trazabilidad.</li>
+<li><strong>Módulo 7:</strong> Métricas Cuantitativas de Calidad y Tablero de Control (Dashboard).</li>
+<li><strong>Módulo 8:</strong> Análisis de Calidad y Fundamentación del Dictamen <span class='badge-nogo'>NO-GO</span>.</li>
+<li><strong>Módulo 9:</strong> Glosario Técnico Maestro (25+ Conceptos Clave que Debes Dominar).</li>
+<li><strong>Módulo 10:</strong> Banco de 10 Preguntas Trampa / Exigentes de la Docente y Cómo Responderlas.</li>
+<li><strong>Módulo 11 (Cierre):</strong> Estructura Sugerida de Exposición Oral y Guion de Defensa.</li>
+</ol>
+<hr />
+<h1>MÓDULO 1: RADIOGRAFÍA DEL SISTEMA BAJO PRUEBA (SUT) Y ARQUITECTURA</h1>
+<h3>1.1 ¿Qué es Conduit y por qué se eligió?</h3>
+<p>Conduit es la implementación oficial de referencia de la especificación <strong>RealWorld</strong>. En la ingeniería de software, mientras aplicaciones de juguete como "TodoMVC" solo muestran operaciones elementales, la especificación RealWorld emula una plataforma de producción completa: una red social de publicaciones y artículos tipo <strong>Medium</strong>, <strong>Dev.to</strong> o <strong>Substack</strong>.</p>
+<p>No posee interfaz gráfica propia (es un backend puro de servicios RESTful). Esto hace que las pruebas sean directas sobre la lógica de negocio, los contratos HTTP, la persistencia en base de datos y la seguridad a nivel de API.</p>
+<h3>1.2 El Stack Tecnológico y su Justificación</h3>
+<ul>
+<li><strong>FastAPI (Python):</strong> Framework web asincrónico moderno de alto rendimiento basado en <strong>Starlette</strong> (manejo ASGI y rutas) y <strong>Pydantic</strong> (validación de datos y serialización mediante type hints).</li>
+<li><strong>Uvicorn:</strong> Servidor web ASGI (Asynchronous Server Gateway Interface) ultrarrápido que maneja concurrencia mediante el bucle de eventos (<code>asyncio</code>).</li>
+<li><strong>PostgreSQL:</strong> Sistema gestor de base de datos relacional robusto. Garantiza transacciones ACID e integridad referencial estricta (claves foráneas en cascada entre usuarios, artículos, comentarios, tags y favoritos).</li>
+<li><strong>SQLAlchemy ORM:</strong> Mapeador objeto-relacional que traduce clases de Python en tablas y consultas relacionales, abstrayendo la manipulación directa de SQL.</li>
+<li><strong>Alembic:</strong> Herramienta de migraciones de esquemas de base de datos para versionar la estructura de PostgreSQL.</li>
+<li><strong>Pytest + Pytest-Asyncio + HTTPX:</strong> Ecosistema moderno de pruebas en Python. Permite ejecutar peticiones asincrónicas contra el kernel de la aplicación mediante <code>AsyncClient</code>, sin requerir levantar un puerto de red real durante los tests.</li>
+<li><strong>Docker &amp; Docker Compose:</strong> Contenedorización del entorno de base de datos y de la aplicación, garantizando que el ambiente de pruebas sea 100% reproducible y desacoplado del sistema operativo anfitrión.</li>
+</ul>
+<h3>1.3 Anatomía en Capas del Backend</h3>
+<p>Para defender el trabajo ante la docente, debes explicar la separación de responsabilidades del código:</p>
+<pre><code class="language-text">[ Petición HTTP del Cliente (Swagger / Postman / pytest) ]
+                           │
+                           ▼
+ ┌─────────────────────────────────────────────────────────┐
+ │ 1. Capa de Enrutamiento (app/api/routes/)               │
+ │    Define endpoints, verbos HTTP (GET, POST, PUT,       │
+ │    DELETE) y códigos de estado (status codes).          │
+ └─────────────────────────┬───────────────────────────────┘
+                           │ Valida Payload
+                           ▼
+ ┌─────────────────────────────────────────────────────────┐
+ │ 2. Capa de Esquemas DTO (app/schemas/)                  │
+ │    Modelos Pydantic (NewArticle, UpdateArticle, User).  │
+ │    Rechaza datos inválidos con HTTP 422.                │
+ └─────────────────────────┬───────────────────────────────┘
+                           │ Inyecta Usuario
+                           ▼
+ ┌─────────────────────────────────────────────────────────┐
+ │ 3. Capa de Dependencias y Seguridad (app/api/deps.py)   │
+ │    Extrae el token JWT del header Authorization,        │
+ │    desencripta y valida la identidad del usuario actual. │
+ └─────────────────────────┬───────────────────────────────┘
+                           │ Llama Operaciones
+                           ▼
+ ┌─────────────────────────────────────────────────────────┐
+ │ 4. Capa de Repositorios / CRUD (app/crud/)              │
+ │    Lógica de acceso a datos (crud_article.py,           │
+ │    crud_user.py). Construye queries de SQLAlchemy.      │
+ └─────────────────────────┬───────────────────────────────┘
+                           │ Persiste
+                           ▼
+ ┌─────────────────────────────────────────────────────────┐
+ │ 5. Capa de Modelos y Base de Datos (app/models/)        │
+ │    Tablas relacionales en PostgreSQL (users, articles,  │
+ │    comments, tags, followers, favorites).               │
+ └─────────────────────────┘
+</code></pre>
+<h3>1.4 La Estrategia de Dos Ramas en Git</h3>
+<p>Una de las decisiones metodológicas más elegantes del proyecto fue el manejo de versiones en Git:</p>
+<ul>
+<li><strong>Rama <code>main</code> (Limpia / Baseline):</strong> Contiene el código fuente original sin alteraciones. Al ejecutar los 26 tests automatizados de pytest, los 26 aprueban (<strong>100% Pass</strong> en 28.92 segundos). Sirve como prueba matemática de que la suite de pruebas no tiene "falsos positivos".</li>
+<li><strong>Rama <code>buggy-version</code> (Evaluación / Inyección de Fallos):</strong> Se crearon 9 alteraciones deliberadas en puntos críticos del backend. Al ejecutar la misma suite de pruebas, 11 tests automatizados y 6 pruebas manuales fallaron con precisión milimétrica, confirmando que la red de seguridad de QA detecta anomalías reales.</li>
+</ul>
+<hr />
+<h1>MÓDULO 2: EL MODELO DE NEGOCIO Y SU IMPACTO EN CALIDAD</h1>
+<h3>2.1 ¿Por qué el Modelo de Negocio Determina las Pruebas?</h3>
+<p>La docente insistió en clase: <em>"El testing no se hace en el vacío; el contexto del negocio define qué es prioritario y qué es secundario"</em>. </p>
+<p>Conduit no es una calculadora ni un sistema de comercio electrónico de pagos bancarios; es una <strong>plataforma editorial y red de contenido abierto</strong>. En este tipo de negocio, el valor fundamental radica en la <strong>confianza del autor</strong>, la <strong>integridad de las publicaciones</strong> y la <strong>fidelización del lector</strong>.</p>
+<h3>2.2 Jerarquía de Riesgo de Negocio en Conduit</h3>
+<ul>
+<li><strong>Nivel 1: Autenticación y Autoría (Vital / Crítico):</strong><br />
+  Si un usuario puede usurpar la autoría, editar las publicaciones de otro autor o borrar artículos ajenos, la plataforma pierde inmediatamente a sus creadores de contenido. La propiedad intelectual es el activo intangible más valioso. Por ello, las fallas de autorización (BOLA) son catalogadas con <strong>Severidad Crítica</strong> y <strong>Prioridad Inmediata</strong>.</li>
+<li><strong>Nivel 2: Integridad Editorial y Navegabilidad (Alto):</strong><br />
+  Un artículo no puede publicarse sin título ni contenido. Los artículos vacíos corrompen los algoritmos de recomendación, rompen los feeds de noticias y arruinan la indexación de búsqueda (SEO).</li>
+<li><strong>Nivel 3: Engagement Social (Medio):</strong><br />
+  Los botones de "Favorito" y "Seguir autor" retienen a los lectores. Si fallan (como el error 500 en favoritos o el estado estático en seguir), el usuario siente frustración visual, aunque los artículos continúan siendo legibles.</li>
+<li><strong>Nivel 4: Taxonomía y Metadatos (Bajo):</strong><br />
+  Las etiquetas (tags) ayudan a categorizar. Si un filtro devuelve un artículo de más, es una inconsistencia molesta pero no detiene la lectura ni corrompe información patrimonial.</li>
+</ul>
+<hr />
+<h1>MÓDULO 3: COMPENDIO TEÓRICO FORMAL DE PRUEBAS DE SOFTWARE (ISTQB)</h1>
+<h3>3.1 QA (Quality Assurance) vs. QC (Quality Control)</h3>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th>Quality Assurance (QA)</th>
+<th>Quality Control (QC)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enfoque</strong></td>
+<td>Orientado al <strong>proceso</strong> de ingeniería.</td>
+<td>Orientado al <strong>producto</strong> final de software.</td>
+</tr>
+<tr>
+<td><strong>Naturaleza</strong></td>
+<td><strong>Proactiva:</strong> Previene la aparición de defectos mediante estándares, guías y diseño temprano.</td>
+<td><strong>Reactiva:</strong> Detecta defectos preexistentes mediante la ejecución de pruebas.</td>
+</tr>
+<tr>
+<td><strong>Responsabilidad</strong></td>
+<td>Transversal a todo el equipo (Devs, QA, Líderes).</td>
+<td>Asignada específicamente al equipo de pruebas.</td>
+</tr>
+<tr>
+<td><strong>Momento</strong></td>
+<td>Continuo a lo largo de todo el ciclo de vida (SDLC).</td>
+<td>Posterior a la construcción o disponibilidad del artefacto.</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 Verificación vs. Validación (El Modelo de Boehm)</h3>
+<ul>
+<li><strong>Verificación:</strong> <em>"¿Estamos construyendo el producto correctamente?"</em><br />
+  Comprueba que el software cumple de manera estricta y sintáctica con las especificaciones técnicas y requisitos de entrada (RFCs, contratos REST, esquemas Pydantic).</li>
+<li><strong>Validación:</strong> <em>"¿Estamos construyendo el producto correcto?"</em><br />
+  Comprueba que el sistema satisface las necesidades reales, expectativas operacionales y reglas de negocio del usuario final y los <em>stakeholders</em>.</li>
+</ul>
+<h3>3.3 La Cadena Causal de las Anomalías (§2.1 de los apuntes)</h3>
+<p>ISTQB establece una distinción científica obligatoria entre tres conceptos que los desarrolladores suelen confundir:</p>
+<blockquote>
+<p><strong>CADENA CAUSAL ISTQB:</strong><br />
+<strong>Error Humano</strong> &nbsp;→&nbsp; <strong>Defecto en Código (Bug)</strong> &nbsp;→&nbsp; <strong>Fallo Dinámico Observable</strong></p>
+</blockquote>
+<ol>
+<li><strong>Error (Human Error):</strong> Acción u omisión humana equivocada cometida por el ingeniero durante el análisis, arquitectura o codificación.<br />
+<em>Ejemplo en el proyecto:</em> El desarrollador olvidó escribir la condición <code>if article.author_id != current_user.id: raise HTTPException(400)</code>.</li>
+<li><strong>Defecto (Bug / Causa Raíz):</strong> Imperfección o anomalía estática presente en el producto de trabajo (el código fuente, script o esquema).<br />
+<em>Ejemplo en el proyecto:</em> La línea ausente en <code>app/api/routes/articles/articles.py</code> línea 85.</li>
+<li><strong>Fallo (Failure):</strong> Evento dinámico observable en tiempo de ejecución en el cual el sistema deja de realizar la función requerida o la realiza de forma incorrecta.<br />
+<em>Ejemplo en el proyecto:</em> La API responde con <code>HTTP 200 OK</code> y borra de la base de datos el artículo de Laura cuando la petición la envió Carlos.</li>
+</ol>
+<h3>3.4 Dimensiones de Evaluación: Severidad Técnica vs. Prioridad de Negocio</h3>
+<ul>
+<li><strong>Severidad (Métrica Técnica):</strong> Mide el grado de impacto técnico, daño estructural o degradación que el defecto causa sobre el software, la base de datos o el hardware. Se clasifica en: <code>Crítica</code>, <code>Alta</code>, <code>Media</code>, <code>Baja</code>.</li>
+<li><strong>Prioridad (Métrica de Negocio / Gestión):</strong> Determina la urgencia o prelación cronológica con la que el defecto debe ser resuelto en el plan de trabajo del equipo de desarrollo. Se clasifica en: <code>Alta</code>, <code>Media</code>, <code>Baja</code>.</li>
+</ul>
+<blockquote>
+<p><strong>Pregunta de examen:</strong> <em>¿Puede haber un bug de Severidad Baja pero Prioridad Alta?</em><br />
+<strong>Respuesta:</strong> Sí. Por ejemplo, el logotipo de la empresa aparece mal escrito o invertido en la portada principal. Técnicamente no rompe nada (Severidad Baja), pero comercialmente daña la marca de inmediato (Prioridad Alta).<br />
+En nuestro proyecto, el <strong>BUG-04</strong> tiene tanto <strong>Severidad Crítica</strong> (borrado irreversible de base de datos) como <strong>Prioridad Alta</strong> (bloqueante absoluto).</p>
+</blockquote>
+<h3>3.5 Los 7 Principios Fundamentales del Testing (ISTQB)</h3>
+<ol>
+<li><strong>Las pruebas muestran la presencia de defectos, no su ausencia:</strong> Probar un sistema permite encontrar fallos, pero es teóricamente imposible demostrar matemáticamente que no queda ningún error oculto.</li>
+<li><strong>Las pruebas exhaustivas no son posibles:</strong> Probar todas las combinaciones posibles de datos, entradas y precondiciones es inviable. Por eso se usan técnicas como Partición de Equivalencia y BVA para seleccionar muestras representativas.</li>
+<li><strong>Pruebas tempranas:</strong> Iniciar las pruebas lo antes posible (en fase de requisitos y diseño) ahorra costos exponenciales de retrabajo.</li>
+<li><strong>Agrupamiento de defectos (<em>Defect clustering</em>):</strong> La mayoría de los defectos se concentran en un pequeño número de módulos críticos. <em>(En Conduit, el 66.7% de los bugs se concentraron en el módulo Articles)</em>.</li>
+<li><strong>La paradoja del pesticida:</strong> Si los mismos casos de prueba se repiten una y otra vez, con el tiempo dejan de encontrar defectos nuevos. La suite debe evolucionar.</li>
+<li><strong>Las pruebas dependen del contexto:</strong> No se prueba igual una API de blog, que un software de aviónica o una pasarela de pagos médicos.</li>
+<li><strong>La falacia de ausencia de errores:</strong> Reparar el 100% de los defectos no garantiza el éxito del producto si el sistema construido no sirve a las necesidades reales del usuario.</li>
+</ol>
+<h3>3.6 Ciclo de Vida: SDLC vs. STLC</h3>
+<ul>
+<li><strong>SDLC (Software Development Life Cycle - ISO/IEC 12207):</strong> Ciclo completo de desarrollo del software (Planeación, Análisis, Diseño, Construcción, Pruebas y Despliegue).</li>
+<li><strong>STLC (Software Testing Life Cycle):</strong> Subproceso disciplinado de aseguramiento de calidad con 5 fases secuenciales y 2 transversales:</li>
+<li><strong>Fase 1: Test Analysis (Análisis):</strong> ¿Qué probar? Identificación de condiciones de prueba y base normativa.</li>
+<li><strong>Fase 2: Test Design (Diseño):</strong> ¿Cómo probar? Especificación formal de los casos de prueba y datos.</li>
+<li><strong>Fase 3: Test Implementation (Implementación):</strong> ¿Está todo listo? Construcción de scripts pytest, ambiente Docker y datos de prueba.</li>
+<li><strong>Fase 4: Test Execution (Ejecución):</strong> Comparación del comportamiento real vs. esperado, captura de evidencias y reporte de defectos.</li>
+<li><strong>Fase 5: Test Completion (Cierre):</strong> Criterios de cierre, métricas, reporte de resumen (Test Summary Report) y archivo de artefactos (<em>testware</em>).</li>
+<li><strong>Transversales:</strong> <strong>Test Planning</strong> (Planificación estratégica) y <strong>Test Monitoring &amp; Control</strong> (Seguimiento continuo).</li>
+</ul>
+<hr />
+<h1>MÓDULO 4: ESTRATEGIA STLC Y CATÁLOGO DE 41 CASOS DE PRUEBA</h1>
+<h3>4.1 Nomenclatura Estándar de Casos de Prueba</h3>
+<p>Cada caso de prueba posee un identificador estructurado y trazable:</p>
+<blockquote>
+<p><strong>Formato:</strong> <code>CP - [MÓDULO] - [MODO] - [NÚMERO]</code><br />
+<em>Ejemplo:</em> <code>CP-AUTH-A-001</code> (Automatizado), <code>CP-QUAL-M-004</code> (Manual)</p>
+</blockquote>
+<ul>
+<li><strong>Módulo:</strong> <code>AUTH</code> (Autenticación), <code>ART</code> (Artículos), <code>COM</code> (Comentarios), <code>PRF</code> (Perfiles), <code>FAV</code> (Favoritos), <code>TAG</code> (Etiquetas), <code>EXP</code> (Exploratorias), <code>TOOL</code> (Herramientas), <code>QUAL</code> (Calidad/Seguridad), <code>EST</code> (Estados).</li>
+<li><strong>Modo:</strong> <code>A</code> (Automatizado con <code>pytest</code>), <code>M</code> (Manual con <code>Swagger UI / Postman</code>).</li>
+</ul>
+<h3>4.2 Matriz de Distribución de los 41 Casos</h3>
+<p>El equipo superó la meta mínima de 40 casos, diseñando y ejecutando <strong>41 casos de prueba</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Modo de Ejecución</th>
+<th>Módulos Evaluados</th>
+<th style="text-align: center;">Cantidad de Casos</th>
+<th>Herramientas Utilizadas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Automatizados</strong></td>
+<td>Auth (5), Articles (9), Comments (3), Profiles (4), Favorites (3), Tags (2)</td>
+<td style="text-align: center;"><strong>26 Casos</strong></td>
+<td><code>pytest</code>, <code>pytest-asyncio</code>, <code>pytest-cov</code>, <code>HTTPX</code></td>
+</tr>
+<tr>
+<td><strong>Manuales</strong></td>
+<td>Exploratorios (5), Herramientas (3), Calidad/Seguridad (4), Transición Estados (3)</td>
+<td style="text-align: center;"><strong>15 Casos</strong></td>
+<td><code>Swagger UI</code> (<code>/docs</code>), <code>Postman</code> (<code>postman.json</code>)</td>
+</tr>
+<tr>
+<td><strong>TOTAL CONSOLIDADO</strong></td>
+<td><strong>Todos los 19 endpoints de la especificación RealWorld</strong></td>
+<td style="text-align: center;"><strong>41 Casos</strong></td>
+<td><strong>Cobertura de Requisitos: 100%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>4.3 Técnicas de Diseño de Pruebas Dinámicas Aplicadas</h3>
+<ol>
+<li><strong>Partición de Equivalencia (Equivalence Partitioning - EP):</strong><br />
+   División de los datos de entrada en clases válidas (deben ser aceptadas con 200/201) y clases inválidas (deben ser rechazadas con 400 o 422).<br />
+<em>Ejemplo:</em> Registro de usuarios con email válido vs. registro con email duplicado o sin formato arroba.</li>
+<li><strong>Análisis de Valores Límite (Boundary Value Analysis - BVA):</strong><br />
+   Evaluación de los extremos y bordes de las particiones.<br />
+<em>Ejemplo (CP-ART-A-009 y CP-EXP-M-004):</em> La regla de paginación establece que el límite por página por defecto es 20. Se evaluó enviar <code>?limit=100</code> para comprobar si la API acotaba el resultado al tope de 20 (falla detectada: BUG-09 entregó 25).</li>
+<li><strong>Transición de Estados (State Transition Testing):</strong><br />
+   Evaluación de máquinas de estado en relaciones dinámicas.<br />
+<em>Ejemplo:</em> Flujo de seguimiento de autores: No seguido (<code>following=false</code>) → Seguir (<code>following=true</code>) → Dejar de seguir (<code>following=false</code>).</li>
+<li><strong>Pruebas de Seguridad y Control de Acceso (BOLA / IDOR Testing):</strong><br />
+   Evaluación intencional de vectores de ataque donde un usuario intenta mutar o destruir recursos creados por otro usuario.</li>
+</ol>
+<h3>4.4 ¿Por qué 24 casos PASARON y 17 casos FALLARON?</h3>
+<ul>
+<li><strong>En la rama <code>main</code> (limpia):</strong> Pasan 26 de 26 pruebas automatizadas (<strong>100% Pass</strong>).</li>
+<li><strong>En la rama <code>buggy-version</code> (evaluada):</strong> </li>
+<li>Casos que pasaron: <strong>24 casos (58.54%)</strong>.</li>
+<li>Casos que fallaron: <strong>17 casos (41.46%)</strong>.</li>
+<li><strong>Explicación pedagógica vital:</strong><br />
+  Que una prueba falle <strong>no es un error del equipo de QA; es la prueba irrefutable de que el test fue diseñado con la sensibilidad suficiente para atrapar el defecto</strong>. 9 de los casos fallaron directamente sobre las aserciones de los 9 bugs inyectados, y los otros 8 casos fallaron por efecto dominó o dependencia de estado (por ejemplo, al no poder seguir a un usuario, la prueba subsecuente de feed de seguidos también falla).</li>
+</ul>
+<hr />
+<div style="page-break-before: always;"></div>
+
+<h1>MÓDULO 5: RADIOGRAFÍA DE LOS 9 DEFECTOS DETECTADOS</h1>
+<p>A continuación se detalla la radiografía técnica y de negocio de los 9 bugs inyectados y detectados.</p>
+<table>
+<thead>
+<tr>
+<th>Bug ID</th>
+<th>Módulo</th>
+<th style="text-align: center;">Severidad</th>
+<th style="text-align: center;">Prioridad</th>
+<th>Causa Raíz (Archivo y Línea)</th>
+<th>Caso Detector</th>
+<th>Impacto en el Negocio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BUG-01</strong></td>
+<td><code>Auth</code></td>
+<td style="text-align: center;"><strong>Baja</strong></td>
+<td style="text-align: center;">Baja</td>
+<td><code>app/api/routes/authentication.py:22</code><br>Falta <code>status_code=201</code> en decorador <code>@router.post</code>.</td>
+<td><code>CP-AUTH-A-001</code><br><code>CP-EXP-M-001</code></td>
+<td>Responde HTTP 200 en vez de 201 Created. Viola el estándar semántico REST pero el usuario sí se crea.</td>
+</tr>
+<tr>
+<td><strong>BUG-02</strong></td>
+<td><code>Articles</code></td>
+<td style="text-align: center;"><strong>Alta</strong></td>
+<td style="text-align: center;">Alta</td>
+<td><code>app/schemas/article.py:21</code><br>Falta <code>min_length=1</code> en <code>title: str</code>.</td>
+<td><code>CP-ART-A-002</code></td>
+<td>Permite crear artículos con título vacío (<code>""</code>), corrompiendo la persistencia y los feeds editoriales.</td>
+</tr>
+<tr>
+<td><strong>BUG-03</strong></td>
+<td><code>Articles</code></td>
+<td style="text-align: center;"><strong>Alta</strong></td>
+<td style="text-align: center;">Alta</td>
+<td><code>app/api/routes/articles/articles.py:85</code><br>Eliminada verificación de autoría en PUT.</td>
+<td><code>CP-ART-A-005</code><br><code>CP-QUAL-M-003</code></td>
+<td><strong>Falla BOLA:</strong> Un usuario autenticado puede modificar el contenido de artículos creados por otros autores.</td>
+</tr>
+<tr>
+<td><strong>BUG-04</strong></td>
+<td><code>Articles</code></td>
+<td style="text-align: center;"><strong>Crítica</strong></td>
+<td style="text-align: center;"><strong>Alta</strong></td>
+<td><code>app/api/routes/articles/articles.py:112</code><br>Eliminada verificación de autoría en DELETE.</td>
+<td><code>CP-ART-A-006</code><br><code>CP-QUAL-M-004</code></td>
+<td><strong>Brecha BOLA Crítica:</strong> Cualquier usuario registrado puede borrar permanentemente artículos ajenos de la BD.</td>
+</tr>
+<tr>
+<td><strong>BUG-05</strong></td>
+<td><code>Favorites</code></td>
+<td style="text-align: center;"><strong>Alta</strong></td>
+<td style="text-align: center;">Media</td>
+<td><code>app/api/routes/articles/articles.py:145</code><br>Pasa <code>favorite=False</code> en vez de <code>True</code> al CRUD.</td>
+<td><code>CP-FAV-A-001</code><br><code>CP-EST-M-002</code></td>
+<td>Crash HTTP 500 no capturado (<code>ValueError: list.remove(x)</code>) al intentar marcar un artículo como favorito.</td>
+</tr>
+<tr>
+<td><strong>BUG-06</strong></td>
+<td><code>Profiles</code></td>
+<td style="text-align: center;"><strong>Media</strong></td>
+<td style="text-align: center;">Media</td>
+<td><code>app/models/domain/users.py:48</code><br>Hardcodeado <code>following=False</code> en DTO.</td>
+<td><code>CP-PRF-A-001</code><br><code>CP-EST-M-001</code></td>
+<td>La BD registra el seguimiento pero el JSON siempre responde <code>following: false</code>, desorientando al lector.</td>
+</tr>
+<tr>
+<td><strong>BUG-07</strong></td>
+<td><code>Articles</code></td>
+<td style="text-align: center;"><strong>Alta</strong></td>
+<td style="text-align: center;">Alta</td>
+<td><code>app/api/routes/articles/articles.py:65</code><br>Usa <code>OptionalCurrentUser</code> en feed privado.</td>
+<td><code>CP-ART-A-007</code></td>
+<td>Petición anónima a <code>/api/articles/feed</code> no da 401; colapsa con HTTP 500 por <code>NoneType.id</code>.</td>
+</tr>
+<tr>
+<td><strong>BUG-08</strong></td>
+<td><code>Articles</code></td>
+<td style="text-align: center;"><strong>Media</strong></td>
+<td style="text-align: center;">Media</td>
+<td><code>app/crud/crud_article.py:52</code><br>Comentada cláusula condicional de tag.</td>
+<td><code>CP-ART-A-008</code></td>
+<td><code>GET /api/articles?tag=python</code> devuelve todos los artículos existentes ignorando el filtro temático.</td>
+</tr>
+<tr>
+<td><strong>BUG-09</strong></td>
+<td><code>Articles</code></td>
+<td style="text-align: center;"><strong>Media</strong></td>
+<td style="text-align: center;">Media</td>
+<td><code>app/api/routes/articles/articles.py:35</code><br>Eliminado <code>limit = min(limit, 20)</code>.</td>
+<td><code>CP-ART-A-009</code><br><code>CP-EXP-M-004</code></td>
+<td>Falla BVA: <code>?limit=100</code> devuelve 25 artículos en una sola carga en vez de acotar al tope máximo de 20.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 Análisis del Caso Crítico: BUG-04 (Vulnerabilidad OWASP BOLA)</h3>
+<p>Este es el defecto estrella del proyecto que justifica por sí solo el dictamen de aseguramiento de calidad:</p>
+<ul>
+<li><strong>¿Qué es BOLA?</strong><br />
+<em>Broken Object Level Authorization</em> (antes conocido como IDOR - <em>Insecure Direct Object Reference</em>). Es la vulnerabilidad número 1 del ranking internacional <strong>OWASP API Security Top 10</strong>.</li>
+<li><strong>El Fallo Técnico:</strong><br />
+  El endpoint <code>DELETE /api/articles/{slug}</code> recibe el token de quien hace la petición (<code>current_user</code>), busca el artículo por su slug en la base de datos, pero <strong>nunca compara si <code>article.author_id == current_user.id</code></strong>.</li>
+<li><strong>Demostración de Impacto:</strong><br />
+  En Swagger UI, el usuario <strong>Carlos</strong> envió una petición DELETE contra el artículo publicado por <strong>Laura</strong>. El servidor respondió con <code>HTTP 200 OK</code> y borró físicamente el registro de la tabla <code>articles</code> en PostgreSQL.</li>
+<li><strong>Consecuencia de Negocio:</strong><br />
+  Un atacante con un script de 10 líneas en bash o python puede recorrer todos los slugs y vaciar por completo la base de datos editorial de Conduit en cuestión de minutos.</li>
+</ul>
+<hr />
+<h1>MÓDULO 6: GESTIÓN DE DEFECTOS EN GITHUB ISSUES</h1>
+<h3>6.1 Transición Metodológica a GitHub Issues</h3>
+<p>Aunque originalmente se consideró MantisBT en la fase de planeación, el equipo adoptó <strong>GitHub Issues</strong> como la plataforma definitiva de gestión de incidencias. Esta decisión responde a las mejores prácticas de la industria contemporánea:
+* Integración nativa con el repositorio y commits de Git (<code>Fixes #4</code>).
+* Uso de sintaxis Markdown profesional enriquecida con bloques de código, tablas y alertas.
+* Vinculación directa con el tablero Kanban de GitHub Projects.
+* Estandarización mediante la plantilla oficial <a href="../.github/ISSUE_TEMPLATE/bug_report.md"><code>.github/ISSUE_TEMPLATE/bug_report.md</code></a>.</p>
+<h3>6.2 Sistema de Etiquetas (Labels) Normalizado</h3>
+<p>Para permitir el filtrado y cálculo de métricas en GitHub Issues, se configuró una taxonomía precisa:</p>
+<ul>
+<li><strong>Tipo:</strong> <code>bug</code></li>
+<li><strong>Severidad:</strong> <code>severity: critical</code>, <code>severity: high</code>, <code>severity: medium</code>, <code>severity: low</code></li>
+<li><strong>Prioridad:</strong> <code>priority: high</code>, <code>priority: medium</code>, <code>priority: low</code></li>
+<li><strong>Módulo Afectado:</strong> <code>module: auth</code>, <code>module: articles</code>, <code>module: favorites</code>, <code>module: profiles</code></li>
+<li><strong>Estado:</strong> <code>status: open</code>, <code>status: resolved</code>, <code>status: closed</code></li>
+</ul>
+<hr />
+<h1>MÓDULO 7: MÉTRICAS, INDICADORES Y EL DASHBOARD INTERACTIVO</h1>
+<h3>7.1 Fórmulas Matemáticas y Resultados Cuantitativos</h3>
+<div class="formula-box">
+  <div class="formula-title">1. Cobertura de Ejecución de Pruebas</div>
+  <div class="formula-math">Tasa de Ejecución = ( Casos Ejecutados ÷ Casos Planificados ) × 100</div>
+  <div class="formula-calc"><strong>Cálculo:</strong> ( 41 ÷ 41 ) × 100 = <strong>100.0%</strong> &nbsp;|&nbsp; <em>Meta: ≥ 95% (Superada)</em></div>
+</div>
+
+<div class="formula-box">
+  <div class="formula-title">2. Eficacia de Detección de Defectos (DRE - Defect Removal / Detection Effectiveness)</div>
+  <div class="formula-math">DRE = [ Defectos Detectados en QA ÷ ( Defectos en QA + Defectos en Producción ) ] × 100</div>
+  <div class="formula-calc"><strong>Cálculo:</strong> [ 9 ÷ ( 9 + 0 ) ] × 100 = <strong>100.0%</strong> &nbsp;|&nbsp; <em>Capacidad detectora perfecta</em></div>
+</div>
+
+<div class="formula-box">
+  <div class="formula-title">3. Tasa de Aprobación de Casos en Rama de Evaluación</div>
+  <div class="formula-math">Tasa de Aprobación = ( Casos Aprobados ÷ Casos Ejecutados Totales ) × 100</div>
+  <div class="formula-calc"><strong>Cálculo:</strong> ( 24 ÷ 41 ) × 100 = <strong>58.54%</strong> &nbsp;|&nbsp; <em>24 Pasaron / 17 Fallaron cazando bugs</em></div>
+</div>
+
+<div class="formula-box">
+  <div class="formula-title">4. Cobertura de Código Fuente (Statement Coverage con pytest-cov)</div>
+  <div class="formula-math">Cobertura de Sentencias = ( Líneas Ejecutadas ÷ Líneas Totales ) × 100</div>
+  <div class="formula-calc"><strong>Cálculo Global:</strong> ( 553 ÷ 668 ) × 100 = <strong>82.78%</strong> &nbsp;|&nbsp; <em>Meta: ≥ 70% (Superada)</em></div>
+  <div class="formula-calc"><strong>Análisis Causa Raíz:</strong> Excluyendo el script CLI auxiliar <code>app/seed.py</code> (68 líneas sin transitar en HTTP), la cobertura real del servidor API en ejecución alcanza el <strong>92.17% (553 ÷ 600 sentencias)</strong>.</div>
+</div>
+
+<div class="formula-box">
+  <div class="formula-title">5. Densidad de Defectos</div>
+  <div class="formula-math">Densidad por Caso = Defectos Detectados ÷ Casos Ejecutados = 9 ÷ 41 = 0.220 defectos/caso</div>
+  <div class="formula-math">Densidad por Mil Líneas (KLOC) = 9 defectos ÷ 0.668 KLOC = 13.47 defectos/KLOC</div>
+</div>
+
+<div class="formula-box">
+  <div class="formula-title">6. Concentración de Defectos (Defect Clustering en Articles)</div>
+  <div class="formula-math">Concentración = ( Defectos en Articles ÷ Defectos Totales ) × 100 = ( 6 ÷ 9 ) × 100 = 66.7%</div>
+</div>
+
+<h3>7.2 Arquitectura del Dashboard de Métricas (<code>dashboard_qa.html</code>)</h3>
+<p>El equipo construyó un tablero frontend profesional en HTML5, CSS moderno y JavaScript modular (sin dependencias de frameworks externos pesados), accesible directamente en <a href="reports/dashboard_qa.html">docs_qa/reports/dashboard_qa.html</a>.</p>
+<ul>
+<li><strong>Pestaña 1 (Resumen y Decisión):</strong> Banner prominente del dictamen <strong><span class='badge-nogo'>NO-GO</span></strong>, tarjetas KPI con indicadores visuales de meta y gráficos Donut en SVG nativo para ejecución y distribución de fallos.</li>
+<li><strong>Pestaña 2 (Ciclo de Métricas y Fórmulas):</strong> Exposición de las fórmulas matemáticas paso a paso y alineación con las 5 fases del STLC.</li>
+<li><strong>Pestaña 3 (Cobertura y Suite Pytest):</strong> Desglose de cobertura por capa arquitectónica (Modelos: 100%, Schemas: 100%, Core/DB: 97.37%, Rutas: 88.43%, Repositorios: 87.68%), inspector de archivos Python y verificador de integridad de datos (<em>Garbage in, garbage out</em>).</li>
+<li><strong>Pestaña 4 (Defectos y Casos):</strong> Catálogo interactivo de los 41 casos y 9 defectos con buscador dinámico en tiempo real y modal visor de capturas de pantalla de evidencias.</li>
+</ul>
+<hr />
+<h1>MÓDULO 8: ANÁLISIS DE CALIDAD Y FUNDAMENTACIÓN DEL DICTAMEN <span class='badge-nogo'>NO-GO</span></h1>
+<h3>8.1 ¿Qué significa el Dictamen <span class='badge-nogo'>NO-GO</span>?</h3>
+<p>En las organizaciones de software maduras, el equipo de Quality Assurance tiene la potestad de emitir una recomendación formal de salida (<em>Exit Criteria Review</em>):</p>
+<ul>
+<li><strong>GO (Autorizado):</strong> El software cumple todos los criterios de calidad y puede desplegarse a producción.</li>
+<li><strong><span class='badge-nogo'>NO-GO</span> (Bloqueado):</strong> El software contiene riesgos inadmisibles para el negocio que impiden su puesta en producción.</li>
+</ul>
+<h3>8.2 ¿Por qué se Bloquea el Pase si el 82.78% del Código está Cubierto?</h3>
+<p>Esta es una pregunta clásica de liderazgo en pruebas de software:
+1. <strong>La cobertura de código no mide corrección lógica:</strong> Tener un 82% o 92% de cobertura solo indica que las líneas fueron transitadas por el intérprete, pero no garantiza que las líneas faltantes (como la guarda de autorización) no contengan omisiones fatales.
+2. <strong>Criterio de salida violado:</strong> El Plan de Pruebas estableció taxativamente como Criterio de Éxito #2: <strong><code>0 defectos críticos abiertos al cierre</code></strong>.
+3. <strong>Existencia de BUG-04:</strong> El defecto BUG-04 es una vulnerabilidad de severidad crítica abierta. Autorizar el pase a producción equivaldría a lanzar un sistema sabiendo que cualquier usuario anónimo o malintencionado puede destruir la información de todos los clientes.</p>
+<hr />
+<h1>MÓDULO 9: GLOSARIO TÉCNICO MAESTRO (25+ CONCEPTOS CLAVE)</h1>
+<p>Aprende estas definiciones de memoria para responder con precisión quirúrgica en la sustentación:</p>
+<ol>
+<li><strong>SUT (System Under Test):</strong> El sistema o componente de software que está siendo sometido a evaluación de pruebas (en nuestro caso, la API de Conduit).</li>
+<li><strong>Testware:</strong> El conjunto de todos los artefactos, productos de trabajo y documentación generados durante el proceso de pruebas (plan de pruebas, casos de prueba, scripts pytest, evidencias, reportes de bugs, dashboard).</li>
+<li><strong>BOLA (Broken Object Level Authorization):</strong> Falla de seguridad en la que la API expone un endpoint que manipula un objeto específico mediante su identificador, pero no valida si el usuario solicitante tiene derechos de propiedad sobre dicho objeto.</li>
+<li><strong>JWT (JSON Web Token):</strong> Estándar abierto (RFC 7519) para transmitir de forma segura información autenticada en un objeto JSON compacto y firmado digitalmente.</li>
+<li><strong>Slug:</strong> Cadena de texto derivada del título de un artículo convertida en formato amigable para URLs (ej: "Mi Primer Post" → <code>mi-primer-post</code>), utilizada como identificador único en la API.</li>
+<li><strong>Fixture de Pytest:</strong> Función decorada con <code>@pytest.fixture</code> que provee datos, conexiones a base de datos o clientes HTTP configurados antes de que se ejecute un test, asegurando entornos limpios.</li>
+<li><strong>AsyncClient (HTTPX):</strong> Cliente HTTP asincrónico utilizado por pytest para enviar peticiones directas al ASGI de FastAPI sin necesidad de levantar un socket de red real en el sistema operativo.</li>
+<li><strong>Assertion (Aserción):</strong> Expresión booleana que verifica si una condición evaluada es verdadera. Si se evalúa como falsa, el test falla arrojando un <code>AssertionError</code>.</li>
+<li><strong>Partición de Equivalencia (EP):</strong> Técnica de caja negra que divide el dominio de datos en clases donde se asume que todos los valores producirán el mismo comportamiento en el sistema.</li>
+<li><strong>Análisis de Valores Límite (BVA):</strong> Técnica de caja negra que prueba los valores en los extremos, bordes o fronteras de las particiones de equivalencia (límite exacto, valor inmediatamente inferior y superior).</li>
+<li><strong>Defect Clustering (Agrupamiento de Defectos):</strong> Principio de ISTQB que postula que la gran mayoría de los defectos se concentran en una pequeña cantidad de módulos del software.</li>
+<li><strong>Paradoja del Pesticida:</strong> Principio de ISTQB que establece que repetir siempre los mismos casos de prueba disminuye su capacidad para encontrar defectos nuevos en el tiempo.</li>
+<li><strong>DRE (Defect Removal/Detection Effectiveness):</strong> Métrica porcentual que mide la capacidad del equipo de pruebas para detectar los defectos existentes antes de que el software llegue a los usuarios.</li>
+<li><strong>Densidad de Defectos:</strong> Relación matemática entre el número de defectos encontrados y el tamaño del software (medido en casos de prueba o líneas de código KLOC).</li>
+<li><strong>Statement Coverage (Cobertura de Sentencias):</strong> Métrica de caja blanca que calcula el porcentaje de sentencias ejecutables de código fuente que fueron transitadas por la suite de pruebas.</li>
+<li><strong>Matriz RACI:</strong> Herramienta de gestión que asigna roles para cada tarea del proyecto: Responsable (R), Aprobador (A), Consultado (C) e Informado (I).</li>
+<li><strong>Criterios de Entrada (Entry Criteria):</strong> Condiciones indispensables que deben cumplirse antes de iniciar formalmente una fase de pruebas (ej. ambiente levantado, base de datos migrada).</li>
+<li><strong>Criterios de Salida (Exit Criteria):</strong> Condiciones o umbrales de calidad que deben satisfacerse para dar por concluida una fase o autorizar el pase a producción.</li>
+<li><strong>Smoke Test (Prueba de Humo):</strong> Conjunto reducido de pruebas superficiales para verificar si las funciones más básicas del sistema operan antes de ejecutar pruebas exhaustivas.</li>
+<li><strong>Prueba de Regresión:</strong> Re-ejecución de pruebas para garantizar que los cambios recientes o parches de código no hayan roto funcionalidades que antes operaban correctamente.</li>
+<li><strong>Prueba Exploratoria:</strong> Enfoque de pruebas simultáneo donde el tester diseña, ejecuta y aprende sobre el sistema de manera iterativa sin guiones preestablecidos rígidos.</li>
+<li><strong>Happy Path:</strong> Ruta o flujo de ejecución ideal donde no ocurren condiciones de error ni excepciones y los datos provistos son 100% válidos.</li>
+<li><strong>Negative Testing:</strong> Pruebas diseñadas deliberadamente con datos inválidos, inesperados o maliciosos para comprobar la robustez y el manejo de excepciones de la aplicación.</li>
+<li><strong>ASGI (Asynchronous Server Gateway Interface):</strong> Estándar de interfaz en Python entre servidores web y aplicaciones asincrónicas, sucesor moderno de WSGI.</li>
+<li><strong>Pydantic DTO (Data Transfer Object):</strong> Esquemas que definen la estructura de datos que viaja en la red, realizando validación automática de tipos y serialización JSON.</li>
+</ol>
+<hr />
+<div style="page-break-before: always;"></div>
+
+<h1>MÓDULO 10: BANCO DE 10 PREGUNTAS TRAMPA DE LA DOCENTE Y CÓMO RESPONDERLAS</h1>
+<p>A continuación se presentan las 10 preguntas más exigentes que la docente puede formular durante la sustentación, junto con las respuestas senior argumentadas:</p>
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 1: "Veo que tienen una tasa de aprobación de apenas 58.54% y 17 casos fallados. ¿Por qué su suite de pruebas tiene tantos fallos? ¿Está mal implementada?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    Profesora, esa tasa de fallos no es una debilidad de la suite; es la prueba de su éxito. En la rama limpia <code>main</code>, la misma suite de pruebas aprueba al 100% (26 de 26). En la rama <code>buggy-version</code>, inyectamos 9 defectos reales y diseñamos casos de prueba con la sensibilidad exacta para capturarlos. El 41.46% de fallos representa a nuestros tests cazando los bugs inyectados y detectando fallos en cadena. Un equipo de QA que reporte 100% de aprobación sobre un sistema defectuoso es un equipo que no está probando con profundidad.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 2: "Tienen una cobertura de código de 82.78%, que supera ampliamente la meta del 70%. ¿Por qué insisten en que el dictamen es <span class='badge-nogo'>NO-GO</span>?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    Porque la cobertura de código mide cantidad de sentencias transitadas, no calidad ni corrección lógica. Nuestro criterio de salida número 2 establece de forma inviolable: <em>'0 defectos críticos abiertos al cierre'</em>. El defecto BUG-04 es una vulnerabilidad crítica de seguridad OWASP BOLA que permite que cualquier usuario registrado borre artículos ajenos de la base de datos. Autorizar un pase a producción con un bug crítico abierto viola las buenas prácticas de la industria y expondría a la empresa a un colapso reputacional y legal.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 3: "¿Cuál es la diferencia conceptual entre la severidad y la prioridad de un defecto en su proyecto? Denme un ejemplo."</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    La severidad es una métrica técnica intrínseca que evalúa el daño arquitectónico o estructural en el sistema. La prioridad es una métrica de gestión y negocio que evalúa la urgencia con la que debe repararse.<br>
+    Por ejemplo, el BUG-01 (registro responde con código 200 en vez de 201) tiene Severidad Baja y Prioridad Baja porque el usuario sí se crea y el sistema sigue operando. En contraste, el BUG-04 tiene Severidad Crítica (pérdida de datos en PostgreSQL) y Prioridad Alta/Inmediata porque detiene por completo la viabilidad del negocio editorial.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 4: "¿Cómo aplicaron la técnica de Análisis de Valores Límite (BVA) en una API REST sin interfaz gráfica?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    La aplicamos sobre el endpoint de listado de artículos <code>GET /api/articles?limit=N</code>. La regla de negocio estipula que el sistema debe paginar con un límite máximo de 20 artículos por solicitud. Identificamos la frontera en 20. Diseñamos el caso automatizado <code>CP-ART-A-009</code> y el manual <code>CP-EXP-M-004</code> enviando un valor por encima del límite (<code>limit=100</code>) habiendo poblado la base con 25 artículos. El comportamiento esperado era que el backend acotara el resultado a un máximo de 20. El fallo detectado fue que la API devolvió los 25 registros en una sola carga, confirmando la ausencia de validación defensiva de frontera.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 5: "¿Por qué hicieron pruebas manuales si ya habían automatizado 26 casos en pytest?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    Porque la automatización y las pruebas manuales cumplen funciones complementarias según ISTQB. Pytest es ideal para pruebas de regresión, verificación rápida de contratos HTTP y cobertura continua. Sin embargo, las 15 pruebas manuales en Swagger UI y Postman nos permitieron realizar pruebas exploratorias, verificar la claridad de la documentación para desarrolladores externos, manipular tokens JWT corruptos y simular con realismo flujos complejos entre dos usuarios simultáneos (como Carlos intentando modificar o borrar el post de Laura), capturando evidencias fotográficas visuales directas.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 6: "¿Qué es la vulnerabilidad BOLA y por qué se considera un riesgo de negocio y no solo un fallo técnico?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    BOLA significa <em>Broken Object Level Authorization</em> (Vulnerabilidad #1 en OWASP API Security). Ocurre cuando la API valida quién es el usuario pero no valida si ese usuario es dueño del recurso que intenta modificar o borrar. En Conduit, el endpoint DELETE recibía el token de Carlos y borraba el artículo de Laura. Es un riesgo de negocio crítico porque en una plataforma de blogs, si un autor no puede confiar en que sus publicaciones están protegidas, la plataforma sufre desbandada de creadores y demandas por pérdida de propiedad intelectual.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 7: "¿Cómo demostraron el principio de Agrupamiento de Defectos (Defect Clustering) en su taller?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    El principio 4 de ISTQB establece que la mayoría de los defectos se concentran en un número reducido de módulos. En nuestro proyecto, de los 9 defectos inyectados y detectados, 6 se localizaron en el módulo Articles (66.7% de concentración). Esto es coherente con el negocio, ya que Articles es el módulo con mayor complejidad ciclomática: maneja filtrado por tags, feeds privados, paginación, edición, borrado y persistencia de autoría.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 8: "En el reporte de cobertura dicen que pytest-cov marcó 82.78%, pero ustedes afirman que en realidad la API tuvo 92.17%. ¿Están maquillando las métricas?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    No, estamos haciendo un análisis de causa raíz transparente. El archivo <code>app/seed.py</code> tiene 68 líneas de código que representan un script auxiliar de consola (CLI) para poblar datos de prueba iniciales. Este archivo no forma parte del flujo de ejecución del servidor web en tiempo de ejecución. Al calcular 553 sentencias ejecutadas entre 600 sentencias de la API real, la cobertura efectiva es del 92.17%. En el dashboard mostramos ambas cifras con total transparencia para que el revisor técnico conozca el desglose exacto.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 9: "Si los desarrolladores corrigen los 9 bugs hoy, ¿qué harían ustedes mañana como equipo de QA?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    Ejecutaríamos tres pasos formales del STLC:<br>
+    1. <strong>Re-testing (Confirmación de corrección):</strong> Ejecutar los 9 casos específicos que fallaron para certificar que ahora aprueban.<br>
+    2. <strong>Pruebas de Regresión Completa:</strong> Correr la suite automatizada completa de 26 casos y los flujos manuales para asegurar que las correcciones no introdujeron nuevos defectos colaterales.<br>
+    3. <strong>Revisión de Criterios de Salida y Cambio de Dictamen:</strong> Si los 9 bugs están cerrados y no hay defectos críticos abiertos, emitimos el informe final de cierre y cambiamos el dictamen a <strong>GO (Aprobado para Producción)</strong>.
+  </div>
+</div>
+
+<div class="qa-item">
+  <div class="qa-q">❓ Pregunta 10: "¿Cómo se dividieron el trabajo entre Juan Pablo y Niurka? ¿Fue un trabajo individual o en equipo?"</div>
+  <div class="qa-a">
+    <strong>💡 Respuesta Senior:</strong><br>
+    Trabajamos como una célula de calidad bajo la Matriz RACI documentada en el Plan de Pruebas:
+    <ul style="margin: 6px 0 6px 18px; padding: 0;">
+      <li><strong>Juan Pablo:</strong> Lideró la arquitectura de pruebas, el diseño y desarrollo de los 26 scripts automatizados en <code>pytest</code>, la configuración del entorno Docker/PostgreSQL, las pruebas de seguridad con JWT y la generación de métricas de cobertura.</li>
+      <li><strong>Niurka:</strong> Lideró la co-estructuración del Plan de Pruebas maestro, la ejecución de las pruebas manuales en Swagger UI y Postman, la clasificación de los 9 defectos en GitHub Issues con la captura de evidencias fotográficas, el co-diseño del dashboard y la redacción del informe de análisis de calidad.</li>
+    </ul>
+    Ambos colaboramos en el diseño de los 41 casos y en la interpretación del modelo de negocio.
+  </div>
+</div>
+
+<hr />
+<div style="page-break-before: always;"></div>
+
+<h1>MÓDULO 11: ESTRUCTURA SUGERIDA DE EXPOSICIÓN ORAL Y GUION DE DEFENSA</h1>
+<blockquote>
+<h3>🎯 GUÍA MAESTRA DE DEFENSA ANTE LA DOCENTE (12 A 15 MINUTOS)</h3>
+<p>Este guion está diseñado para proyectar solidez técnica, dominio del negocio y liderazgo senior en aseguramiento de calidad. Utilicen la distribución de roles acordada en la Matriz RACI.</p>
+</blockquote>
+<h3>11.1 Planificación Minuto a Minuto y Diapositivas Recomendadas</h3>
+<pre><code class="language-text">  [00:00 - 02:00]  DIAPOSITIVAS 1 &amp; 2: INTRODUCCIÓN Y CONTEXTO DE NEGOCIO (Niurka)
+  [02:00 - 05:00]  DIAPOSITIVAS 3 &amp; 4: ESTRATEGIA STLC Y CATÁLOGO DE CASOS (Juan Pablo)
+  [05:00 - 08:30]  DIAPOSITIVA 5: DEFECTOS EN GITHUB Y BRECHA CRÍTICA BOLA (Niurka)
+  [08:30 - 11:30]  DIAPOSITIVA 6: DEMO EN VIVO DEL DASHBOARD Y MÉTRICAS (Juan Pablo)
+  [11:30 - 13:00]  DIAPOSITIVA 7: DICTAMEN <span class='badge-nogo'>NO-GO</span> Y PLAN DE REMEDIACIÓN (Ambos)
+  [13:00 - 15:00]  DIAPOSITIVA 8: RONDA DE PREGUNTAS Y CIERRE (Ambos)
+</code></pre>
+<hr />
+<h3>11.2 Guion Detallado de Intervención por Expositor</h3>
+<h4>🎙️ Acto 1: Introducción y Modelo de Negocio (Minuto 0:00 a 2:00) — <em>Expone: Niurka Mejía</em></h4>
+<ul>
+<li><strong>Qué proyectar:</strong> Portada y Diapositiva del Contexto del Negocio Conduit (Medium clone).</li>
+<li><strong>Guion sugerido:</strong><blockquote>
+<p><em>"Buenas tardes, profesora Yury. Hoy presentamos los resultados del ciclo de aseguramiento de calidad sobre la API Conduit, implementada en FastAPI con PostgreSQL.<br />
+Queremos iniciar con una premisa fundamental de su clase: el testing no se hace en el vacío; se rige por el modelo de negocio. Conduit es una plataforma editorial abierta donde los usuarios publican artículos y construyen reputación. En este ecosistema, la autoría y la privacidad no son simples atributos funcionales: son el activo vital de la compañía. Si un autor no puede confiar en que sus publicaciones están protegidas, la plataforma fracasa. Por ello, nuestra estrategia no solo evaluó si los endpoints responden 200 OK, sino si garantizan la integridad del negocio."</em></p>
+</blockquote>
+</li>
+</ul>
+<h4>🎙️ Acto 2: Estrategia STLC y Diseño de Casos (Minuto 2:00 a 5:00) — <em>Expone: Juan Pablo Velásquez</em></h4>
+<ul>
+<li><strong>Qué proyectar:</strong> Diagrama de las 5 fases del STLC y Pirámide de Pruebas (26 automatizadas + 15 manuales).</li>
+<li><strong>Guion sugerido:</strong><blockquote>
+<p><em>"Gracias, Niurka. Para abordar el sistema implementamos las 5 fases del Software Testing Life Cycle (STLC). Diseñamos un total de 41 casos de prueba, superando la meta de 40.<br />
+Aplicamos una arquitectura de pruebas equilibrada:<br />
+1. En la base, 26 casos automatizados en pytest con soporte asincrónico mediante HTTPX y bases de datos transaccionales en Docker, logrando un 82.78% de cobertura de código.<br />
+2. En la capa superior, 15 casos manuales ejecutados en Swagger UI y Postman, aplicando Partición de Equivalencia, Análisis de Valores Límite (BVA) y pruebas de seguridad.<br />
+Un aspecto clave de nuestra metodología fue el uso de dos ramas en Git: la rama 'main' donde el 100% de los tests aprueban para verificar que no hay falsos positivos, y la rama 'buggy-version' donde evaluamos la capacidad de la suite frente a 9 defectos reales."</em></p>
+</blockquote>
+</li>
+</ul>
+<h4>🎙️ Acto 3: Gestión de Defectos y Hallazgo Crítico BOLA (Minuto 5:00 a 8:30) — <em>Expone: Niurka Mejía</em></h4>
+<ul>
+<li><strong>Qué proyectar:</strong> Reporte de GitHub Issues y la captura de pantalla de la evidencia de <strong>BUG-04</strong>.</li>
+<li><strong>Guion sugerido:</strong><blockquote>
+<p><em>"En la fase de ejecución detectamos los 9 defectos inyectados, alcanzando una Eficacia Detectora (DRE) del 100%. Para su gestión, adoptamos GitHub Issues mediante una plantilla basada estrictamente en la taxonomía de clase: Error Humano, Defecto en Código y Fallo Observable.<br />
+Además, confirmamos el Principio 4 de ISTQB: Agrupamiento de Defectos. El 66.7% de los bugs se concentraron en el módulo Articles.<br />
+Queremos llamar la atención sobre el hallazgo más grave: el BUG-04. Se trata de una falla de autorización BOLA, clasificada como la amenaza número 1 por OWASP API Security. Demostramos cómo el usuario Carlos, enviando una petición DELETE con su propio token, logró eliminar permanentemente el artículo de Laura de la base de datos sin recibir ninguna restricción de autoría."</em></p>
+</blockquote>
+</li>
+</ul>
+<h4>🎙️ Acto 4: Demostración en Vivo del Dashboard y Métricas (Minuto 8:30 a 11:30) — <em>Expone: Juan Pablo Velásquez</em></h4>
+<ul>
+<li><strong>Qué proyectar:</strong> Tablero interactivo <a href="reports/dashboard_qa.html">dashboard_qa.html</a> en el navegador.</li>
+<li><strong>Guion sugerido:</strong><blockquote>
+<p><em>"Para presentar la visibilidad ejecutiva a los stakeholders, desarrollamos este Dashboard interactivo de 4 pestañas.<br />
+Como pueden observar en la Pestaña 1, la suite ejecutó el 100% de los casos previstos. La tasa de aprobación en esta rama fue del 58.54%, lo que refleja a nuestras pruebas atrapando exitosamente las anomalías.<br />
+En la Pestaña 3 mostramos la cobertura por capa: Modelos y Schemas al 100%, Core y Rutas por encima del 88%.<br />
+Sin embargo, como verán en el encabezado principal, el dictamen formal es <span class='badge-nogo'>NO-GO</span>. A pesar de una cobertura excelente del 82.78%, nuestro criterio de salida exige cero defectos críticos abiertos. Con el BUG-04 sin resolver, el software no es apto para producción."</em></p>
+</blockquote>
+</li>
+</ul>
+<h4>🎙️ Acto 5: Conclusiones y Plan de Remediación (Minuto 11:30 a 13:00) — <em>Exponen: Ambos</em></h4>
+<ul>
+<li><strong>Qué proyectar:</strong> Hoja de Ruta de Remediación y diapositiva de conclusiones.</li>
+<li><strong>Guion sugerido:</strong><blockquote>
+<p><em>Niurka:</em> <em>"El rol de QA no es dar aprobaciones complacientes, sino salvaguardar el negocio. Este taller demostró que una prueba superficial hubiera aprobado el sistema porque los endpoints responden rápido, pero una estrategia rigurosa salvó a la empresa de una catástrofe de seguridad."</em><br />
+<em>Juan Pablo:</em> <em>"El plan de acción inmediato consiste en: aplicar la guarda de autorización en articles.py, corregir la inversión booleana en favoritos, ejecutar pruebas de regresión completa y, una vez confirmados los parches, proceder con el cambio de dictamen a GO. Quedamos atentos a sus preguntas."</em></p>
+</blockquote>
+</li>
+</ul>
+<hr />
+<h3>11.3 Recomendaciones Finales de Oratoria y Postura</h3>
+<ol>
+<li><strong>Seguridad y compostura:</strong> Hablen con propiedad de "nuestros casos de prueba", "nuestra suite de pytest" y "nuestro criterio de salida".</li>
+<li><strong>Defiendan el <span class='badge-nogo'>NO-GO</span> con orgullo:</strong> Los evaluadores universitarios suelen esperar que los estudiantes digan que todo está perfecto. Decir "el software está bloqueado por <span class='badge-nogo'>NO-GO</span>" fundamentado en OWASP BOLA demuestra una madurez profesional que los distinguirá de inmediato.</li>
+<li><strong>Manejo del Dashboard:</strong> Abran el archivo HTML localmente antes de iniciar la presentación; muestren cómo cambian los filtros y cómo se previsualizan las evidencias fotográficas al hacer clic en los defectos.</li>
+</ol>
+</body>
+</html>

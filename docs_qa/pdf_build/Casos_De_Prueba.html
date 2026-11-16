@@ -1,0 +1,3634 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Plan de Pruebas</title><style>@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: Inter, "Segoe UI", Roboto, sans-serif; font-size: 9.6pt; line-height: 1.6; color: #1E293B; }
+.eyebrow { display:inline-block; background:#4338CA; color:#fff; font-weight:700; font-size:8pt; letter-spacing:.18em; padding:3px 12px; border-radius:99px; margin-top: 6mm; }
+h1 { font-size: 34pt; line-height:1.1; margin: 4mm 0 2mm; color:#312E81; letter-spacing:-.02em; }
+h1 + p { font-size: 12pt; color:#4338CA; margin: 0 0 6mm; }
+h1 + p em { font-style: normal; }
+h2 { font-size: 15pt; color:#fff; background: linear-gradient(90deg,#4338CA,#6366F1); padding: 6px 14px; border-radius: 8px; margin: 9mm 0 4mm; break-after: avoid; }
+h2 strong { font-weight: 700; }
+h3 { font-size: 11.5pt; color:#4338CA; border-left: 4px solid #4338CA; padding-left: 9px; margin: 6mm 0 2.5mm; break-after: avoid; }
+h3 strong { font-weight:700; }
+p, li { orphans: 3; widows: 3; }
+hr { border: 0; height: 1px; background: #E2E8F0; margin: 5mm 0; }
+a { color:#4338CA; }
+code { font-family: "JetBrains Mono","Fira Code",Consolas,monospace; font-size: 8.3pt; background:#EEF2FF; color:#3730A3; padding: 1px 5px; border-radius: 4px; overflow-wrap:anywhere; }
+code.cp { background:#E0E7FF; font-weight:700; white-space:nowrap; font-size:7.6pt; }
+pre.diagram { background:#F8FAFC; border:1px solid #C7D2FE; border-left:5px solid #4338CA; border-radius:8px; padding:10px 12px; break-inside: avoid; overflow:hidden; }
+pre.diagram code { background:none; color:#1E293B; font-size: 6.1pt; line-height:1.35; padding:0; white-space: pre; }
+table { width:100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 8.4pt; }
+thead { display: table-header-group; }
+th { background:#E0E7FF; color:#312E81; text-align:left; padding: 6px 8px; border-bottom: 2px solid #4338CA; }
+td { padding: 5px 8px; border-bottom: 1px solid #E2E8F0; vertical-align: top; overflow-wrap:break-word; }
+tr { break-inside: avoid; }
+tbody tr:nth-child(even) td { background:#F8FAFC; }
+/* tabla de metadatos de portada */
+table.cover { border: 1px solid #C7D2FE; border-radius: 8px; }
+table.cover thead th { background:#EEF2FF; border-bottom:1px solid #E2E8F0; font-weight:400; color:#1E293B; }
+table.cover thead th:first-child { width:28%; font-weight:700; color:#312E81; }
+table.cover td:first-child { width: 28%; background:#EEF2FF; color:#312E81; }
+.badge { display:inline-block; padding: 1px 8px; border-radius: 99px; font-weight:700; font-size: 7.4pt; white-space: nowrap; line-height:1.5; }
+.badge.pass { background:#DCFCE7; color:#166534; }
+.badge.fail { background:#FEE2E2; color:#991B1B; }
+.badge.block { background:#FEF3C7; color:#92400E; }
+.badge.prog { background:#DBEAFE; color:#1E40AF; }
+.bug { display:inline-block; background:#FEE2E2; color:#991B1B; font-weight:700; font-size:7.4pt; padding:0 6px; border-radius:5px; white-space:nowrap; }
+blockquote { background:#FEF2F2; border-left: 6px solid #DC2626; border-radius: 8px; margin: 4mm 0; padding: 4mm 5mm; break-inside: avoid; }
+blockquote h3 { border:0; padding:0; color:#991B1B; font-size: 13pt; margin: 0 0 2mm; }
+blockquote p:last-child, blockquote ol:last-child { margin-bottom:0; }
+ol, ul { padding-left: 6mm; }
+em { color:#475569; }
+.pyr,.stlc{break-inside:avoid;margin:4mm 0 6mm;border:1px solid #C7D2FE;border-radius:12px;padding:4mm;background:#F8FAFF}
+.pyr-title,.stlc-title{background:#312E81;color:#fff;font-weight:800;letter-spacing:.08em;font-size:9pt;text-align:center;padding:7px;border-radius:8px;margin-bottom:3.5mm}
+.tier{display:flex;gap:3mm;background:#fff;border:1px solid #E2E8F0;border-left:6px solid var(--c);border-radius:8px;margin-bottom:2.5mm;padding:2.5mm 3mm;break-inside:avoid}
+.tier-n{flex:none;width:8mm;height:8mm;border-radius:50%;background:var(--c);color:#fff;font-weight:800;text-align:center;line-height:8mm;font-size:11pt}
+.tier-h{font-weight:800;color:var(--c);font-size:9.2pt;letter-spacing:.02em}
+.tier-b{flex:1}.pyr ul,.stlc ul{margin:1mm 0 0;padding-left:4.5mm}.pyr li,.stlc li{margin-bottom:.8mm;font-size:8.6pt}
+.ph{display:flex;background:#fff;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:2mm;overflow:hidden;break-inside:avoid}
+.ph-l{flex:none;width:44mm;background:#E0E7FF;padding:2.5mm 3mm;display:flex;flex-direction:column;gap:.5mm}
+.ph-l b{color:#312E81;font-size:9pt}.ph-l i{font-style:normal;color:#4338CA;font-size:7.6pt}
+.ph-n{display:inline-block;width:6.5mm;height:6.5mm;line-height:6.5mm;text-align:center;border-radius:50%;background:#4338CA;color:#fff;font-weight:800;font-size:8.5pt;margin-bottom:1mm;align-self:flex-start}
+.ph.tr .ph-l{background:#CCFBF1}.ph.tr .ph-n{background:#0F766E}.ph.tr .ph-l b{color:#115E59}
+.ph-r{flex:1;padding:1.5mm 3mm}
+
+.badge.chip{background:#E0E7FF;color:#3730A3}
+h3 + table{break-inside:avoid}
+
+.pyrm{display:flex;gap:6mm;align-items:center;margin:4mm 0 6mm;padding:5mm;border:1px solid #C7D2FE;border-radius:12px;background:#F8FAFF;break-inside:avoid}
+.pyrm-shape{flex:none;width:62mm;height:50mm;display:flex;flex-direction:column}
+.pyrm-shape div{color:#fff;font-weight:800;text-align:center;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2mm;font-size:10pt}
+.l1{height:42%;background:#6366F1;clip-path:polygon(50% 0,75% 100%,25% 100%)}
+.l2{height:58%;background:#312E81;clip-path:polygon(25% 0,75% 0,100% 100%,0 100%);align-items:center!important;padding-bottom:0!important}
+.pyrm-desc{flex:1}.pyrm-desc .d{background:#fff;border:1px solid #E2E8F0;border-radius:8px;padding:2.5mm 3.5mm;margin:2mm 0;font-size:8.6pt}
+.pyrm-desc .d1{border-left:6px solid #6366F1}.pyrm-desc .d2{border-left:6px solid #312E81}
+.pyrm-desc b{display:block;color:#312E81;font-size:9.4pt}.pyrm-desc span{display:inline-block;color:#4338CA;font-weight:700;font-size:8pt;margin-bottom:1mm}
+td ul{margin:0;padding-left:4mm}td ul li{margin:0}
+.pyrm-desc span{display:block!important}
+</style></head><body><div class="eyebrow">QA · STLC · ISTQB</div><h1>Casos de Prueba — Conduit API QA</h1>
+<table class="cover">
+<thead>
+<tr>
+<th><strong>Proyecto</strong></th>
+<th>FastAPI RealWorld Example App — Conduit (Backend API)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total de casos</strong></td>
+<td>41 (15 manuales + 26 automatizados)</td>
+</tr>
+<tr>
+<td><strong>Plantilla</strong></td>
+<td>7.1 del Plan de Pruebas</td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>ÍNDICE RÁPIDO</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nombre resumido</th>
+<th>Modo</th>
+<th>Prioridad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CP-EXP-M-001</td>
+<td>Flujo completo happy path</td>
+<td>Manual</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-EXP-M-002</td>
+<td>Caracteres especiales en títulos</td>
+<td>Manual</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-EXP-M-003</td>
+<td>Tokens JWT manipulados</td>
+<td>Manual</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-EXP-M-004</td>
+<td>BVA: limit=100 con 25+ artículos</td>
+<td>Manual</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-EXP-M-005</td>
+<td>Colisión de slugs con títulos similares</td>
+<td>Manual</td>
+<td><span class="badge pass">Baja</span></td>
+</tr>
+<tr>
+<td>CP-TOOL-M-001</td>
+<td>Swagger UI — verificar 19 endpoints documentados</td>
+<td>Manual</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-TOOL-M-002</td>
+<td>Swagger UI — flujo autenticado con Bearer</td>
+<td>Manual</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-TOOL-M-003</td>
+<td>Postman — ejecutar colección postman.json</td>
+<td>Manual</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-QUAL-M-001</td>
+<td>Calidad de mensajes de error</td>
+<td>Manual</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-QUAL-M-002</td>
+<td>Estructura JSON vs RealWorld Spec</td>
+<td>Manual</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-QUAL-M-003</td>
+<td>Editar artículo ajeno como no-autor (Swagger)</td>
+<td>Manual</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-QUAL-M-004</td>
+<td>Eliminar artículo ajeno como no-autor (Swagger)</td>
+<td>Manual</td>
+<td><span class="badge fail">Crítica</span></td>
+</tr>
+<tr>
+<td>CP-EST-M-001</td>
+<td>Transición follow → unfollow</td>
+<td>Manual</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-EST-M-002</td>
+<td>Transición marcar → desmarcar favorito</td>
+<td>Manual</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-EST-M-003</td>
+<td>Eliminar artículo propio y verificar 404</td>
+<td>Manual</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-AUTH-A-001</td>
+<td>Registro retorna HTTP 201</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-AUTH-A-002</td>
+<td>Registro retorna token JWT en body</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-AUTH-A-003</td>
+<td>Login retorna token JWT válido</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-AUTH-A-004</td>
+<td>Login con email inexistente retorna 400</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-AUTH-A-005</td>
+<td>Registro con email duplicado retorna 400</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-001</td>
+<td>Crear artículo válido retorna estructura correcta</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-002</td>
+<td>Crear artículo con título vacío retorna 422</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-003</td>
+<td>Crear artículo sin autenticación retorna 401</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-004</td>
+<td>Editar artículo como autor retorna artículo actualizado</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-005</td>
+<td>Editar artículo ajeno retorna 400</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-006</td>
+<td>Eliminar artículo ajeno retorna 400</td>
+<td>Automatizado</td>
+<td><span class="badge fail">Crítica</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-007</td>
+<td>GET /feed sin autenticación retorna 401</td>
+<td>Automatizado</td>
+<td><span class="badge block">Alta</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-008</td>
+<td>Filtrar artículos por tag retorna solo los correctos</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-ART-A-009</td>
+<td>limit=100 retorna máximo 20 artículos</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-COM-A-001</td>
+<td>Crear comentario en artículo existente</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-COM-A-002</td>
+<td>Crear comentario sin autenticación retorna 401</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-COM-A-003</td>
+<td>Eliminar comentario propio</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-COM-A-004</td>
+<td>GET comentarios de artículo inexistente retorna 404</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-PRF-A-001</td>
+<td>Seguir usuario cambia following a true</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-PRF-A-002</td>
+<td>Dejar de seguir cambia following a false</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-PRF-A-003</td>
+<td>GET perfil inexistente retorna 404</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-PRF-A-004</td>
+<td>Seguir usuario sin autenticación retorna 401</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-FAV-A-001</td>
+<td>Marcar favorito incrementa favoritesCount en 1</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-FAV-A-002</td>
+<td>Desmarcar favorito decrementa favoritesCount en 1</td>
+<td>Automatizado</td>
+<td><span class="badge prog">Media</span></td>
+</tr>
+<tr>
+<td>CP-TAG-A-001</td>
+<td>GET /api/tags retorna lista ordenada</td>
+<td>Automatizado</td>
+<td><span class="badge pass">Baja</span></td>
+</tr>
+<tr>
+<td>CP-TAG-A-002</td>
+<td>Tags de artículo creado aparecen en GET /api/tags</td>
+<td>Automatizado</td>
+<td><span class="badge pass">Baja</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>PRUEBAS MANUALES</h2>
+<hr />
+<h3>CP-EXP-M-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EXP-M-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Flujo completo de usuario: registro → login → artículo → seguir → feed → comentar → favoritar</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td>Múltiples: <code>POST /api/users</code>, <code>POST /api/users/login</code>, <code>POST /api/articles</code>, <code>POST /api/profiles/{username}/follow</code>, <code>GET /api/articles/feed</code>, <code>POST /api/articles/{slug}/comments</code>, <code>POST /api/articles/{slug}/favorite</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>API corriendo en <code>http://localhost:8000</code>. Base de datos limpia (sin usuarios previos). Swagger UI accesible en <code>http://localhost:8000/docs</code>.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Usuario A:</strong> <code>{"user": {"username": "usuarioA", "email": "usuarioa@test.com", "password": "password123"}}</code><br><strong>Usuario B:</strong> <code>{"user": {"username": "usuarioB", "email": "usuariob@test.com", "password": "password123"}}</code><br><strong>Artículo:</strong> <code>{"article": {"title": "Artículo de Prueba", "description": "Descripción", "body": "Contenido del artículo", "tagList": ["test", "qa"]}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Abrir <code>http://localhost:8000/docs</code><br>2. Registrar Usuario A con <code>POST /api/users</code><br>3. Registrar Usuario B con <code>POST /api/users</code><br>4. Hacer login como Usuario B con <code>POST /api/users/login</code>, copiar el token<br>5. Clicar "Authorize" en Swagger, ingresar <code>Bearer {token de B}</code>, clicar Authorize<br>6. Crear un artículo como Usuario B con <code>POST /api/articles</code><br>7. Hacer login como Usuario A, copiar token y re-autenticarse en Swagger<br>8. Seguir a Usuario B con <code>POST /api/profiles/usuarioB/follow</code><br>9. Verificar feed con <code>GET /api/articles/feed</code> — el artículo de B debe aparecer<br>10. Comentar el artículo de B con <code>POST /api/articles/{slug}/comments</code><br>11. Marcar el artículo de B como favorito con <code>POST /api/articles/{slug}/favorite</code><br>12. Verificar el artículo con <code>GET /api/articles/{slug}</code> — observar <code>favorited</code> y <code>favoritesCount</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>Cada endpoint retorna HTTP 200. El feed de A muestra el artículo de B. El comentario aparece en la respuesta. El campo <code>favorited</code> es <code>true</code> y <code>favoritesCount</code> es <code>1</code> en el artículo final.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>El flujo se ejecutó en Swagger UI detectando múltiples anomalías: registro retornó 200 en lugar de 201 (<span class="bug">BUG-01</span>); al seguir usuario B la respuesta retornó following: false (<span class="bug">BUG-06</span>); feed sin auth no valida token (<span class="bug">BUG-07</span>); al marcar favorito se produjo error HTTP 500 (<span class="bug">BUG-05</span>).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Integración</span> <span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-01</span>, <span class="bug">BUG-05</span>, <span class="bug">BUG-06</span>, <span class="bug">BUG-07</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Tomar screenshot de cada paso clave. Este caso valida el flujo narrativo completo de negocio; los casos individuales cubren los endpoints de forma aislada.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-EXP-M-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EXP-M-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Crear artículos con caracteres especiales en el título y observar los slugs generados</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario autenticado en Swagger UI.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td>Se prueban 4 variantes de título:<br><strong>Variante 1:</strong> <code>"title": "Artículo con emoji 🚀"</code><br><strong>Variante 2:</strong> <code>"title": "&lt;script&gt;alert('xss')&lt;/script&gt;"</code><br><strong>Variante 3:</strong> <code>"title": "مقالة عربية"</code> (árabe)<br><strong>Variante 4:</strong> <code>"title": "日本語タイトル"</code> (japonés)<br>Todos con <code>"description": "Desc"</code>, <code>"body": "Body"</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Autenticarse en Swagger UI con token válido<br>2. Para cada variante de título, ejecutar <code>POST /api/articles</code> con el body correspondiente<br>3. Anotar el <code>slug</code> retornado en cada respuesta<br>4. Intentar acceder al artículo con <code>GET /api/articles/{slug}</code> usando el slug obtenido<br>5. Registrar: ¿el slug es URL-safe? ¿el artículo es accesible? ¿hay errores inesperados?</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>La API acepta los títulos y retorna HTTP 200. El slug generado es URL-safe (sin emojis, sin HTML, sin caracteres no ASCII). El artículo es accesible por su slug. El contenido HTML no se ejecuta como código.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Variante 1 (emoji) retornó 422 por caracteres especiales en slug. Variante 2 (&lt;script&gt;) sanitizó correctamente a slug "script-alert-xss-script" (HTTP 200, sin inyección). Variantes 3 y 4 pasaron con sanitización de caracteres.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Documentar el slug generado para cada variante. Si alguna variante genera un error 500 o un slug vacío, reportar como defecto.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-EXP-M-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EXP-M-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Acceder a endpoints protegidos con tokens JWT inválidos o manipulados</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/user</code> (endpoint protegido como representante de todos los endpoints con autenticación requerida)</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>API corriendo. Postman abierto con request <code>GET http://localhost:8000/api/user</code>.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td>Se prueban 4 variantes de token en el header <code>Authorization</code>:<br><strong>Variante 1:</strong> <code>Bearer not.a.jwt.at.all</code><br><strong>Variante 2:</strong> <code>Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.FIRMA_INVALIDA</code><br><strong>Variante 3:</strong> Sin header <code>Authorization</code> (omitirlo completamente)<br><strong>Variante 4:</strong> <code>Bearer</code> (Bearer con espacio y sin token)</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Abrir Postman, crear request <code>GET http://localhost:8000/api/user</code><br>2. Enviar Variante 1 en Authorization → anotar código y mensaje<br>3. Enviar Variante 2 → anotar código y mensaje<br>4. Enviar Variante 3 (sin Authorization) → anotar código y mensaje<br>5. Enviar Variante 4 → anotar código y mensaje<br>6. Tomar screenshot de cada respuesta</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 401 Unauthorized en las cuatro variantes. El cuerpo de respuesta no revela información sensible del sistema.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Al enviar token JWT manipulado/inválido en GET /api/user, el sistema rechazó el acceso con código HTTP 403 Forbidden y mensaje {"detail": "Could not validate credentials"}.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Seguridad</span> <span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Postman)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (particiones inválidas del token)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si alguna variante retorna 200 o 500 en lugar de 401, documentar como defecto de seguridad.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-EXP-M-004</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EXP-M-004</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>BVA: solicitar <code>limit=100</code> con 25+ artículos y verificar que se retornan máximo 20</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/articles?limit={n}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Al menos 25 artículos creados en la base de datos. Se pueden crear usando el script de seed del proyecto (<code>app/seed.py</code>) o manualmente via Swagger UI.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td>Se prueban 4 valores límite (BVA alrededor del máximo = 20):<br><strong>Valor 1:</strong> <code>?limit=19</code> (justo por debajo del máximo)<br><strong>Valor 2:</strong> <code>?limit=20</code> (exactamente en el límite)<br><strong>Valor 3:</strong> <code>?limit=21</code> (un punto sobre el límite)<br><strong>Valor 4:</strong> <code>?limit=100</code> (muy por encima del límite)</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear 25 artículos en la BD (manualmente o via seed)<br>2. En Swagger UI, ejecutar <code>GET /api/articles?limit=19</code> → contar artículos en <code>articles[]</code><br>3. Ejecutar <code>GET /api/articles?limit=20</code> → contar artículos<br>4. Ejecutar <code>GET /api/articles?limit=21</code> → contar artículos<br>5. Ejecutar <code>GET /api/articles?limit=100</code> → contar artículos<br>6. Comparar <code>len(articles)</code> vs <code>articlesCount</code> en cada respuesta</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td><code>?limit=19</code> → 19 artículos. <code>?limit=20</code> → 20 artículos. <code>?limit=21</code> → máximo 20 artículos (el sistema debe capar). <code>?limit=100</code> → máximo 20 artículos. El campo <code>articlesCount</code> debe reflejar el total real (25+), no el número retornado.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Al solicitar GET /api/articles?limit=100 en base de datos con 25 artículos, el backend retornó los 25 artículos en la lista en lugar de respetar el tope máximo especificado de 20 (<span class="bug">BUG-09</span>).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">BVA (límite máximo del parámetro <code>limit</code>)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-09</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Anotar la cantidad exacta retornada en cada variante. Si <code>limit=100</code> retorna más de 20 artículos, se confirma el defecto de validación de límite.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-EXP-M-005</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EXP-M-005</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Crear artículos con títulos similares y observar colisión de slugs</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles</code> — generación y unicidad de slug</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario autenticado. Base de datos limpia (sin artículos previos).</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Artículo 1:</strong> <code>"title": "Mi Blog"</code><br><strong>Artículo 2:</strong> <code>"title": "mi blog"</code> (mismas palabras en minúsculas)<br><strong>Artículo 3:</strong> <code>"title": "Mi Blog!"</code> (con puntuación)<br><strong>Artículo 4:</strong> <code>"title": "Mi  Blog"</code> (doble espacio)<br>Todos con <code>"description": "Desc"</code>, <code>"body": "Body"</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Autenticarse en Swagger UI<br>2. Crear Artículo 1 (<code>"Mi Blog"</code>) → anotar el slug retornado<br>3. Intentar crear Artículo 2 (<code>"mi blog"</code>) → anotar código y respuesta (¿genera el mismo slug?)<br>4. Crear Artículo 3 (<code>"Mi Blog!"</code>) → anotar slug<br>5. Crear Artículo 4 (<code>"Mi  Blog"</code>) → anotar slug<br>6. Verificar si los slugs de los artículos 1, 3 y 4 son iguales o distintos</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>"Mi Blog" genera slug <code>mi-blog</code>. "mi blog" intenta generar <code>mi-blog</code> también → la API debe retornar HTTP 400 (slug duplicado). "Mi Blog!" y "Mi  Blog" pueden generar variantes como <code>mi-blog-1</code> o error, dependiendo de la implementación de slugify.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Al intentar crear un artículo con título equivalente que deriva en un slug preexistente, la API retornó HTTP 400 Bad Request con mensaje descriptivo "Article with this title already exists".</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Baja</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Documentar el slug generado para cada variante. El objetivo es explorar el comportamiento de la función <code>slugify</code> con entradas en el borde.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-TOOL-M-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-TOOL-M-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Verificar que Swagger UI documenta correctamente los 19 endpoints de la API</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET http://localhost:8000/docs</code> — documentación automática de FastAPI</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>API corriendo en <code>http://localhost:8000</code>. Navegador web disponible.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td>Lista de los 19 endpoints esperados (ver §1.3 del Plan de Pruebas).</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Abrir <code>http://localhost:8000/docs</code> en el navegador<br>2. Verificar que las secciones aparecen (users, articles, profiles, comments, tags)<br>3. Contar los endpoints listados y comparar con los 19 esperados<br>4. Para cada endpoint, expandirlo y verificar: descripción en texto, parámetros documentados (query, path, body), schema del request body y schema de la respuesta<br>5. Registrar cualquier endpoint sin descripción, con schema faltante o con información incorrecta</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>Los 19 endpoints están presentes. Cada uno tiene: descripción legible, parámetros documentados y schema de request/response visible. No hay endpoints huérfanos ni secciones vacías.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Se inspeccionó Swagger UI montado en http://localhost:8000/api/. Se verificaron los 19 endpoints distribuidos en las secciones users, articles, profiles, comments y tags con schemas de request y response documentados.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Exploratoria (revisión de completitud)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Adjuntar screenshot de la vista general de Swagger UI con todos los endpoints visibles.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-TOOL-M-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-TOOL-M-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Ejecutar flujo autenticado completo usando el botón Authorize de Swagger UI</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td>Swagger UI — sistema de autenticación Bearer. Endpoints: <code>GET /api/user</code>, <code>POST /api/articles</code>, <code>DELETE /api/articles/{slug}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>API corriendo. Usuario registrado previamente (o se registra en el paso 1).</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Login:</strong> <code>{"user": {"email": "test@test.com", "password": "password123"}}</code><br><strong>Artículo:</strong> <code>{"article": {"title": "Artículo Swagger Test", "description": "Desc", "body": "Body"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Registrar un usuario con <code>POST /api/users</code> si no existe<br>2. Hacer login con <code>POST /api/users/login</code>, copiar el valor de <code>token</code> del response<br>3. Clicar el botón verde "Authorize" (esquina superior derecha de Swagger UI)<br>4. En el campo <code>Value</code>, ingresar <code>Bearer {el token copiado}</code> y clicar Authorize<br>5. Ejecutar <code>GET /api/user</code> → verificar que retorna los datos del usuario (HTTP 200)<br>6. Ejecutar <code>POST /api/articles</code> con el body indicado → anotar el slug del artículo creado<br>7. Ejecutar <code>DELETE /api/articles/{slug}</code> con el slug obtenido → verificar HTTP 200</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>Los tres endpoints retornan HTTP 200 con datos válidos. La autenticación Bearer persiste entre los requests sin necesidad de volver a ingresarla.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Se realizó autenticación mediante botón Authorize en Swagger UI con esquema Bearer token de usuario registrado. Solicitudes posteriores como GET /api/user respondieron con HTTP 200 y datos de usuario sin reautenticación.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (flujo con credenciales válidas)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Adjuntar screenshot del modal de Authorize y de cada respuesta exitosa.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-TOOL-M-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-TOOL-M-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Importar y ejecutar la colección <code>postman.json</code> del repositorio en Postman</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td>Colección Postman pre-existente en la raíz del repositorio (<code>postman.json</code>)</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Postman instalado. API corriendo en <code>http://localhost:8000</code>. Archivo <code>postman.json</code> disponible en la raíz del repositorio.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td>Archivo: <code>postman.json</code> (raíz del repositorio)<br>Variable de entorno: <code>base_url = http://localhost:8000</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Abrir Postman → File → Import → seleccionar <code>postman.json</code> del repositorio<br>2. Configurar la variable de entorno <code>base_url</code> con valor <code>http://localhost:8000</code><br>3. Ejecutar los requests de la colección en orden<br>4. Para cada request, anotar el código HTTP retornado<br>5. Identificar qué requests pasan (código esperado) y cuáles fallan<br>6. Documentar los resultados en una tabla</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>Los requests de flujos básicos (registro, login, listar artículos, listar tags) retornan los códigos esperados. La colección sirve como guía de uso funcional de la API.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Colección postman.json presente y validada en la raíz del repositorio con estructura estándar de endpoints y variables de entorno para integración.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Postman)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (flujos definidos en la colección)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Adjuntar screenshot del collection runner con el resumen de resultados.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-QUAL-M-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-QUAL-M-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Evaluar la calidad y claridad de los mensajes de error ante datos inválidos</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td>Múltiples endpoints: <code>POST /api/users/login</code>, <code>POST /api/articles</code>, <code>GET /api/articles/{slug}</code>, <code>POST /api/profiles/{username}/follow</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>API corriendo. Un usuario registrado disponible.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Escenario 1:</strong> <code>POST /api/users/login</code> con <code>{"user": {"email": "noexiste@test.com", "password": "pass"}}</code><br><strong>Escenario 2:</strong> <code>POST /api/articles</code> con <code>{"article": {"title": "", "description": "Desc", "body": "Body"}}</code> (autenticado)<br><strong>Escenario 3:</strong> <code>GET /api/articles/slug-que-definitivamente-no-existe</code><br><strong>Escenario 4:</strong> <code>POST /api/profiles/usuario-que-no-existe/follow</code> (autenticado)</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Ejecutar cada escenario en Swagger UI o Postman<br>2. Para cada respuesta de error, anotar: código HTTP, campo <code>detail</code> del body<br>3. Evaluar cualitativamente: ¿El mensaje identifica qué falló? ¿Es útil para un desarrollador que consume la API? ¿Expone información sensible innecesaria?</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>Cada error retorna un código HTTP apropiado (400, 404, 422) con un mensaje <code>detail</code> descriptivo y útil. Ningún mensaje expone rutas internas, SQL ni información de infraestructura.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Al enviar datos con formato inválido (email sin @ y contraseña &lt; 8 caracteres), la API retornó HTTP 422 Unprocessable Entity con detalle JSON descriptivo por campo (Pydantic ValidationError), sin exponer datos sensibles ni trazas internas.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI / Postman)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (particiones inválidas) <span class="badge pass">✔</span> Exploratoria</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Este caso requiere juicio humano para evaluar la calidad del mensaje, no solo el código HTTP. Documentar los mensajes exactos recibidos.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-QUAL-M-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-QUAL-M-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Verificar la estructura completa del JSON de respuesta contra la especificación RealWorld</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/user</code>, <code>GET /api/articles/{slug}</code>, <code>GET /api/articles/{slug}/comments</code>, <code>GET /api/profiles/{username}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario autenticado, artículo con comentario creados. Spec de RealWorld disponible en: <code>https://realworld-docs.netlify.app/docs/specs/backend-specs/api-response-format</code></td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td>Spec RealWorld para cada respuesta. Endpoints a verificar: los cuatro indicados.</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Ejecutar <code>GET /api/user</code> → comparar campo a campo con spec: <code>{user: {email, token, username, bio, image}}</code><br>2. Ejecutar <code>GET /api/articles/{slug}</code> → comparar con spec: <code>{article: {slug, title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount, author: {username, bio, image, following}}}</code><br>3. Ejecutar <code>GET /api/articles/{slug}/comments</code> → comparar con spec: <code>{comments: [{id, createdAt, updatedAt, body, author}]}</code><br>4. Ejecutar <code>GET /api/profiles/{username}</code> → comparar con spec: <code>{profile: {username, bio, image, following}}</code><br>5. Registrar cualquier campo faltante, extra, con nombre incorrecto o tipo de dato diferente</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>Todos los campos definidos en la especificación RealWorld están presentes en las respuestas, con los nombres exactos y tipos de dato correctos (string, boolean, number, array).</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>La consulta GET /api/articles/{slug} retornó código HTTP 200 con estructura anidada bajo clave "article", conteniendo slug, title, description, body, tagList, createdAt, updatedAt, favorited, favoritesCount y author, cumpliendo la especificación RealWorld.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI / Postman)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (verificación de partición válida completa)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Adjuntar screenshot de cada respuesta comparada contra la spec. Documentar cualquier discrepancia encontrada.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-QUAL-M-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-QUAL-M-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Editar artículo ajeno autenticado como no-autor y verificar que el sistema lo rechaza</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>PUT /api/articles/{slug}</code> — control de acceso por autoría</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario A registrado y con un artículo publicado (slug conocido). Usuario B registrado y autenticado en Swagger UI.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Endpoint:</strong> <code>PUT /api/articles/{slug del artículo de A}</code><br><strong>Auth:</strong> Token JWT de usuario B<br><strong>Body:</strong> <code>{"article": {"title": "Modificado por intruso", "body": "Contenido alterado"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Registrar Usuario A, crear artículo, anotar el slug<br>2. Registrar Usuario B, hacer login, copiar token<br>3. En Swagger UI, autenticarse como Usuario B<br>4. Ejecutar <code>PUT /api/articles/{slug de A}</code> con el body indicado<br>5. Tomar screenshot de la respuesta completa<br>6. Verificar con <code>GET /api/articles/{slug}</code> que el título no fue modificado</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 400 Bad Request con <code>detail: "You are not the author of this article"</code>. El GET posterior confirma que el artículo no fue modificado.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Usuario autenticado no-autor (Carlos) ejecutó PUT /api/articles/{slug} sobre artículo de Laura. La API aceptó la modificación retornando HTTP 200 en vez de 403 Forbidden (<span class="bug">BUG-03</span>).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (autenticado × no-autor)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-03</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Screenshot obligatorio: evidencia para el reporte de GitHub Issues si el sistema permite la edición indebida.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-QUAL-M-004</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-QUAL-M-004</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Eliminar artículo ajeno autenticado como no-autor y verificar que el sistema lo rechaza</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>DELETE /api/articles/{slug}</code> — seguridad y control de acceso</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario A con artículo publicado (slug conocido). Usuario B autenticado en Swagger UI.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Endpoint:</strong> <code>DELETE /api/articles/{slug del artículo de A}</code><br><strong>Auth:</strong> Token JWT de usuario B</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Registrar Usuario A, crear artículo, anotar el slug<br>2. Registrar Usuario B, autenticarse en Swagger como B<br>3. Ejecutar <code>DELETE /api/articles/{slug de A}</code><br>4. Tomar screenshot de la respuesta<br>5. Ejecutar <code>GET /api/articles/{slug}</code> para confirmar que el artículo sigue existiendo</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 400 Bad Request con <code>detail: "You are not the author of this article"</code>. El GET posterior retorna HTTP 200 (artículo intacto, no fue eliminado).</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Usuario autenticado no-autor (Carlos) ejecutó DELETE /api/articles/{slug} sobre artículo de Laura. La API permitió la eliminación retornando HTTP 200 y eliminando el recurso de la base de datos (<span class="bug">BUG-04</span>).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (autenticado × no-autor)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-04</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Este es el caso de mayor severidad del plan. Screenshot obligatorio del intento fallido Y del GET que confirma integridad del artículo.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-EST-M-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EST-M-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Flujo follow → unfollow: verificar transición del campo <code>following</code> false → true → false</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/profiles/{username}/follow</code>, <code>DELETE /api/profiles/{username}/follow</code>, <code>GET /api/profiles/{username}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario A y Usuario B registrados. Autenticado como Usuario A. Usuario A no sigue a Usuario B (estado inicial).</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Username objetivo:</strong> nombre de Usuario B</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. <code>GET /api/profiles/{username de B}</code> → verificar <code>following: false</code> (estado inicial)<br>2. <code>POST /api/profiles/{username de B}/follow</code> → verificar <code>following: true</code> en la respuesta<br>3. <code>GET /api/profiles/{username de B}</code> → confirmar que <code>following: true</code> persiste en un GET posterior<br>4. <code>DELETE /api/profiles/{username de B}/follow</code> → verificar <code>following: false</code> en la respuesta<br>5. <code>GET /api/profiles/{username de B}</code> → confirmar que <code>following: false</code> persiste</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>El campo <code>following</code> cambia correctamente en cada transición y el estado persiste entre requests. Pasos 1→2: false→true. Pasos 4→5: true→false.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Al ejecutar POST /api/profiles/{username}/follow, la respuesta HTTP 200 retornó perfil con following: false a pesar de haberse registrado el seguimiento (<span class="bug">BUG-06</span>).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Transición de estados (following: false → true → false)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-06</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Tomar screenshot en cada paso. El valor de <code>following</code> debe ser <code>true</code> en el paso 2 y 3, y <code>false</code> en el paso 1, 4 y 5.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-EST-M-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EST-M-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Flujo favoritos: marcar → verificar contador → desmarcar → verificar contador</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles/{slug}/favorite</code>, <code>DELETE /api/articles/{slug}/favorite</code>, <code>GET /api/articles/{slug}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Artículo existente (puede ser de cualquier usuario). Usuario A autenticado. El artículo tiene <code>favoritesCount: 0</code> y <code>favorited: false</code> para Usuario A.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Slug:</strong> slug del artículo de prueba</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. <code>GET /api/articles/{slug}</code> → verificar <code>favorited: false</code>, <code>favoritesCount: 0</code><br>2. <code>POST /api/articles/{slug}/favorite</code> → verificar <code>favorited: true</code>, <code>favoritesCount: 1</code><br>3. <code>GET /api/articles/{slug}</code> → confirmar <code>favorited: true</code>, <code>favoritesCount: 1</code> persiste<br>4. <code>DELETE /api/articles/{slug}/favorite</code> → verificar <code>favorited: false</code>, <code>favoritesCount: 0</code><br>5. <code>GET /api/articles/{slug}</code> → confirmar <code>favorited: false</code>, <code>favoritesCount: 0</code> persiste</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td><code>favorited</code> y <code>favoritesCount</code> cambian correctamente en cada transición. Los valores persisten entre requests independientes.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Al ejecutar POST /api/articles/{slug}/favorite para marcar un artículo como favorito, el servidor falló internamente retornando HTTP 500 Internal Server Error (<span class="bug">BUG-05</span>).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Transición de estados (favorited: false → true → false)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-05</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Anotar los valores exactos de <code>favorited</code> y <code>favoritesCount</code> en cada paso. Si el contador no cambia o <code>favorited</code> no cambia, reportar defecto.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-EST-M-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-EST-M-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Eliminar artículo propio y verificar que un GET posterior retorna 404</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>DELETE /api/articles/{slug}</code> → <code>GET /api/articles/{slug}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario autenticado con artículo propio creado. Slug del artículo conocido.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Slug:</strong> slug del artículo propio</td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. <code>GET /api/articles/{slug}</code> → verificar HTTP 200 (artículo existe)<br>2. <code>DELETE /api/articles/{slug}</code> → verificar HTTP 200<br>3. <code>GET /api/articles/{slug}</code> → verificar HTTP 404</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>Paso 1: HTTP 200. Paso 2: HTTP 200 (eliminación exitosa). Paso 3: HTTP 404 Not Found con <code>detail: "No article found"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>El autor legítimo eliminó su artículo propio con DELETE /api/articles/{slug} retornando HTTP 200. La consulta GET posterior retornó HTTP 404 Not Found confirmando la transición de ciclo de vida.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Manual (Swagger UI)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Transición de estados (recurso: existe → eliminado → no encontrado)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Tomar screenshot del paso 3 mostrando el 404.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>PRUEBAS AUTOMATIZADAS</h2>
+<hr />
+<h3>CP-AUTH-A-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-AUTH-A-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Registro exitoso de nuevo usuario retorna HTTP 201 Created</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/users</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Base de datos de pruebas limpia. Sin usuarios previos con el email de prueba.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/users</code><br><strong>Headers:</strong> <code>Content-Type: application/json</code><br><strong>Body:</strong> <code>{"user": {"username": "John Doe", "email": "john.doe@example.com", "password": "password"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Limpiar la BD de pruebas (fixture de pytest)<br>2. Enviar POST /api/users con el body indicado<br>3. Verificar el código de estado HTTP de la respuesta</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP <strong>201</strong> Created. Body: <code>{"user": {"username": "John Doe", "email": "john.doe@example.com", "token": "&lt;jwt&gt;", "bio": null, "image": null}}</code></td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Retornó HTTP 200 OK en lugar de HTTP 201 Created.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición válida: datos de registro correctos)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-01</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si retorna 200 en lugar de 201, se confirma el defecto de status code. El assert debe ser <code>assert response.status_code == 201</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-AUTH-A-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-AUTH-A-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Registro exitoso retorna token JWT no vacío en el body de respuesta</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/users</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>BD de pruebas limpia.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/users</code><br><strong>Body:</strong> <code>{"user": {"username": "John Doe", "email": "john.doe@example.com", "password": "password"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Enviar POST /api/users con datos válidos<br>2. Verificar que <code>response.json()["user"]["token"]</code> existe y no es vacío<br>3. Verificar que el token tiene formato JWT: 3 partes separadas por <code>.</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200/201. <code>body.user.token</code> es un string no vacío con formato <code>xxxxx.yyyyy.zzzzz</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Retornó token JWT válido en body.user.token (3 segmentos).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición válida)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td><code>assert len(token.split(".")) == 3</code> valida el formato JWT básico.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-AUTH-A-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-AUTH-A-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Login con credenciales válidas retorna HTTP 200 y token JWT</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/users/login</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario existente con email <code>john.doe@example.com</code> y password hasheada en BD.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/users/login</code><br><strong>Body:</strong> <code>{"user": {"email": "john.doe@example.com", "password": "password"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear usuario con password hasheada en la BD de pruebas<br>2. Enviar POST /api/users/login<br>3. Verificar status 200<br>4. Verificar que <code>body.user.token</code> es un JWT válido y el <code>sub</code> del payload corresponde al ID del usuario</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>body.user.email</code> = <code>john.doe@example.com</code>. <code>body.user.token</code> es JWT válido cuyo payload contiene el ID del usuario.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Login exitoso retornó HTTP 200 y JWT decodificable con sub de usuario.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición válida)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Usar <code>decode_access_token</code> del módulo <code>app.core.security</code> para verificar el payload del JWT.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-AUTH-A-004</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-AUTH-A-004</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Login con email no registrado retorna HTTP 400 Bad Request</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/users/login</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario John existe en BD. Se intenta login con email de un usuario inexistente.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/users/login</code><br><strong>Body:</strong> <code>{"user": {"email": "noexiste@example.com", "password": "password"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear usuario John en BD<br>2. Enviar POST /api/users/login con email inexistente<br>3. Verificar status 400</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 400 Bad Request. <code>body.detail</code> = <code>"Bad credentials"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Login con email inexistente retornó HTTP 400 Bad Request.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición inválida: email no registrado)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-AUTH-A-005</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-AUTH-A-005</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Registro con email ya existente retorna HTTP 400 Bad Request</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/users</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario con <code>email: john.doe@example.com</code> ya existe en BD.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/users</code><br><strong>Body:</strong> <code>{"user": {"username": "Otro Nombre", "email": "john.doe@example.com", "password": "password"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear usuario John en BD<br>2. Intentar registrar otro usuario con el mismo email<br>3. Verificar status 400</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 400 Bad Request. <code>body.detail</code> = <code>"Email already registered"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Registro con email duplicado retornó HTTP 400 Bad Request.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición inválida: email duplicado)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Crear artículo con datos válidos retorna HTTP 200 con estructura de respuesta correcta</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario John autenticado. Tag "existing-tag" pre-existente en BD.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/articles</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code><br><strong>Body:</strong> <code>{"article": {"title": "Test Title", "description": "Test Description", "body": "Test Body", "tagList": ["tag1", "tag2"]}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Autenticar como John<br>2. Enviar POST /api/articles con el body indicado<br>3. Verificar status 200<br>4. Verificar que <code>body.article</code> contiene: <code>slug = "test-title"</code>, <code>title = "Test Title"</code>, <code>tagList</code> incluye "tag1" y "tag2" ordenados, <code>favorited = false</code>, <code>favoritesCount = 0</code>, <code>author.username = "John Doe"</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>body.article.slug</code> = <code>"test-title"</code>. <code>body.article.tagList</code> = <code>["tag1", "tag2"]</code>. <code>body.article.favorited</code> = <code>false</code>. <code>body.article.author.username</code> = <code>"John Doe"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Creación de artículo retornó HTTP 200 con contrato y slug válidos.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición válida: todos los campos correctos)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Verificar que los tags se retornan ordenados alfabéticamente.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Crear artículo con título vacío retorna HTTP 422 Unprocessable Entity</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles</code> — validación del campo <code>title</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario autenticado.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/articles</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token}</code><br><strong>Body:</strong> <code>{"article": {"title": "", "description": "Test Description", "body": "Test Body"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Autenticar como John<br>2. Enviar POST /api/articles con <code>title: ""</code><br>3. Verificar status 422</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 422 Unprocessable Entity. El body indica que el campo <code>title</code> no cumple la validación mínima.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Crear artículo con título vacío retornó HTTP 200 en lugar de HTTP 422.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">BVA (valor en el límite inferior: string vacío = longitud 0, por debajo del mínimo de 1)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-02</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si retorna 200 y crea el artículo, se confirma el defecto de validación de campo <code>title</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Crear artículo sin token de autenticación retorna HTTP 401 Unauthorized</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles</code> — autenticación requerida</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Sin token en los headers.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/articles</code><br><strong>Headers:</strong> <em>(sin Authorization)</em><br><strong>Body:</strong> <code>{"article": {"title": "Test", "description": "Test", "body": "Test"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Enviar POST /api/articles sin header Authorization<br>2. Verificar status 401</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Crear artículo sin header Authorization retornó HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (no autenticado × endpoint protegido)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-004</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-004</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Editar artículo como autor legítimo retorna HTTP 200 con artículo actualizado</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>PUT /api/articles/{slug}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>John autenticado. Artículo de John con slug <code>test-title</code> en BD.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> PUT<br><strong>Endpoint:</strong> <code>/api/articles/test-title</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code><br><strong>Body:</strong> <code>{"article": {"title": "New Title"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear artículo de John en BD<br>2. Autenticar como John<br>3. Enviar PUT /api/articles/test-title con nuevo título<br>4. Verificar status 200<br>5. Verificar que <code>body.article.title</code> = <code>"New Title"</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>body.article.title</code> = <code>"New Title"</code>. El artículo fue actualizado correctamente.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Edición de artículo propio por su autor retornó HTTP 200 y cambios reflejados.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (autenticado × autor)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-005</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-005</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Editar artículo de otro usuario retorna HTTP 400 Bad Request</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>PUT /api/articles/{slug}</code> — control de acceso por autoría</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Artículo de Jane (<code>slug = "test-title"</code>) en BD. John autenticado.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> PUT<br><strong>Endpoint:</strong> <code>/api/articles/test-title</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code><br><strong>Body:</strong> <code>{"article": {"title": "Modificado"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear usuario Jane y artículo de Jane en BD<br>2. Autenticar como John<br>3. Enviar PUT /api/articles/test-title (artículo de Jane) con token de John<br>4. Verificar status 400</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 400 Bad Request. <code>body.detail</code> = <code>"You are not the author of this article"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Edición de artículo ajeno retornó HTTP 200 en lugar de HTTP 400/403.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (autenticado × no-autor)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-03</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si retorna 200, se confirma el defecto de autorización en edición.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-006</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-006</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Eliminar artículo de otro usuario retorna HTTP 400 Bad Request</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>DELETE /api/articles/{slug}</code> — seguridad crítica</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Artículo de Jane (<code>slug = "test-title"</code>) en BD. John autenticado.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> DELETE<br><strong>Endpoint:</strong> <code>/api/articles/test-title</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear usuario Jane y su artículo en BD<br>2. Autenticar como John<br>3. Enviar DELETE /api/articles/test-title con token de John<br>4. Verificar status 400</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 400 Bad Request. <code>body.detail</code> = <code>"You are not the author of this article"</code>. El artículo de Jane permanece intacto en BD.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Eliminación de artículo ajeno retornó HTTP 200 en lugar de rechazar con error.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (autenticado × no-autor)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-04</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>El caso de mayor severidad del plan. Si retorna 200, se confirma una brecha de seguridad crítica. Verificar adicionalmente que el artículo sigue en BD con un GET posterior.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-007</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-007</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Acceder a <code>GET /api/articles/feed</code> sin autenticación retorna HTTP 401</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/articles/feed</code> — endpoint que requiere autenticación obligatoria</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Sin token en headers.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> GET<br><strong>Endpoint:</strong> <code>/api/articles/feed</code><br><strong>Headers:</strong> <em>(sin Authorization)</em></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Enviar GET /api/articles/feed sin header Authorization<br>2. Verificar status 401</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Consulta de feed sin token de autenticación no retornó HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Alta</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (no autenticado × endpoint protegido)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-07</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si retorna 200 con lista vacía en lugar de 401, se confirma el defecto de autenticación del feed.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-008</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-008</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Filtrar artículos por tag retorna únicamente artículos etiquetados con ese tag</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/articles?tag={tag}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>BD con: 2 artículos con tag <code>"python"</code> y 1 artículo con tag <code>"java"</code> (sin tag python).</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> GET<br><strong>Endpoint:</strong> <code>/api/articles?tag=python</code><br><strong>Headers:</strong> <em>(sin auth — es opcional)</em></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear en BD: artículo A con tag "python", artículo B con tag "python", artículo C con tag "java"<br>2. Enviar GET /api/articles?tag=python<br>3. Verificar status 200<br>4. Verificar que <code>body.articlesCount</code> = 2<br>5. Verificar que todos los artículos en <code>body.articles</code> tienen "python" en su <code>tagList</code><br>6. Verificar que el artículo C (tag "java") NO aparece en la respuesta</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>articlesCount</code> = 2. Todos los artículos retornados tienen <code>"python"</code> en <code>tagList</code>. El artículo con solo tag <code>"java"</code> no aparece.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Filtro por tag retornó conteo incorrecto (articlesCount=3 en vez de 2).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición: con filtro activo vs. sin filtro)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-08</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si <code>articlesCount</code> = 3 (todos), el filtro de tag está siendo ignorado — se confirma defecto de lógica.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-ART-A-009</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-ART-A-009</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Solicitar <code>?limit=100</code> retorna máximo 20 artículos (límite máximo del sistema)</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/articles?limit={n}</code> — validación del parámetro <code>limit</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>BD con al menos 25 artículos creados.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> GET<br><strong>Endpoint:</strong> <code>/api/articles?limit=100</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear 25 artículos en BD de pruebas<br>2. Enviar GET /api/articles?limit=100<br>3. Verificar status 200<br>4. Verificar que <code>len(body.articles)</code> &lt;= 20<br>5. Verificar que <code>body.articlesCount</code> refleja el total real (25), no los retornados</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>len(articles)</code> = 20 (no 100). <code>articlesCount</code> = 25.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Parámetro limit=100 retornó 25 artículos superando el tope máximo de 20.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">BVA (valor muy por encima del límite: 100 &gt;&gt; 20)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-09</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si <code>len(articles)</code> &gt; 20, se confirma que el <code>min(limit, max_limit)</code> fue removido y el defecto de validación de límite está activo.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-COM-A-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-COM-A-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Crear comentario en artículo existente retorna HTTP 200 con el comentario creado</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles/{slug}/comments</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Artículo de John con slug <code>test-title</code> en BD. John autenticado.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/articles/test-title/comments</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code><br><strong>Body:</strong> <code>{"comment": {"body": "Este es un comentario de prueba"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear artículo de John en BD<br>2. Autenticar como John<br>3. Enviar POST /api/articles/test-title/comments<br>4. Verificar status 200<br>5. Verificar que <code>body.comment.body</code> = <code>"Este es un comentario de prueba"</code> y <code>body.comment.author.username</code> = <code>"John Doe"</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>body.comment.body</code> = el texto enviado. <code>body.comment.author.username</code> = nombre de John. El campo <code>id</code> existe y es un entero.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Creación de comentario en artículo retornó HTTP 200 con id y autor.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición válida)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-COM-A-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-COM-A-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Crear comentario sin autenticación retorna HTTP 401 Unauthorized</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles/{slug}/comments</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Artículo existente. Sin token.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/articles/test-title/comments</code><br><strong>Headers:</strong> <em>(sin Authorization)</em><br><strong>Body:</strong> <code>{"comment": {"body": "Comentario"}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear artículo en BD<br>2. Enviar POST sin Authorization<br>3. Verificar status 401</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Crear comentario sin autenticación retornó HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (no autenticado × endpoint protegido)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-COM-A-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-COM-A-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Eliminar comentario propio retorna HTTP 200 y el comentario deja de existir</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>DELETE /api/articles/{slug}/comments/{id}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>John autenticado. Artículo de John con un comentario de John en BD. ID del comentario conocido.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> DELETE<br><strong>Endpoint:</strong> <code>/api/articles/test-title/comments/{id del comentario}</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear artículo y comentario de John en BD<br>2. Autenticar como John<br>3. Enviar DELETE /api/articles/test-title/comments/{id}<br>4. Verificar status 200<br>5. Verificar con GET /api/articles/test-title/comments que el comentario ya no aparece</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. El comentario eliminado ya no aparece en el listado de comentarios del artículo.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Eliminación de comentario propio por su autor retornó HTTP 200 OK.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (autenticado × autor del comentario)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-COM-A-004</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-COM-A-004</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Obtener comentarios de un artículo inexistente retorna HTTP 404 Not Found</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/articles/{slug}/comments</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>BD sin artículo con slug <code>slug-que-no-existe</code>.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> GET<br><strong>Endpoint:</strong> <code>/api/articles/slug-que-no-existe/comments</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Enviar GET /api/articles/slug-que-no-existe/comments con BD sin ese artículo<br>2. Verificar status 404</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 404 Not Found. <code>body.detail</code> = <code>"No article found"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Consultar comentarios de artículo inexistente retornó HTTP 404 Not Found.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición inválida: recurso inexistente)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-PRF-A-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-PRF-A-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Seguir a un usuario cambia el campo <code>following</code> a <code>true</code> en la respuesta</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/profiles/{username}/follow</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>John y Jane en BD. Jane autenticada. John no sigue a Jane (estado inicial: <code>following: false</code>).</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/profiles/John Doe/follow</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de Jane}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear usuarios John y Jane en BD<br>2. Autenticar como Jane<br>3. Enviar POST /api/profiles/John Doe/follow<br>4. Verificar status 200<br>5. Verificar que <code>body.profile.following</code> = <code>true</code> y <code>body.profile.username</code> = <code>"John Doe"</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>body.profile</code> = <code>{"username": "John Doe", "bio": "John Bio", "image": "...", "following": true}</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Seguir usuario retornó following: false en vez de true en respuesta.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Transición de estados (following: false → true)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-06</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si <code>following</code> retorna <code>false</code> después de hacer follow, se confirma el defecto de lógica en perfiles.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-PRF-A-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-PRF-A-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Dejar de seguir a un usuario cambia <code>following</code> a <code>false</code></td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>DELETE /api/profiles/{username}/follow</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Jane sigue a John (relación en BD). Jane autenticada.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> DELETE<br><strong>Endpoint:</strong> <code>/api/profiles/John Doe/follow</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de Jane}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear John y Jane en BD con Jane ya siguiendo a John<br>2. Autenticar como Jane<br>3. Enviar DELETE /api/profiles/John Doe/follow<br>4. Verificar status 200<br>5. Verificar que <code>body.profile.following</code> = <code>false</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>body.profile.following</code> = <code>false</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Dejar de seguir usuario falló en reflejar transición adecuada.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Transición de estados (following: true → false)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-06</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-PRF-A-003</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-PRF-A-003</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Obtener perfil de usuario inexistente retorna HTTP 404 Not Found</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/profiles/{username}</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>BD sin usuario con el nombre indicado.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> GET<br><strong>Endpoint:</strong> <code>/api/profiles/UsuarioQueNoExiste</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Enviar GET /api/profiles/UsuarioQueNoExiste con BD vacía<br>2. Verificar status 404</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 404 Not Found. <code>body.detail</code> = <code>"No user found"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Consultar perfil inexistente retornó HTTP 404 Not Found.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición inválida: recurso inexistente)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-PRF-A-004</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-PRF-A-004</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Intentar seguir usuario sin autenticación retorna HTTP 401 Unauthorized</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/profiles/{username}/follow</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario John en BD. Sin token.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/profiles/John Doe/follow</code><br><strong>Headers:</strong> <em>(sin Authorization)</em></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear usuario John en BD<br>2. Enviar POST /api/profiles/John Doe/follow sin Authorization<br>3. Verificar status 401</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Intentar seguir usuario sin autenticación retornó HTTP 401 Unauthorized.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Seguridad</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Tabla de decisión (no autenticado × endpoint protegido)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-FAV-A-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-FAV-A-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Marcar artículo como favorito incrementa <code>favoritesCount</code> en 1 y <code>favorited</code> cambia a <code>true</code></td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles/{slug}/favorite</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Artículo de Jane con <code>favoritesCount: 0</code>. John autenticado.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> POST<br><strong>Endpoint:</strong> <code>/api/articles/test-title/favorite</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear artículo de Jane en BD<br>2. Autenticar como John<br>3. Enviar POST /api/articles/test-title/favorite<br>4. Verificar status 200<br>5. Verificar <code>body.article.favorited</code> = <code>true</code><br>6. Verificar <code>body.article.favoritesCount</code> = <code>1</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>favorited</code> = <code>true</code>. <code>favoritesCount</code> = <code>1</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Marcar favorito arrojó error interno de servidor (HTTP 500 / ValueError).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Transición de estados (favorited: false → true)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-05</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Si <code>favorited</code> = <code>false</code> o <code>favoritesCount</code> = <code>0</code> después del POST, se confirma el defecto de lógica invertida en favoritos.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-FAV-A-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-FAV-A-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Desmarcar artículo favorito decrementa <code>favoritesCount</code> en 1 y <code>favorited</code> cambia a <code>false</code></td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>DELETE /api/articles/{slug}/favorite</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Artículo de Jane ya marcado como favorito por John (<code>favoritesCount: 1</code>, <code>favorited: true</code> para John). John autenticado.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> DELETE<br><strong>Endpoint:</strong> <code>/api/articles/test-title/favorite</code><br><strong>Headers:</strong> <code>Authorization: Bearer {token de John}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Crear artículo de Jane con John en <code>favorited_by</code> (BD)<br>2. Autenticar como John<br>3. Enviar DELETE /api/articles/test-title/favorite<br>4. Verificar status 200<br>5. Verificar <code>body.article.favorited</code> = <code>false</code><br>6. Verificar <code>body.article.favoritesCount</code> = <code>0</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>favorited</code> = <code>false</code>. <code>favoritesCount</code> = <code>0</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Desmarcar favorito arrojó error interno de servidor (HTTP 500 / ValueError).</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge fail">Falló</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Media</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">Transición de estados (favorited: true → false)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td><span class="bug">BUG-05</span></td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-TAG-A-001</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-TAG-A-001</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td><code>GET /api/tags</code> retorna HTTP 200 con lista de tags existentes ordenada alfabéticamente</td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>GET /api/tags</code></td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Tags "Tag 3", "Tag 2", "Tag 1" creados en BD (en ese orden). Sin autenticación requerida.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>Método:</strong> GET<br><strong>Endpoint:</strong> <code>/api/tags</code><br><strong>Headers:</strong> <em>(ninguno requerido)</em></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Insertar en BD: Tag "Tag 3", Tag "Tag 2", Tag "Tag 1"<br>2. Enviar GET /api/tags sin autenticación<br>3. Verificar status 200<br>4. Verificar que <code>body.tags</code> = <code>["Tag 1", "Tag 2", "Tag 3"]</code> (ordenado alfabéticamente)</td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>HTTP 200. <code>body.tags</code> es un array con los 3 tags en orden alfabético ascendente: <code>["Tag 1", "Tag 2", "Tag 3"]</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>GET /api/tags retornó HTTP 200 y array de strings ordenado alfabéticamente.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Baja</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (partición válida: tags existentes)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Verificar también que el endpoint no requiere autenticación (no retorna 401 sin token).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>CP-TAG-A-002</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Campo</strong></th>
+<th><strong>Detalle</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID del caso</strong></td>
+<td>CP-TAG-A-002</td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Tags asignados al crear un artículo aparecen en <code>GET /api/tags</code></td>
+</tr>
+<tr>
+<td><strong>Funcionalidad / Endpoint cubierto</strong></td>
+<td><code>POST /api/articles</code> → <code>GET /api/tags</code> (integración entre módulos)</td>
+</tr>
+<tr>
+<td><strong>Precondiciones</strong></td>
+<td>Usuario autenticado. BD sin tags previos.</td>
+</tr>
+<tr>
+<td><strong>Datos de entrada</strong></td>
+<td><strong>POST body:</strong> <code>{"article": {"title": "Tagged Article", "description": "Desc", "body": "Body", "tagList": ["nuevo-tag", "otro-tag"]}}</code></td>
+</tr>
+<tr>
+<td><strong>Pasos de ejecución</strong></td>
+<td>1. Autenticar como John<br>2. Enviar POST /api/articles con <code>tagList: ["nuevo-tag", "otro-tag"]</code><br>3. Verificar status 200 del POST<br>4. Enviar GET /api/tags sin autenticación<br>5. Verificar que <code>body.tags</code> incluye <code>"nuevo-tag"</code> y <code>"otro-tag"</code></td>
+</tr>
+<tr>
+<td><strong>Resultado esperado</strong></td>
+<td>POST: HTTP 200 con artículo creado. GET: HTTP 200 con <code>body.tags</code> que contiene <code>"nuevo-tag"</code> y <code>"otro-tag"</code>.</td>
+</tr>
+<tr>
+<td><strong>Resultado obtenido</strong></td>
+<td>Tags asignados a nuevo artículo se reflejaron en GET /api/tags.</td>
+</tr>
+<tr>
+<td><strong>Estado</strong></td>
+<td><span class="badge pass">Pasó</span></td>
+</tr>
+<tr>
+<td><strong>Prioridad</strong></td>
+<td><span class="badge chip">Baja</span></td>
+</tr>
+<tr>
+<td><strong>Tipo de prueba</strong></td>
+<td><span class="badge chip">Funcional</span> <span class="badge chip">Integración</span></td>
+</tr>
+<tr>
+<td><strong>Modo</strong></td>
+<td><span class="badge chip">Automatizado (pytest)</span></td>
+</tr>
+<tr>
+<td><strong>Técnica aplicada</strong></td>
+<td><span class="badge chip">EP (integración entre módulo de artículos y módulo de tags)</span></td>
+</tr>
+<tr>
+<td><strong>Responsable</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Fecha de ejecución</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Defectos asociados</strong></td>
+<td>Ninguno</td>
+</tr>
+<tr>
+<td><strong>Observaciones</strong></td>
+<td>Este caso valida la integración entre dos módulos: que crear un artículo con tags actualiza correctamente el catálogo de tags.</td>
+</tr>
+</tbody>
+</table></body></html>

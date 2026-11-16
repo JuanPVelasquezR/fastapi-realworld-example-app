@@ -1,0 +1,1504 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Plan de Pruebas</title><style>@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: Inter, "Segoe UI", Roboto, sans-serif; font-size: 9.6pt; line-height: 1.6; color: #1E293B; }
+.eyebrow { display:inline-block; background:#4338CA; color:#fff; font-weight:700; font-size:8pt; letter-spacing:.18em; padding:3px 12px; border-radius:99px; margin-top: 6mm; }
+h1 { font-size: 34pt; line-height:1.1; margin: 4mm 0 2mm; color:#312E81; letter-spacing:-.02em; }
+h1 + p { font-size: 12pt; color:#4338CA; margin: 0 0 6mm; }
+h1 + p em { font-style: normal; }
+h2 { font-size: 15pt; color:#fff; background: linear-gradient(90deg,#4338CA,#6366F1); padding: 6px 14px; border-radius: 8px; margin: 9mm 0 4mm; break-after: avoid; }
+h2 strong { font-weight: 700; }
+h3 { font-size: 11.5pt; color:#4338CA; border-left: 4px solid #4338CA; padding-left: 9px; margin: 6mm 0 2.5mm; break-after: avoid; }
+h3 strong { font-weight:700; }
+p, li { orphans: 3; widows: 3; }
+hr { border: 0; height: 1px; background: #E2E8F0; margin: 5mm 0; }
+a { color:#4338CA; }
+code { font-family: "JetBrains Mono","Fira Code",Consolas,monospace; font-size: 8.3pt; background:#EEF2FF; color:#3730A3; padding: 1px 5px; border-radius: 4px; overflow-wrap:anywhere; }
+code.cp { background:#E0E7FF; font-weight:700; white-space:nowrap; font-size:7.6pt; }
+pre.diagram { background:#F8FAFC; border:1px solid #C7D2FE; border-left:5px solid #4338CA; border-radius:8px; padding:10px 12px; break-inside: avoid; overflow:hidden; }
+pre.diagram code { background:none; color:#1E293B; font-size: 6.1pt; line-height:1.35; padding:0; white-space: pre; }
+table { width:100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 8.4pt; }
+thead { display: table-header-group; }
+th { background:#E0E7FF; color:#312E81; text-align:left; padding: 6px 8px; border-bottom: 2px solid #4338CA; }
+td { padding: 5px 8px; border-bottom: 1px solid #E2E8F0; vertical-align: top; overflow-wrap:break-word; }
+tr { break-inside: avoid; }
+tbody tr:nth-child(even) td { background:#F8FAFC; }
+/* tabla de metadatos de portada */
+h1 ~ table:first-of-type { border: 1px solid #C7D2FE; border-radius: 8px; }
+h1 ~ table:first-of-type thead { display:none; }
+h1 ~ table:first-of-type td:first-child { width: 28%; background:#EEF2FF; color:#312E81; }
+.badge { display:inline-block; padding: 1px 8px; border-radius: 99px; font-weight:700; font-size: 7.4pt; white-space: nowrap; line-height:1.5; }
+.badge.pass { background:#DCFCE7; color:#166534; }
+.badge.fail { background:#FEE2E2; color:#991B1B; }
+.badge.block { background:#FEF3C7; color:#92400E; }
+.badge.prog { background:#DBEAFE; color:#1E40AF; }
+.bug { display:inline-block; background:#FEE2E2; color:#991B1B; font-weight:700; font-size:7.4pt; padding:0 6px; border-radius:5px; white-space:nowrap; }
+blockquote { background:#FEF2F2; border-left: 6px solid #DC2626; border-radius: 8px; margin: 4mm 0; padding: 4mm 5mm; break-inside: avoid; }
+blockquote h3 { border:0; padding:0; color:#991B1B; font-size: 13pt; margin: 0 0 2mm; }
+blockquote p:last-child, blockquote ol:last-child { margin-bottom:0; }
+ol, ul { padding-left: 6mm; }
+em { color:#475569; }
+.pyr,.stlc{break-inside:avoid;margin:4mm 0 6mm;border:1px solid #C7D2FE;border-radius:12px;padding:4mm;background:#F8FAFF}
+.pyr-title,.stlc-title{background:#312E81;color:#fff;font-weight:800;letter-spacing:.08em;font-size:9pt;text-align:center;padding:7px;border-radius:8px;margin-bottom:3.5mm}
+.tier{display:flex;gap:3mm;background:#fff;border:1px solid #E2E8F0;border-left:6px solid var(--c);border-radius:8px;margin-bottom:2.5mm;padding:2.5mm 3mm;break-inside:avoid}
+.tier-n{flex:none;width:8mm;height:8mm;border-radius:50%;background:var(--c);color:#fff;font-weight:800;text-align:center;line-height:8mm;font-size:11pt}
+.tier-h{font-weight:800;color:var(--c);font-size:9.2pt;letter-spacing:.02em}
+.tier-b{flex:1}.pyr ul,.stlc ul{margin:1mm 0 0;padding-left:4.5mm}.pyr li,.stlc li{margin-bottom:.8mm;font-size:8.6pt}
+.ph{display:flex;background:#fff;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:2mm;overflow:hidden;break-inside:avoid}
+.ph-l{flex:none;width:44mm;background:#E0E7FF;padding:2.5mm 3mm;display:flex;flex-direction:column;gap:.5mm}
+.ph-l b{color:#312E81;font-size:9pt}.ph-l i{font-style:normal;color:#4338CA;font-size:7.6pt}
+.ph-n{display:inline-block;width:6.5mm;height:6.5mm;line-height:6.5mm;text-align:center;border-radius:50%;background:#4338CA;color:#fff;font-weight:800;font-size:8.5pt;margin-bottom:1mm;align-self:flex-start}
+.ph.tr .ph-l{background:#CCFBF1}.ph.tr .ph-n{background:#0F766E}.ph.tr .ph-l b{color:#115E59}
+.ph-r{flex:1;padding:1.5mm 3mm}
+</style></head><body><div class="eyebrow">QA · STLC · ISTQB</div><h1>PLAN DE PRUEBAS</h1>
+<p><em>FastAPI RealWorld Example App — Conduit (Backend API)</em></p>
+<table>
+<thead>
+<tr>
+<th><strong>Proyecto:</strong></th>
+<th>FastAPI RealWorld Example App — Conduit (Backend API)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Versión:</strong></td>
+<td>2.0</td>
+</tr>
+<tr>
+<td><strong>Fecha:</strong></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Elaborado por:</strong></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+</tr>
+<tr>
+<td><strong>Revisado por:</strong></td>
+<td>Niurka Liseth Mejía Vargas / Juan Pablo Velásquez Ramírez</td>
+</tr>
+<tr>
+<td><strong>Aprobado por:</strong></td>
+<td>Yury Montoya Pérez</td>
+</tr>
+<tr>
+<td><strong>Estado:</strong></td>
+<td>☐ Borrador  ☐ En revisión  <span class="badge pass">✔</span> Finalizado / Entregado</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>1. Historial de Cambios</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Versión</strong></th>
+<th><strong>Fecha</strong></th>
+<th><strong>Descripción del Cambio</strong></th>
+<th><strong>Autor</strong></th>
+<th><strong>Aprobado por</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td><span style="white-space:nowrap">26/10/2025</span></td>
+<td>Versión inicial del plan de pruebas</td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td>Yury Montoya Pérez</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td>Ejecución integral del STLC, métricas reales y cierre formal</td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td>Yury Montoya Pérez</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>2. Introducción</strong></h2>
+<h3><strong>2.1 Propósito</strong></h3>
+<p>Este documento describe la estrategia, alcance, recursos, técnicas y actividades de prueba para el sistema <strong>FastAPI RealWorld Example App (Conduit)</strong>, en el marco del taller universitario de la materia Pruebas de Software. El propósito es garantizar que la API cumpla con los contratos de comportamiento esperados, y validar que los mecanismos de prueba diseñados son efectivos para detectar defectos reales en el sistema.</p>
+<p>El proceso de pruebas combina ejecución manual exploratoria (Swagger UI / Postman) con automatización a nivel de integración (pytest), buscando detectar defectos en los módulos de autenticación, gestión de artículos, comentarios, perfiles, favoritos y tags. Los hallazgos se documentan en GitHub Issues y se analizan mediante métricas cuantitativas al cierre del ciclo.</p>
+<h3><strong>2.2 Alcance</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>En alcance</strong></th>
+<th><strong>Fuera de alcance</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Autenticación: registro y login de usuarios (JWT)</td>
+<td>Interfaz gráfica (UI/Frontend) — la aplicación es backend-only</td>
+</tr>
+<tr>
+<td>Gestión del usuario autenticado (GET/PUT /api/user)</td>
+<td>Pruebas de rendimiento y carga</td>
+</tr>
+<tr>
+<td>Perfiles públicos: ver, seguir y dejar de seguir usuarios</td>
+<td>Pruebas de infraestructura (Docker, red, BD)</td>
+</tr>
+<tr>
+<td>CRUD completo de artículos</td>
+<td>Migraciones de base de datos (Alembic)</td>
+</tr>
+<tr>
+<td>Feed de artículos de usuarios seguidos</td>
+<td>Pipeline CI/CD</td>
+</tr>
+<tr>
+<td>Filtros de artículos por autor, tag y favoritos</td>
+<td>Módulos de pago, notificaciones u otros no existentes</td>
+</tr>
+<tr>
+<td>Gestión de comentarios en artículos</td>
+<td></td>
+</tr>
+<tr>
+<td>Sistema de favoritos y contador</td>
+<td></td>
+</tr>
+<tr>
+<td>Listado de tags disponibles</td>
+<td></td>
+</tr>
+<tr>
+<td>Control de acceso: solo el autor puede editar/eliminar sus recursos</td>
+<td></td>
+</tr>
+<tr>
+<td>Validación de entradas: campos requeridos, formatos, rangos</td>
+<td></td>
+</tr>
+<tr>
+<td>Verificación de códigos de estado HTTP (200, 201, 400, 401, 404, 422)</td>
+<td></td>
+</tr>
+<tr>
+<td>Verificación de la estructura del JSON de respuesta (contrato de la API)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3><strong>2.3 Referencias</strong></h3>
+<ul>
+<li>RealWorld Spec (especificación funcional de la API Conduit): https://realworld-docs.netlify.app/docs/specs/backend-specs/endpoints</li>
+<li>Repositorio público del SUT: FastAPI RealWorld Example App (GitHub)</li>
+<li><code>docs_qa/Plan_De_Accion.md</code> — Hoja de ruta interna del equipo QA</li>
+<li><code>docs_qa/Contexto_Clase.md</code> — Compendio técnico ISTQB (apuntes de clase)</li>
+<li>Directrices del Taller de Pruebas de Software (Docente Yury Montoya Pérez)</li>
+</ul>
+<h3><strong>2.4 Contexto de Negocio e Impacto Operacional</strong></h3>
+<p>El Sistema Bajo Prueba (SUT) constituye el núcleo transaccional backend de una <strong>plataforma social de publicación y consumo de contenidos editoriales (estilo Medium / Substack)</strong>. En este modelo de negocio digital, el valor de la empresa, la retención de usuarios y la monetización dependen directamente de la <strong>propiedad intelectual de los autores</strong>, la <strong>privacidad editorial</strong> y la <strong>confianza transaccional</strong>.</p>
+<p>Desde la perspectiva de aseguramiento de calidad (QA), el testing no es un ejercicio abstracto de verificación sintáctica, sino una salvaguarda de los activos críticos del negocio:</p>
+<div class="pyr"><div class="pyr-title">PIRÁMIDE DE IMPACTO EN EL MODELO DE NEGOCIO</div><div class="tier" style="--c:#312E81;margin-left:0mm"><div class="tier-n">1</div><div class="tier-b"><div class="tier-h">PROPIEDAD INTELECTUAL E INTEGRIDAD</div><ul><li>Autoría inviolable: Un usuario jamás debe alterar o borrar contenido ajeno.</li><li>Riesgo de Negocio: Demandas por plagio, sabotaje editorial y fuga masiva de autores (Riesgo Extremo / Severidad Crítica -&gt; <span class="bug">BUG-03</span>, <span class="bug">BUG-04</span>).</li></ul></div></div><div class="tier" style="--c:#4338CA;margin-left:4mm"><div class="tier-n">2</div><div class="tier-b"><div class="tier-h">DISPONIBILIDAD Y CONTROL DE ACCESO (GATEWAY)</div><ul><li>Acceso continuo (Auth JWT) y protección de feeds privados.</li><li>Riesgo de Negocio: Suplantación de identidad, consumo indebido de APIs y caída de infraestructura por abuso de peticiones masivas (BVA limit=100 -&gt; <span class="bug">BUG-09</span>, <span class="bug">BUG-07</span>).</li></ul></div></div><div class="tier" style="--c:#0F766E;margin-left:8mm"><div class="tier-n">3</div><div class="tier-b"><div class="tier-h">ENGAGEMENT Y DINÁMICA SOCIAL</div><ul><li>Interacciones: Favoritos, contadores, seguimiento de autores (Follow/Unfollow).</li><li>Riesgo de Negocio: Pérdida de tracción algorítmica y frustración de la comunidad (Severidad Media -&gt; <span class="bug">BUG-05</span>, <span class="bug">BUG-06</span>, <span class="bug">BUG-08</span>).</li></ul></div></div><div class="tier" style="--c:#64748B;margin-left:12mm"><div class="tier-n">4</div><div class="tier-b"><div class="tier-h">CONFORMIDAD TÉCNICA Y ESTÁNDARES REST</div><ul><li>Códigos HTTP semánticos (201 Created vs 200 OK).</li><li>Riesgo de Negocio: Inconsistencia menor en clientes frontend (Baja severidad -&gt; 01)</li></ul></div></div></div>
+<p>Esta jerarquización de impacto en el negocio determina y justifica analíticamente la asignación objetiva de <strong>Severidad técnica</strong> y <strong>Prioridad de negocio</strong> en cada defecto documentado.</p>
+<hr />
+<h2><strong>3. Objetivos de Prueba</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>#</strong></th>
+<th><strong>Objetivo</strong></th>
+<th><strong>Criterio de Éxito</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Verificar que los 19 endpoints de la API operan conforme al contrato de la especificación RealWorld.</td>
+<td>≥ 95% de los 41 casos de prueba ejecutados.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Identificar y documentar todos los defectos presentes en el sistema mediante la ejecución de la suite de pruebas.</td>
+<td>Todos los defectos encontrados registrados y clasificados en GitHub Issues al cierre del ciclo.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Validar los mecanismos de autorización: solo los recursos propios pueden ser modificados o eliminados por su autor.</td>
+<td>0 defectos de seguridad/autorización abiertos al cierre del ciclo.</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Verificar que las validaciones de entrada rechazan correctamente datos inválidos con el código HTTP apropiado.</td>
+<td>Los casos de validación (EP/BVA) retornan el status code esperado en el 100% de los casos.</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Generar métricas cuantitativas del proceso de pruebas para el análisis de calidad del software.</td>
+<td>Dashboard de métricas generado con datos reales de pytest-cov y pytest-json-report.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>4. Roles y Responsabilidades del Equipo de Pruebas</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Rol</strong></th>
+<th><strong>Nombre / Asignado a</strong></th>
+<th><strong>Responsabilidades</strong></th>
+<th><strong>Participación</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>QA Lead / Automatizador</strong></td>
+<td>Juan Pablo Velásquez Ramírez</td>
+<td>Planificar y coordinar las actividades de prueba. Co-diseñar los casos de prueba. Desarrollar y ejecutar los 26 scripts de prueba automatizados (pytest). Configurar el ambiente de pruebas (Docker, PostgreSQL). Ejecutar pruebas manuales técnicas (flujos de autorización, tokens JWT). Generar los archivos de datos para el dashboard (pytest-json-report, pytest-cov) y el análisis técnico de cierre.</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><strong>QA Analyst / Bug Manager</strong></td>
+<td>Niurka Liseth Mejía Vargas</td>
+<td>Co-elaborar y estructurar la documentación maestra del Plan de Pruebas. Co-diseñar, revisar y validar el catálogo de 41 casos de prueba (Casos_De_Prueba.md). Co-ejecutar pruebas manuales exploratorias (Swagger UI y Postman). Registrar, clasificar y gestionar los defectos en GitHub Issues adjuntando evidencias. Construir el dashboard de métricas y co-redactar el informe de análisis de calidad.</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><strong>Supervisora / Aprobadora</strong></td>
+<td>Yury Montoya Pérez</td>
+<td>Revisar y aprobar el plan de pruebas. Validar que los entregables cumplen los criterios académicos. Aprobar el cierre del ciclo de pruebas.</td>
+<td>Según cronograma académico</td>
+</tr>
+</tbody>
+</table>
+<h3><strong>4.1 Matriz RACI</strong></h3>
+<p>La siguiente matriz define quién es Responsable (R), Aprobador (A), Consultado (C) e Informado (I) en cada actividad clave del proceso de pruebas.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Actividad</strong></th>
+<th><strong>QA Lead / Automatizador</strong></th>
+<th><strong>QA Analyst / Bug Manager</strong></th>
+<th><strong>Docente</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Planificación y redacción del plan de pruebas</td>
+<td><strong>R/A</strong></td>
+<td><strong>R</strong></td>
+<td><strong>C</strong></td>
+</tr>
+<tr>
+<td>Diseño y documentación de casos de prueba</td>
+<td><strong>R</strong></td>
+<td><strong>R/A</strong></td>
+<td><strong>C</strong></td>
+</tr>
+<tr>
+<td>Revisión y validación de casos de prueba</td>
+<td><strong>C</strong></td>
+<td><strong>R/A</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Preparación del ambiente (Docker, pytest)</td>
+<td><strong>R/A</strong></td>
+<td><strong>I</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Ejecución de pruebas manuales exploratorias</td>
+<td><strong>C</strong></td>
+<td><strong>R</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Ejecución de pruebas manuales técnicas</td>
+<td><strong>R</strong></td>
+<td><strong>C</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Ejecución de pruebas automatizadas</td>
+<td><strong>R/A</strong></td>
+<td><strong>I</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Registro de defectos en GitHub Issues</td>
+<td><strong>C</strong></td>
+<td><strong>R/A</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Generación de datos para dashboard</td>
+<td><strong>R</strong></td>
+<td><strong>C</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Construcción del dashboard de métricas</td>
+<td><strong>I</strong></td>
+<td><strong>R</strong></td>
+<td><strong>I</strong></td>
+</tr>
+<tr>
+<td>Análisis de calidad y cierre</td>
+<td><strong>R</strong></td>
+<td><strong>R</strong></td>
+<td><strong>A</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Leyenda: R = Responsable de ejecutar  A = Aprobador  C = Consultado  I = Informado</em></p>
+<hr />
+<h2><strong>5. Estrategia de Pruebas y Ciclo de Vida (STLC)</strong></h2>
+<h3><strong>5.1 Alineación Metodológica con el Ciclo de Vida de Pruebas (STLC)</strong></h3>
+<p>Conforme a las directrices doctrinarias del ISTQB y los fundamentos normativos de aseguramiento de calidad, este proceso de pruebas se estructuró a lo largo de las <strong>cinco fases secuenciales del STLC (Software Testing Life Cycle)</strong> y sus <strong>dos fases transversales de gestión</strong>:</p>
+<div class="stlc"><div class="stlc-title">FASES METODOLÓGICAS DEL STLC APLICADAS EN ESTE PROYECTO</div><div class="ph"><div class="ph-l"><span class="ph-n">1</span><b>Test Analysis</b><i>(¿Qué probar?)</i></div><div class="ph-r"><ul><li>Análisis de la especificación RealWorld (19 eps).</li><li>Delimitación de alcance funcional y bases de test</li><li>Salida: Condiciones de prueba analizadas en §2.2</li></ul></div></div><div class="ph"><div class="ph-l"><span class="ph-n">2</span><b>Test Design</b><i>(¿Cómo probar?)</i></div><div class="ph-r"><ul><li>Diseño de 41 Casos de Prueba (26 auto + 15 man).</li><li>Aplicación de técnicas: EP, BVA, Tablas, Estados.</li><li>Salida: Especificación en Casos_De_Prueba</li></ul></div></div><div class="ph"><div class="ph-l"><span class="ph-n">3</span><b>Test Implementation</b><i>(¿Listo?)</i></div><div class="ph-r"><ul><li>Construcción de suite pytest (tests/) + fixtures.</li><li>Aislamiento en Docker (PostgreSQL 5433/5434).</li><li>Preparación de datos de prueba y colección Postman</li></ul></div></div><div class="ph"><div class="ph-l"><span class="ph-n">4</span><b>Test Execution</b><i>(Actual vs Exp)</i></div><div class="ph-r"><ul><li>Ejecución automatizada con pytest runner (28.95s)</li><li>Ejecución manual interactiva en Swagger UI (15 CP)</li><li>Generación de evidencias gráficas y HTML report.</li><li>Salida: pytest_results.json, coverage.json.</li></ul></div></div><div class="ph"><div class="ph-l"><span class="ph-n">5</span><b>Test Completion</b><i>(Cierre formal)</i></div><div class="ph-r"><ul><li>Registro de 9 defectos en GitHub Issues.</li><li>Evaluación formal de Criterios de Salida (Exit).</li><li>Test Summary Report y Dictamen Go / No-Go en §14</li><li>Empaquetado y archivo del testware completo.</li></ul></div></div><div class="ph tr"><div class="ph-l"><span class="ph-n">↻</span><b>Test Planning</b><i>Transversal 1</i></div><div class="ph-r"><ul><li>Definición de estrategia y recursos (este doc).</li></ul></div></div><div class="ph tr"><div class="ph-l"><span class="ph-n">↻</span><b>Monitoring &amp; Control</b><i>Transversal 2</i></div><div class="ph-r"><ul><li>Supervisión de métricas (resumen_metricas.md).</li></ul></div></div></div>
+<h3><strong>5.2 Principios del Testing (ISTQB) Reflejados en la Estrategia</strong></h3>
+<ol>
+<li><strong>Las pruebas muestran la presencia de defectos, no su ausencia:</strong> Se demostró la existencia de fallos graves en control de acceso sin asumir corrección absoluta.</li>
+<li><strong>Las pruebas exhaustivas son imposibles:</strong> Se emplearon técnicas de caja negra (EP y BVA) para reducir infinitas combinaciones a clases de equivalencia representativas.</li>
+<li><strong>Agrupamiento de defectos (<em>Defect Clustering</em>):</strong> El módulo de Artículos concentró el 66.7% de los bugs (6 de 9 defectos), validando experimentalmente este principio.</li>
+<li><strong>La paradoja del pesticida:</strong> Se combinó la automatización de integración con exploración manual visual en Swagger para evitar puntos ciegos.</li>
+<li><strong>Las pruebas dependen del contexto:</strong> La profundidad de evaluación priorizó el modelo de negocio social y editorial de Conduit.</li>
+</ol>
+<h3><strong>5.3 Tipos de Prueba</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Tipo de Prueba</strong></th>
+<th><strong>Descripción</strong></th>
+<th><strong>Responsable</strong></th>
+<th><strong>Incluida</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prueba funcional</strong></td>
+<td>Verifica que cada endpoint opera conforme al contrato de la API (status codes, estructura JSON, lógica de negocio).</td>
+<td>QA Lead</td>
+<td><span class="badge pass">✔ SÍ</span></td>
+</tr>
+<tr>
+<td><strong>Prueba de regresión</strong></td>
+<td>La suite de pytest actúa como suite de regresión: garantiza que las funcionalidades validadas se mantienen estables y que los defectos corregidos no reaparecen en ejecuciones futuras.</td>
+<td>QA Lead</td>
+<td><span class="badge pass">✔ SÍ</span></td>
+</tr>
+<tr>
+<td><strong>Prueba de integración</strong></td>
+<td>Valida la interacción entre múltiples módulos de la API en un flujo completo (ej. autenticación → creación de artículo → comentario → favorito).</td>
+<td>QA Lead</td>
+<td><span class="badge pass">✔ SÍ</span></td>
+</tr>
+<tr>
+<td><strong>Prueba de rendimiento</strong></td>
+<td>Evalúa el comportamiento bajo carga y estrés.</td>
+<td>N/A</td>
+<td><span class="badge block">NO</span> — fuera del alcance del proyecto</td>
+</tr>
+<tr>
+<td><strong>Prueba de seguridad</strong></td>
+<td>Identifica vulnerabilidades de autorización: acceso no autorizado a recursos ajenos, endpoints que no requieren autenticación debiendo hacerlo.</td>
+<td>QA Lead</td>
+<td><span class="badge pass">✔ SÍ</span> (alcance parcial)</td>
+</tr>
+<tr>
+<td><strong>Prueba de usabilidad</strong></td>
+<td>Para una API REST, se evalúa la usabilidad del contrato: claridad de mensajes de error, documentación de Swagger UI, consistencia de la estructura JSON de respuesta.</td>
+<td>QA Lead</td>
+<td><span class="badge pass">✔ SÍ</span> (adaptada a API)</td>
+</tr>
+<tr>
+<td><strong>Prueba de aceptación (UAT)</strong></td>
+<td>Validación formal con el usuario o cliente final.</td>
+<td>N/A</td>
+<td><span class="badge block">NO</span></td>
+</tr>
+</tbody>
+</table>
+<h3><strong>5.4 Técnicas de Diseño de Casos de Prueba</strong></h3>
+<ul>
+<li><strong>Partición de equivalencia (EP):</strong> Se aplica en módulos de autenticación y validación de campos (ej. emails válidos vs. inválidos, contraseñas vacías vs. con valor).</li>
+<li><strong>Análisis de valores límite (BVA):</strong> Se aplica en el parámetro <code>limit</code> de <code>GET /api/articles</code> (límite máximo = 20) y en longitudes de campos de texto.</li>
+<li><strong>Tabla de decisión:</strong> Se aplica en pruebas de autorización (usuario autenticado/no autenticado × recurso propio/ajeno) y en combinaciones de filtros de artículos (<code>?tag</code>, <code>?author</code>, <code>?favorited</code>).</li>
+<li><strong>Prueba de transición de estados:</strong> Se aplica en flujos de follow/unfollow (estado <code>following</code>: false → true → false) y favoritos (estado <code>favorited</code> + contador <code>favoritesCount</code>).</li>
+<li><strong>Prueba exploratoria:</strong> Se aplica en casos manuales donde se buscan comportamientos no especificados (slugs con caracteres especiales, tokens JWT manipulados, mensajes de error bajo entradas inesperadas).</li>
+</ul>
+<h3><strong>5.5 Niveles de Prueba</strong></h3>
+<ul>
+<li><strong>Pruebas unitarias:</strong> No aplica en este plan. El SUT no expone funciones puras aisladas; la lógica de negocio está integrada en los endpoints y repositorios.</li>
+<li><strong>Pruebas de integración:</strong> Juan Pablo Velásquez Ramírez — pytest 9.x + httpx (FastAPI TestClient). Validan la interacción entre endpoints, ORM (SQLAlchemy), base de datos y capa de seguridad (JWT).</li>
+<li><strong>Pruebas de sistema:</strong> Juan Pablo Velásquez Ramírez — Swagger UI / Postman. Validan el comportamiento del sistema completo desde la perspectiva de un cliente externo de la API.</li>
+<li><strong>Pruebas de aceptación:</strong> No aplica en este proyecto académico.</li>
+</ul>
+<h3><strong>5.6 Criterios de Suspensión y Requisitos de Reanudación</strong></h3>
+<p>Los criterios de suspensión definen las condiciones bajo las cuales se suspende la ejecución de pruebas; los criterios de reanudación determinan cuándo puede continuar.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Criterios de Suspensión</strong></th>
+<th><strong>Requisitos de Reanudación</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La API no levanta correctamente en el entorno local (Docker Compose falla o la aplicación no responde en localhost:8000).</td>
+<td>El entorno ha sido restaurado, la API responde con HTTP 200 en <code>GET /api/tags</code> (smoke test).</td>
+</tr>
+<tr>
+<td>Defecto crítico no inyectado intencionalmente que impide la ejecución de casos de prueba.</td>
+<td>El defecto ha sido identificado, documentado en GitHub Issues y aislado para continuar con los casos no bloqueados.</td>
+</tr>
+<tr>
+<td>Ambiente de pruebas inestable (BD corrompida, fixtures de pytest fallando).</td>
+<td>La BD de pruebas ha sido reinicializada y los fixtures validan correctamente.</td>
+</tr>
+<tr>
+<td>Más del 30% de los casos automatizados fallan por causas no relacionadas con los bugs inyectados.</td>
+<td>Se ha identificado la causa raíz (configuración, dependencias) y se ha corregido el entorno.</td>
+</tr>
+<tr>
+<td>Cambio en la estrategia de bugs inyectados que invalida casos de prueba ya diseñados.</td>
+<td>Los casos de prueba afectados han sido actualizados y revisados.</td>
+</tr>
+</tbody>
+</table>
+<h3><strong>5.7 Completitud de las Pruebas (Evaluación Real)</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Criterio de Completitud</strong></th>
+<th><strong>Meta / Umbral</strong></th>
+<th><strong>Valor Actual</strong></th>
+<th><strong>Cumplido</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Todos los casos de prueba diseñados han sido ejecutados.</td>
+<td><strong>≥ 95%</strong> (39/41 mínimo)</td>
+<td><strong>100%</strong> (41 / 41)</td>
+<td><span class="badge pass">✔</span></td>
+</tr>
+<tr>
+<td>Tasa de casos aprobados sobre los casos que NO involucran bugs inyectados.</td>
+<td><strong>≥ 90%</strong></td>
+<td><strong>100%</strong> (24 / 24)</td>
+<td><span class="badge pass">✔</span></td>
+</tr>
+<tr>
+<td>Todos los defectos encontrados están registrados en GitHub Issues con severidad y prioridad asignadas.</td>
+<td><strong>100%</strong></td>
+<td><strong>100%</strong> (9 / 9 registrados)</td>
+<td><span class="badge pass">✔</span></td>
+</tr>
+<tr>
+<td>0 defectos críticos sin documentar en GitHub Issues al cierre.</td>
+<td><strong>= 0</strong></td>
+<td><strong>0</strong> (<span class="bug">BUG-04</span> documentado)</td>
+<td><span class="badge pass">✔</span></td>
+</tr>
+<tr>
+<td>Cobertura de código medida con pytest-cov alcanza el umbral definido.</td>
+<td><strong>≥ 70%</strong></td>
+<td><strong>82.78%</strong></td>
+<td><span class="badge pass">✔</span></td>
+</tr>
+<tr>
+<td>Archivos de datos para el dashboard generados (<code>pytest_results.json</code>, <code>coverage.json</code>).</td>
+<td><strong>Generados</strong></td>
+<td><strong>Generados</strong></td>
+<td><span class="badge pass">✔</span></td>
+</tr>
+<tr>
+<td>Todos los defectos registrados en GitHub Issues tienen estado Resolved o Closed.</td>
+<td><strong>100%</strong></td>
+<td><strong>0%</strong> (0 / 9 cerrados)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Informe de análisis de calidad (<code>Analisis_Calidad.md</code>) redactado y entregado.</td>
+<td><strong>Entregado</strong></td>
+<td><strong>Entregado</strong></td>
+<td><span class="badge pass">✔</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>6. Criterios de Entrada y Salida</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Criterios de Entrada (para iniciar pruebas)</strong></th>
+<th><strong>Criterios de Salida (para finalizar pruebas)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La API responde correctamente en <code>http://localhost:8000</code> (Docker Compose activo).</td>
+<td>≥ 95% de los 41 casos de prueba ejecutados.</td>
+</tr>
+<tr>
+<td>El sistema bajo prueba opera de forma estable y todas las funcionalidades principales responden ante las peticiones.</td>
+<td>Todos los defectos encontrados registrados y clasificados en GitHub Issues.</td>
+</tr>
+<tr>
+<td>Los 41 casos de prueba están documentados en <code>docs_qa/Casos_De_Prueba.md</code>.</td>
+<td>0 defectos de severidad Crítica sin documentar.</td>
+</tr>
+<tr>
+<td>GitHub Issues está configurado y accesible para el equipo.</td>
+<td>Archivos <code>pytest_results.json</code> y <code>coverage.json</code> generados.</td>
+</tr>
+<tr>
+<td>Los fixtures de pytest (<code>tests/conftest.py</code>) están configurados y la BD de pruebas inicializa correctamente.</td>
+<td>Informe de análisis de calidad redactado y entregado.</td>
+</tr>
+<tr>
+<td>La colección <code>postman.json</code> está importada en Postman.</td>
+<td>Aprobación del cierre por parte de la docente.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>7. Casos de Prueba</strong></h2>
+<p>Los 41 casos de prueba (15 manuales + 26 automatizados) se encuentran especificados detalladamente —incluyendo precondiciones, datos de entrada, pasos de ejecución, resultado esperado y evidencias— en el artefacto <a href="Casos_De_Prueba.md">docs_qa/Casos_De_Prueba.md</a>. A continuación se consolida el <strong>Registro Maestro de Ejecución</strong>.</p>
+<h3><strong>7.1 Registro Consolidado de Casos de Prueba</strong></h3>
+<p><strong>Pruebas Manuales (15)</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>ID</strong></th>
+<th><strong>Nombre del Caso</strong></th>
+<th><strong>Módulo</strong></th>
+<th><strong>Prioridad</strong></th>
+<th><strong>Estado</strong></th>
+<th><strong>Defecto</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="cp">CP-EXP-M-001</code></td>
+<td>Flujo completo happy path: registro → login → crear artículo → seguir usuario → ver feed → comentar → marcar favorito</td>
+<td>Exploratorio</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-01</span>, <span class="bug">BUG-05</span>, <span class="bug">BUG-06</span>, <span class="bug">BUG-07</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-EXP-M-002</code></td>
+<td>Enviar títulos con caracteres especiales (emojis, HTML, unicode) y observar slugs generados</td>
+<td>Exploratorio</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-EXP-M-003</code></td>
+<td>Requests con tokens JWT manipulados: expirado, firma inválida, token de otro proyecto</td>
+<td>Exploratorio</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-EXP-M-004</code></td>
+<td>BVA: crear 25 artículos y solicitar <code>GET /api/articles?limit=100</code>; contar resultados manualmente</td>
+<td>Exploratorio</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-09</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-EXP-M-005</code></td>
+<td>Crear artículos con títulos similares ("Mi Blog" y "mi blog") y observar colisión de slugs</td>
+<td>Exploratorio</td>
+<td><span class="badge pass">Baja</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-TOOL-M-001</code></td>
+<td>Verificar en Swagger UI que los 19 endpoints están documentados correctamente</td>
+<td>Herramientas</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-TOOL-M-002</code></td>
+<td>Usar botón Authorize de Swagger UI con token JWT y ejecutar 3 endpoints autenticados</td>
+<td>Herramientas</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-TOOL-M-003</code></td>
+<td>Importar <code>postman.json</code> en Postman y ejecutar la colección completa end-to-end</td>
+<td>Herramientas</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-QUAL-M-001</code></td>
+<td>Evaluar calidad y claridad de mensajes de error con datos inválidos en cada módulo</td>
+<td>Calidad</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-QUAL-M-002</code></td>
+<td>Verificar estructura completa del JSON de respuesta de cada módulo vs. RealWorld Spec</td>
+<td>Calidad</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-QUAL-M-003</code></td>
+<td>Con dos usuarios: intentar editar artículo ajeno autenticado como no-autor (Swagger UI)</td>
+<td>Calidad</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-03</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-QUAL-M-004</code></td>
+<td>Con dos usuarios: intentar eliminar artículo ajeno autenticado como no-autor (Swagger UI)</td>
+<td>Calidad</td>
+<td><span class="badge fail">Crítica</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-04</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-EST-M-001</code></td>
+<td>Flujo follow → unfollow verificando transición de <code>following</code>: false → true → false</td>
+<td>Estados</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-06</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-EST-M-002</code></td>
+<td>Flujo marcar favorito → desmarcar; verificar <code>favorited</code> y <code>favoritesCount</code> en cada paso</td>
+<td>Estados</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-05</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-EST-M-003</code></td>
+<td>Eliminar artículo propio y luego solicitar <code>GET /api/articles/{slug}</code>; verificar 404</td>
+<td>Estados</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pruebas Automatizadas (26)</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>ID</strong></th>
+<th><strong>Nombre del Caso</strong></th>
+<th><strong>Módulo</strong></th>
+<th><strong>Prioridad</strong></th>
+<th><strong>Estado</strong></th>
+<th><strong>Defecto</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="cp">CP-AUTH-A-001</code></td>
+<td>Registro exitoso retorna HTTP 201 Created (no 200)</td>
+<td>Auth</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-01</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-AUTH-A-002</code></td>
+<td>Registro exitoso retorna token JWT en el body de respuesta</td>
+<td>Auth</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-AUTH-A-003</code></td>
+<td>Login con credenciales válidas retorna token JWT</td>
+<td>Auth</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-AUTH-A-004</code></td>
+<td>Login con email inexistente retorna HTTP 400</td>
+<td>Auth</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-AUTH-A-005</code></td>
+<td>Registro con email duplicado retorna HTTP 400</td>
+<td>Auth</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-001</code></td>
+<td>Crear artículo con datos válidos retorna 200 con estructura correcta (slug, author, tagList)</td>
+<td>Articles</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-002</code></td>
+<td>Crear artículo con título vacío (<code>""</code>) retorna HTTP 422 Unprocessable Entity</td>
+<td>Articles</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-02</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-003</code></td>
+<td>Crear artículo sin token de autenticación retorna HTTP 401</td>
+<td>Articles</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-004</code></td>
+<td>Editar artículo como autor legítimo retorna artículo actualizado</td>
+<td>Articles</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-005</code></td>
+<td>Editar artículo de otro usuario retorna HTTP 400</td>
+<td>Articles</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-03</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-006</code></td>
+<td>Eliminar artículo de otro usuario retorna HTTP 400</td>
+<td>Articles</td>
+<td><span class="badge fail">Crítica</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-04</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-007</code></td>
+<td>Acceder a <code>GET /api/articles/feed</code> sin token retorna HTTP 401</td>
+<td>Articles</td>
+<td><span class="badge block">Alta</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-07</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-008</code></td>
+<td><code>GET /api/articles?tag=X</code> retorna solo artículos etiquetados con el tag X</td>
+<td>Articles</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-08</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-ART-A-009</code></td>
+<td><code>GET /api/articles?limit=100</code> con 25+ artículos en BD retorna máximo 20</td>
+<td>Articles</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-09</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-COM-A-001</code></td>
+<td>Crear comentario en artículo existente retorna el comentario con autor y body</td>
+<td>Comments</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-COM-A-002</code></td>
+<td>Crear comentario sin autenticación retorna HTTP 401</td>
+<td>Comments</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-COM-A-003</code></td>
+<td>Eliminar comentario propio retorna HTTP 200 sin errores</td>
+<td>Comments</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-COM-A-004</code></td>
+<td>Obtener comentarios de artículo inexistente retorna HTTP 404</td>
+<td>Comments</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-PRF-A-001</code></td>
+<td>Seguir a un usuario cambia el campo <code>following</code> a <code>true</code> en la respuesta</td>
+<td>Profiles</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-06</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-PRF-A-002</code></td>
+<td>Dejar de seguir a un usuario cambia el campo <code>following</code> a <code>false</code></td>
+<td>Profiles</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-06</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-PRF-A-003</code></td>
+<td>Obtener perfil de usuario inexistente retorna HTTP 404</td>
+<td>Profiles</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-PRF-A-004</code></td>
+<td>Seguir usuario sin autenticación retorna HTTP 401</td>
+<td>Profiles</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-FAV-A-001</code></td>
+<td>Marcar artículo como favorito incrementa <code>favoritesCount</code> en 1 y <code>favorited</code> = true</td>
+<td>Favorites</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-05</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-FAV-A-002</code></td>
+<td>Desmarcar artículo favorito decrementa <code>favoritesCount</code> en 1 y <code>favorited</code> = false</td>
+<td>Favorites</td>
+<td><span class="badge prog">Media</span></td>
+<td><span class="badge fail">FAIL</span></td>
+<td><span class="bug">BUG-05</span></td>
+</tr>
+<tr>
+<td><code class="cp">CP-TAG-A-001</code></td>
+<td><code>GET /api/tags</code> retorna una lista de tags existentes en la BD</td>
+<td>Tags</td>
+<td><span class="badge pass">Baja</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code class="cp">CP-TAG-A-002</code></td>
+<td>Tags asignados al crear un artículo aparecen en <code>GET /api/tags</code></td>
+<td>Tags</td>
+<td><span class="badge pass">Baja</span></td>
+<td><span class="badge pass">PASS</span></td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total: 41 casos de prueba (15 manuales + 26 automatizados)</strong></p>
+<hr />
+<h2><strong>8. Gestión de Defectos</strong></h2>
+<h3><strong>8.1 Clasificación de Defectos</strong></h3>
+<p>La clasificación se define en función del impacto en el negocio de la plataforma (blogs tipo Medium):</p>
+<table>
+<thead>
+<tr>
+<th><strong>Severidad</strong></th>
+<th><strong>Descripción aplicada al SUT</strong></th>
+<th><strong>Tiempo de Resolución</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Crítica</strong></td>
+<td>El sistema expone una brecha de seguridad (cualquier usuario puede eliminar contenido ajeno), o un flujo de negocio principal es completamente inutilizable.</td>
+<td>Inmediata — mismo día</td>
+</tr>
+<tr>
+<td><strong>Alta</strong></td>
+<td>Una funcionalidad importante de negocio no opera correctamente (artículos sin validación de título, feed sin autenticación, autoría ignorada en edición).</td>
+<td>24–48 horas</td>
+</tr>
+<tr>
+<td><strong>Media</strong></td>
+<td>Una funcionalidad secundaria falla o el contrato de la API no es el esperado (estado <code>following</code> incorrecto, filtro de tags ignorado, límite de paginación ignorado).</td>
+<td>3–5 días hábiles</td>
+</tr>
+<tr>
+<td><strong>Baja</strong></td>
+<td>Inconsistencia menor que no afecta funcionalidad: violación del estándar REST en status codes (200 vs 201).</td>
+<td>Próxima versión</td>
+</tr>
+</tbody>
+</table>
+<h3><strong>8.2 Trazabilidad de Reportes en GitHub Issues</strong></h3>
+<p>Los 9 defectos detectados durante el ciclo de ejecución se encuentran documentados con su evidencia fotográfica y trazabilidad hacia los casos de prueba, y gestionados formalmente en la plataforma <strong>GitHub Issues</strong> por Niurka Liseth Mejía Vargas con apoyo técnico de Juan Pablo Velásquez Ramírez.</p>
+<hr />
+<h2><strong>9. Entregables de Prueba</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Entregable</strong></th>
+<th><strong>Descripción</strong></th>
+<th><strong>Fase STLC</strong></th>
+<th><strong>Responsable</strong></th>
+<th><strong>Fecha Real</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Plan de Pruebas</strong></td>
+<td>Este documento: alcance, contexto de negocio, estrategia STLC, cronograma y cierre formal.</td>
+<td>Planificación / Cierre</td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Plan de Acción</strong></td>
+<td>Hoja de ruta interna con estrategia de bugs, distribución de casos y convenciones.</td>
+<td>Planificación</td>
+<td>Juan Pablo Velásquez Ramírez</td>
+<td><span style="white-space:nowrap">26/10/2025</span></td>
+</tr>
+<tr>
+<td><strong>Casos de Prueba</strong></td>
+<td>41 casos documentados con precondiciones, pasos y resultados reales.</td>
+<td>Diseño / Ejecución</td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Scripts de Prueba Automatizados</strong></td>
+<td>26 scripts de integración con pytest en tests/ organizados por módulo.</td>
+<td>Implementación</td>
+<td>Juan Pablo Velásquez Ramírez</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Registro de Defectos (GitHub Issues)</strong></td>
+<td>9 tickets cargados y clasificados en GitHub Issues con sus respectivas evidencias.</td>
+<td>Ejecución</td>
+<td>Niurka Liseth Mejía Vargas</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Evidencias de Pruebas Manuales</strong></td>
+<td>Capturas de Swagger UI documentando hallazgos y bugs.</td>
+<td>Ejecución</td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Datos de Métricas y Reportes</strong></td>
+<td>Archivos pytest_results.json, coverage.json y test_report.html.</td>
+<td>Cierre</td>
+<td>Juan Pablo Velásquez Ramírez</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Dashboard de Métricas</strong></td>
+<td>Visualización interactiva de los KPIs y severidad de defectos generada a partir de los datos exportados.</td>
+<td>Cierre</td>
+<td>Niurka Liseth Mejía Vargas / Juan Pablo Velásquez Ramírez</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+<tr>
+<td><strong>Análisis de Calidad</strong></td>
+<td>Informe ejecutivo (Test Summary Report) sobre madurez y riesgo de negocio.</td>
+<td>Cierre</td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>10. Recursos y Ambiente de Prueba</strong></h2>
+<h3><strong>10.1 Equipo de Pruebas</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Nombre</strong></th>
+<th><strong>Rol</strong></th>
+<th><strong>Responsabilidades</strong></th>
+<th><strong>Dedicación</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Juan Pablo Velásquez Ramírez</td>
+<td>QA Lead / QA Analyst / QA Automatizador</td>
+<td>Diseño, ejecución manual, automatización, inyección de bugs, generación de métricas</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>Niurka Liseth Mejía Vargas</td>
+<td>QA Analyst / Bug Manager</td>
+<td>Co-diseño de casos de prueba y documentación del Plan, ejecución exploratoria, gestión de tickets en GitHub Issues y dashboard de métricas</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<h3><strong>10.2 Herramientas</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Categoría</strong></th>
+<th><strong>Herramienta</strong></th>
+<th><strong>Propósito</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pruebas manuales — Documentación interactiva</strong></td>
+<td>Swagger UI (<code>http://localhost:8000/api/</code>)</td>
+<td>Explorar y ejecutar endpoints manualmente; verificar documentación de la API</td>
+</tr>
+<tr>
+<td><strong>Pruebas manuales — Cliente HTTP</strong></td>
+<td>Postman + colección <code>postman.json</code></td>
+<td>Ejecutar y documentar casos manuales; colección pre-existente en el repositorio</td>
+</tr>
+<tr>
+<td><strong>Pruebas automatizadas — Framework</strong></td>
+<td>pytest 9.x + pytest-asyncio</td>
+<td>Ejecutar la suite de 26 tests automatizados con soporte async</td>
+</tr>
+<tr>
+<td><strong>Pruebas automatizadas — Cliente HTTP</strong></td>
+<td>httpx + FastAPI TestClient</td>
+<td>Realizar peticiones HTTP dentro de los tests de pytest</td>
+</tr>
+<tr>
+<td><strong>Cobertura de código</strong></td>
+<td>pytest-cov</td>
+<td>Medir el porcentaje de código fuente ejercitado por los tests</td>
+</tr>
+<tr>
+<td><strong>Reporte de resultados</strong></td>
+<td>pytest-json-report</td>
+<td>Exportar resultados de ejecución en JSON para el dashboard</td>
+</tr>
+<tr>
+<td><strong>Gestión de defectos</strong></td>
+<td>GitHub Issues</td>
+<td>Registro, clasificación y seguimiento de los 9 defectos detectados</td>
+</tr>
+<tr>
+<td><strong>Control de versiones</strong></td>
+<td>Git (ramas <code>main</code> y <code>buggy-version</code>)</td>
+<td>Aislar el código con bugs del código limpio</td>
+</tr>
+<tr>
+<td><strong>Gestor de dependencias</strong></td>
+<td>uv (pyproject.toml)</td>
+<td>Instalar y gestionar dependencias Python de forma reproducible</td>
+</tr>
+<tr>
+<td><strong>Entorno de ejecución</strong></td>
+<td>Docker + Docker Compose</td>
+<td>Levantar la API y PostgreSQL con un solo comando</td>
+</tr>
+</tbody>
+</table>
+<h3><strong>10.3 Ambiente de Prueba</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Ambiente</strong></th>
+<th><strong>URL / Servidor</strong></th>
+<th><strong>Versión</strong></th>
+<th><strong>Responsable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Local — Desarrollo / QA</strong></td>
+<td><code>http://localhost:8000</code></td>
+<td>Python 3.14, FastAPI 0.115+, PostgreSQL (psycopg3), Docker Compose</td>
+<td>Juan Pablo Velásquez Ramírez</td>
+</tr>
+</tbody>
+</table>
+<p><em>Nota: Este proyecto opera en un entorno local único. No hay ambientes de Staging ni Producción.</em>
+| <strong>Documentación interactiva</strong> | <code>http://localhost:8000/api/</code> (Swagger UI) | Generada automáticamente por FastAPI | Juan Pablo Velásquez Ramírez |</p>
+<hr />
+<h2><strong>11. Cronograma Real de Ejecución de Pruebas</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Actividad / Hito del STLC</strong></th>
+<th><strong>Fecha Inicio</strong></th>
+<th><strong>Fecha Fin</strong></th>
+<th><strong>Responsable</strong></th>
+<th><strong>Estado Final</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>STLC Fase 1:</strong> Planificación (Plan de Acción + Plan de Pruebas)</td>
+<td><span style="white-space:nowrap">26/10/2025</span></td>
+<td><span style="white-space:nowrap">02/11/2026</span></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+<tr>
+<td><strong>STLC Fase 2:</strong> Diseño y documentación de los 41 casos de prueba</td>
+<td><span style="white-space:nowrap">03/11/2026</span></td>
+<td><span style="white-space:nowrap">06/11/2026</span></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+<tr>
+<td><strong>STLC Fase 3:</strong> Preparación del ambiente (Docker, pytest, GitHub Issues)</td>
+<td><span style="white-space:nowrap">07/11/2026</span></td>
+<td><span style="white-space:nowrap">08/11/2026</span></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+<tr>
+<td><strong>STLC Fase 4:</strong> Ejecución de 15 pruebas manuales (Swagger / Postman)</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+<tr>
+<td><strong>STLC Fase 4:</strong> Desarrollo y ejecución de 26 pruebas automatizadas (pytest)</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td>Juan Pablo Velásquez Ramírez</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+<tr>
+<td><strong>STLC Fase 4:</strong> Carga y clasificación de defectos en GitHub Issues</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td>Niurka Liseth Mejía Vargas</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+<tr>
+<td><strong>STLC Fase 5:</strong> Generación de datos JSON y Dashboard de métricas</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+<tr>
+<td><strong>STLC Fase 5:</strong> Redacción del Análisis de Calidad y Cierre formal</td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td><span style="white-space:nowrap">09/11/2026</span></td>
+<td>Juan Pablo Velásquez Ramírez / Niurka Liseth Mejía Vargas</td>
+<td><span class="badge pass">✔</span> <strong>Completado (100%)</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>12. Riesgos y Mitigación</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>#</strong></th>
+<th><strong>Riesgo</strong></th>
+<th><strong>Probabilidad</strong></th>
+<th><strong>Impacto</strong></th>
+<th><strong>Plan de Mitigación</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>La API no levanta en el entorno local (Docker o PostgreSQL fallan).</td>
+<td><span class="badge prog">Media</span></td>
+<td>Alto</td>
+<td>Usar SQLite como BD alternativa para la suite de pytest; documentar la configuración paso a paso en el README de pruebas.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Los bugs inyectados no son detectados por los tests (diseño de casos insuficiente).</td>
+<td><span class="badge pass">Baja</span></td>
+<td>Alto</td>
+<td>Verificar antes de ejecutar que cada bug tiene al menos un caso asociado en la columna "Defecto" del §7.2. Ejecutar un smoke test manual de cada bug primero.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Un bug inyectado rompe la aplicación completamente (impide ejecutar el resto de tests).</td>
+<td><span class="badge pass">Baja</span></td>
+<td>Alto</td>
+<td>Inyectar y probar los bugs uno por uno antes de hacer el commit conjunto. Mantener la rama <code>main</code> intacta como punto de rollback.</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Falta de tiempo para completar los 26 scripts automatizados.</td>
+<td><span class="badge prog">Media</span></td>
+<td>Medio</td>
+<td>Priorizar módulos Auth y Articles (mayor severidad). Los módulos Tags (2 casos) y Favorites (2 casos) pueden reducirse si hay restricción de tiempo.</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Dificultad con la configuración de pytest-asyncio para tests async.</td>
+<td><span class="badge prog">Media</span></td>
+<td>Medio</td>
+<td>Revisar la configuración existente en <code>tests/conftest.py</code> y <code>pyproject.toml</code>; la base de fixtures ya está implementada en el repositorio.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>13. Métricas de Calidad</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Métrica</strong></th>
+<th><strong>Fórmula / Medición</strong></th>
+<th><strong>Meta</strong></th>
+<th><strong>Valor Real (buggy-version)</strong></th>
+<th><strong>Cumplimiento</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tasa de ejecución global</strong></td>
+<td>(41 ejecutados / 41 planificados) × 100</td>
+<td><strong>≥ 95%</strong></td>
+<td><strong>100.0%</strong> (41 / 41)</td>
+<td><span class="badge pass">✔</span> Superada</td>
+</tr>
+<tr>
+<td><strong>Tasa de ejecución automatizada</strong></td>
+<td>(26 ejecutados / 26 planificados) × 100</td>
+<td><strong>100%</strong></td>
+<td><strong>100.0%</strong> (26 / 26)</td>
+<td><span class="badge pass">✔</span> Conforme</td>
+</tr>
+<tr>
+<td><strong>Tasa de ejecución manual</strong></td>
+<td>(15 ejecutados / 15 planificados) × 100</td>
+<td><strong>100%</strong></td>
+<td><strong>100.0%</strong> (15 / 15)</td>
+<td><span class="badge pass">✔</span> Conforme</td>
+</tr>
+<tr>
+<td><strong>Tasa de casos aprobados (Global)</strong></td>
+<td>(24 pasaron / 41 ejecutados) × 100</td>
+<td>~55% - 60%</td>
+<td><strong>58.54%</strong> (24 / 41)</td>
+<td><span class="badge pass">✔</span> Conforme (cazando bugs)</td>
+</tr>
+<tr>
+<td><strong>Tasa de casos fallidos (Global)</strong></td>
+<td>(17 fallaron / 41 ejecutados) × 100</td>
+<td>~40% - 45%</td>
+<td><strong>41.46%</strong> (17 / 41)</td>
+<td><span class="badge pass">✔</span> Alta capacidad detectora</td>
+</tr>
+<tr>
+<td><strong>Tasa de detección de bugs inyectados</strong></td>
+<td>(9 bugs detectados / 9 inyectados) × 100</td>
+<td><strong>100%</strong></td>
+<td><strong>100.0%</strong> (9 / 9)</td>
+<td><span class="badge pass">✔</span> Óptimo (100% detección)</td>
+</tr>
+<tr>
+<td><strong>Densidad de defectos (Global)</strong></td>
+<td>9 defectos / 41 casos ejecutados</td>
+<td>~0.20 – 0.30</td>
+<td><strong>0.220</strong> defectos/caso</td>
+<td><span class="badge pass">✔</span> Rango normal</td>
+</tr>
+<tr>
+<td><strong>Defectos críticos detectados</strong></td>
+<td>Conteo directo (Severidad Crítica)</td>
+<td>≥ 0</td>
+<td><strong>1</strong> (<span class="bug">BUG-04</span>: borrado no autorizado)</td>
+<td><span class="badge fail">!</span> Prioridad inmediata</td>
+</tr>
+<tr>
+<td><strong>Cobertura de código (pytest-cov)</strong></td>
+<td>Líneas ejercitadas / Total líneas backend</td>
+<td><strong>≥ 70%</strong></td>
+<td><strong>82.78%</strong> (553 / 668 líneas)</td>
+<td><span class="badge pass">✔</span> Superada (+12.78%)</td>
+</tr>
+<tr>
+<td><strong>Cobertura de endpoints</strong></td>
+<td>(19 probados / 19 existentes) × 100</td>
+<td><strong>100%</strong></td>
+<td><strong>100.0%</strong> (19 / 19 endpoints)</td>
+<td><span class="badge pass">✔</span> Totalidad cubierta</td>
+</tr>
+<tr>
+<td><strong>Tiempo de suite automatizada</strong></td>
+<td>Ejecución en pytest con reportes</td>
+<td><strong>&lt; 60s</strong></td>
+<td><strong>28.95 segundos</strong></td>
+<td><span class="badge pass">✔</span> Alto rendimiento</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><strong>14. Cierre Formal del STLC (Test Completion Report) y Dictamen de Negocio</strong></h2>
+<h3><strong>14.1 Evaluación de Criterios de Salida (<em>Exit Criteria</em>)</strong></h3>
+<p>De acuerdo con el estándar ISO/IEC/IEEE 29119 y las pautas de ISTQB, la fase de cierre certifica que:
+1. <strong>Completitud Operacional:</strong> Se ejecutaron los 41 casos planificados (100%), satisfaciendo el umbral mínimo exigido (≥ 95%).
+2. <strong>Cobertura Estructural:</strong> Se alcanzó un <strong>82.78%</strong> de cobertura de código en el backend mediante pytest-cov, superando la meta fijada del 70%.
+3. <strong>Eficacia Detectora:</strong> Se aislaron, clasificaron y documentaron con evidencia gráfica el 100% de los defectos inyectados (9 de 9).
+4. <strong>Trazabilidad:</strong> Se garantizó la trazabilidad bidireccional entre Requisitos RealWorld -&gt; Casos de Prueba -&gt; Reportes de GitHub Issues -&gt; Líneas de código.</p>
+<h3><strong>14.2 Dictamen de Negocio para Pase a Producción (Go / No-Go)</strong></h3>
+<blockquote>
+<h3>DICTAMEN DE QA: NO-GO (RECHAZADO PARA DESPLIEGUE A PRODUCCIÓN)</h3>
+<p><strong>Fundamentación de Negocio:</strong>
+A pesar de que los módulos de autenticación, comentarios y etiquetas muestran estabilidad, el sistema presenta <strong>fallas estructurales críticas de control de acceso en el módulo de Artículos (<span class="bug">BUG-03</span> y <span class="bug">BUG-04</span>)</strong>:
+- Cualquier usuario registrado puede <strong>modificar</strong> o <strong>eliminar permanentemente</strong> las publicaciones de otros autores sin validación de autoría (Vulnerabilidad OWASP API1:2023 - Broken Object Level Authorization).
+- Desplegar la API en su estado actual acarrearía la destrucción inmediata de la base de contenidos editoriales, violación de acuerdos de confidencialidad y pérdida irreversible de la reputación comercial de la plataforma.</p>
+<p><strong>Condiciones Obligatorias para Reanudación y Re-testing:</strong>
+1. Aplicar los parches de seguridad en app/api/routes/articles.py restituyendo la verificación de autoría (current_user.id == article.author_id).
+2. Corregir la gestión de excepciones en el módulo de favoritos (app/services/articles.py).
+3. Ejecutar una <strong>ronda de Pruebas de Regresión Completa</strong> sobre la versión corregida para validar el cierre de los 9 tickets en GitHub Issues.</p>
+</blockquote>
+<h2><strong>15. Términos y Acrónimos</strong></h2>
+<h3><strong>15.1 Términos</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Término</strong></th>
+<th><strong>Definición</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Caso de prueba</strong></td>
+<td>Conjunto de condiciones, datos de entrada, pasos de ejecución y resultado esperado que valida una funcionalidad específica del sistema.</td>
+</tr>
+<tr>
+<td><strong>Ciclo de pruebas</strong></td>
+<td>Periodo de tiempo durante el cual se planifican, diseñan, ejecutan y evalúan las actividades de prueba para una entrega o versión del sistema.</td>
+</tr>
+<tr>
+<td><strong>Criterio de aceptación</strong></td>
+<td>Condiciones definidas que un sistema o funcionalidad debe cumplir para ser aceptado por el cliente o usuario final.</td>
+</tr>
+<tr>
+<td><strong>Datos de prueba</strong></td>
+<td>Conjunto de valores de entrada utilizados durante la ejecución de un caso de prueba para verificar el comportamiento del sistema.</td>
+</tr>
+<tr>
+<td><strong>Defecto / Bug</strong></td>
+<td>Discrepancia entre el comportamiento real del sistema y el comportamiento esperado según los requisitos o la especificación.</td>
+</tr>
+<tr>
+<td><strong>Entorno de pruebas</strong></td>
+<td>Conjunto de hardware, software, datos y configuraciones utilizados para ejecutar las pruebas. En este proyecto: Docker Compose + Python 3.14 + PostgreSQL local.</td>
+</tr>
+<tr>
+<td><strong>Evidencia de prueba</strong></td>
+<td>Artefactos generados durante la ejecución de pruebas que sirven como registro del resultado: screenshots de Swagger/Postman, output de pytest.</td>
+</tr>
+</tbody>
+</table>
+<p>| <strong>Plan de pruebas</strong> | Documento que describe el alcance, estrategia, recursos, cronograma y actividades del proceso de pruebas. |
+| <strong>Regresión</strong> | Conjunto de pruebas ejecutadas para verificar que un cambio en el sistema no ha introducido nuevos defectos en funcionalidades ya validadas. |
+| <strong>Severidad</strong> | Nivel de impacto técnico que un defecto tiene sobre el funcionamiento del sistema (Crítica / Alta / Media / Baja). |
+| <strong>Slug</strong> | Cadena de texto derivada del título de un artículo, transformada en formato URL-friendly (sin espacios ni caracteres especiales). Ej: "Mi Artículo" → <code>mi-articulo</code>. Sirve como identificador único del artículo en los endpoints. |
+| <strong>Token JWT</strong> | Credencial criptográfica de autenticación emitida por la API tras el login. Se incluye en el header <code>Authorization: Bearer {token}</code> de cada request a endpoints protegidos. |</p>
+<h3><strong>15.2 Acrónimos</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Acrónimo</strong></th>
+<th><strong>Significado</strong></th>
+<th><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API</strong></td>
+<td><strong>Application Programming Interface</strong></td>
+<td>Interfaz de programación de aplicaciones. Conjunto de reglas y endpoints que permiten la comunicación entre sistemas de software.</td>
+</tr>
+<tr>
+<td><strong>BVA</strong></td>
+<td><strong>Boundary Value Analysis</strong></td>
+<td>Análisis de Valores Límite. Técnica de diseño de pruebas que evalúa los valores en los bordes de las particiones de equivalencia.</td>
+</tr>
+<tr>
+<td><strong>CI/CD</strong></td>
+<td><strong>Continuous Integration / Continuous Delivery</strong></td>
+<td>Integración y entrega continua. Práctica de automatizar la integración, prueba y despliegue del software.</td>
+</tr>
+<tr>
+<td><strong>EP</strong></td>
+<td><strong>Equivalence Partitioning</strong></td>
+<td>Partición de equivalencia. Técnica de diseño de casos de prueba que divide los datos de entrada en grupos equivalentes.</td>
+</tr>
+<tr>
+<td><strong>HTTP</strong></td>
+<td><strong>Hypertext Transfer Protocol</strong></td>
+<td>Protocolo de transferencia de hipertexto. Protocolo de comunicación sobre el que opera la API REST del SUT.</td>
+</tr>
+<tr>
+<td><strong>JSON</strong></td>
+<td><strong>JavaScript Object Notation</strong></td>
+<td>Formato ligero de intercambio de datos utilizado en el cuerpo de todas las peticiones y respuestas de la API.</td>
+</tr>
+<tr>
+<td><strong>JWT</strong></td>
+<td><strong>JSON Web Token</strong></td>
+<td>Estándar de token de autenticación. La API emite un JWT tras el login; los clientes lo envían en cada request autenticado.</td>
+</tr>
+<tr>
+<td><strong>KPI</strong></td>
+<td><strong>Key Performance Indicator</strong></td>
+<td>Indicador Clave de Rendimiento. Métrica utilizada para medir el éxito de una actividad o proceso.</td>
+</tr>
+<tr>
+<td><strong>QA</strong></td>
+<td><strong>Quality Assurance</strong></td>
+<td>Aseguramiento de la calidad. Proceso sistemático para garantizar que el software cumple los requisitos de calidad.</td>
+</tr>
+<tr>
+<td><strong>RACI</strong></td>
+<td><strong>Responsible, Accountable, Consulted, Informed</strong></td>
+<td>Matriz de asignación de responsabilidades en actividades de un proyecto.</td>
+</tr>
+<tr>
+<td><strong>REST</strong></td>
+<td><strong>Representational State Transfer</strong></td>
+<td>Estilo arquitectónico para diseñar APIs web. El SUT es una API REST que usa los verbos HTTP (GET, POST, PUT, DELETE) para operar sobre recursos.</td>
+</tr>
+<tr>
+<td><strong>SUT</strong></td>
+<td><strong>System Under Test</strong></td>
+<td>Sistema bajo prueba. En este proyecto: la API FastAPI RealWorld Example App (Conduit) ejecutándose en la rama <code>buggy-version</code>.</td>
+</tr>
+<tr>
+<td><strong>UAT</strong></td>
+<td><strong>User Acceptance Testing</strong></td>
+<td>Pruebas de Aceptación de Usuario. Fase de pruebas en la que el cliente valida que el sistema cumple sus necesidades. No aplica en este proyecto académico.</td>
+</tr>
+</tbody>
+</table></body></html>
